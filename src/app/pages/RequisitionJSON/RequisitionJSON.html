@@ -1,0 +1,41 @@
+<div class="card">
+    <h1>Réquisition</h1>
+    <label>
+    Load JSON:
+    <input type="file" (change)="onFileSelected($event)" accept=".json" />
+    </label>
+
+    <hr />
+
+    <form [formGroup]="form">
+        <label>
+            Name:
+            <input type="text" formControlName="name" />
+        </label>
+
+        <label>
+            Age:
+            <input type="number" formControlName="age" />
+        </label>
+
+        <label>
+            Agree to terms:
+            <input type="checkbox" formControlName="agreeToTerms" />
+        </label>
+
+        <label>
+            Status:
+            <select formControlName="status">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+            </select>
+        </label>
+    </form>
+
+    <hr />
+
+
+    <button (click)="downloadJson()">Download JSON</button>
+
+</div>

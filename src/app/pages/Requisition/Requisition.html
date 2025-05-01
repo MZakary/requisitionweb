@@ -1,0 +1,39 @@
+<div class="card">
+    <h1>Réquisition {{ requisitionType }}</h1>
+  
+    <!-- File Input for .docx -->
+    <div class="file-upload">
+      <label for="fileInput">Télécharger le fichier:</label>
+      <input id="fileInput" type="file" (change)="onFileSelected($event)" accept=".docx" />
+    </div>
+  
+    <!-- Form with FormGroup Binding -->
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label for="nomClient">Nom du client:</label>
+        <input id="nomClient" formControlName="nomClient" />
+      </div>
+  
+      <div class="form-group">
+        <label for="courriel">Courriel du contact:</label>
+        <input id="courriel" formControlName="courriel" />
+      </div>
+  
+      <div class="form-group">
+        <label for="dateDemande">Date de la demande:</label>
+        <input id="dateDemande" type="text" formControlName="dateDemande" />
+      </div>
+  
+      <!-- Confidentiel Checkbox -->
+      <div class="form-group checkbox-group">
+        <label>
+          <input type="checkbox" formControlName="confidentiel" />
+          Confidentiel
+        </label>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="button" (click)="exportModifiedDoc()">Télécharger la version modifiée</button>
+    </form>
+  </div>
+  
