@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "RequisitionWeb": {
+        "requisitionweb": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
-                        "outputPath": "dist/RequisitionWeb",
+                        "outputPath": "dist/requisitionweb",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": [
@@ -64,10 +64,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "RequisitionWeb:build:production"
+                            "buildTarget": "requisitionweb:build:production"
                         },
                         "development": {
-                            "buildTarget": "RequisitionWeb:build:development"
+                            "buildTarget": "requisitionweb:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
