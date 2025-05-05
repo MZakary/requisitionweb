@@ -15,11 +15,10 @@ export const appRoutes: Routes = [
             { path: '', component: Dashboard },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
-            { path: 'requisition-externe', component: Requisition },
-            { path: 'requisition-interne', component: Requisition },
-            { path: 'requisition-scholaire', component: Requisition },
-            { path: 'requisition-services', component: Requisition },
-            { path: 'requisition-json', component: RequisitionJSON },
+            { path: 'requisition-json-externe', component: RequisitionJSON },
+            { path: 'requisition-json-interne', component: RequisitionJSON },
+            { path: 'requisition-json-scolaire', component: RequisitionJSON },
+            { path: 'requisition-json-services', component: RequisitionJSON },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ]
     },

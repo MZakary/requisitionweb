@@ -97,6 +97,13 @@
     }
 }
 
+#Calque_2 {
+    width: 110px; /* ou ce que tu veux */
+    .cls-1 {
+        fill: var(--primary-color);
+    }
+}
+
 @media (max-width: 991px) {
     .layout-topbar {
         padding: 0 2rem;

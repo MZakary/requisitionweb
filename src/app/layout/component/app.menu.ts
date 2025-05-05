@@ -15,6 +15,7 @@ import { AppMenuitem } from './app.menuitem';
         </ng-container>
     </ul> `
 })
+
 export class AppMenu {
     model: MenuItem[] = [];
 
@@ -23,12 +24,15 @@ export class AppMenu {
             {
                 label: 'Menu Principal',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
-                    { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-externe'] },
-                    { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-interne'] },
-                    { label: 'Réquisition Scholaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-scholaire'] },
-                    { label: 'Réquisition Services', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-services'] },
-                    { label: 'Réquisition JSON', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json'] },
+                    //{ label: 'Accueil', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    // { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-externe'] },
+                    // { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-interne'] },
+                    // { label: 'Réquisition Scholaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-scholaire'] },
+                    // { label: 'Réquisition Services', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-services'] },
+                    { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-externe'] },
+                    { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-interne'] },
+                    { label: 'Réquisition Scolaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-scolaire'] },
+                    { label: 'Réquisition Services', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-services'] },
                 ]
             },
 
