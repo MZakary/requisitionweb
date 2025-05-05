@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
-import { Image } from 'primeng/image';
 
 @Component({
     selector: 'app-topbar',
