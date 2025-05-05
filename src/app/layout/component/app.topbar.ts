@@ -12,9 +12,9 @@ import { LayoutService } from '../service/layout.service';
     imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
     template: ` <div class="layout-topbar">
         <div class="layout-topbar-logo-container">
-            <!-- <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
+            <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()" aria-label="Basculer le menu">
                 <i class="pi pi-bars"></i>
-            </button> -->
+            </button>
             <a class="layout-topbar-logo" routerLink="/">
 
             <svg id="Calque_2" data-name="Calque 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 317.64 151.96" aria-label="Logo du SAI">
@@ -103,7 +103,7 @@ import { LayoutService } from '../service/layout.service';
 
         <div class="layout-topbar-actions">
             <div class="layout-config-menu">
-                <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()" aria-label="Activer le mode sombre">
+                <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()" aria-label="Basculer le mode sombre">
                     <i [ngClass]="{ 'pi ': true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
                 </button>
                 <div class="relative">
@@ -115,7 +115,7 @@ import { LayoutService } from '../service/layout.service';
                         leaveToClass="hidden"
                         leaveActiveClass="animate-fadeout"
                         [hideOnOutsideClick]="true"
-                        aria-label="Activer les options de couleur"
+                        aria-label="Activer le menu des options de couleur"
                     >
                         <i class="pi pi-palette"></i>
                     </button>

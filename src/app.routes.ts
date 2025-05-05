@@ -4,7 +4,6 @@ import { Dashboard } from './app/pages/dashboard/dashboard';
 import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
-import { Requisition } from './app/pages/Requisition/Requisition';
 import { RequisitionJSON } from './app/pages/RequisitionJSON/RequisitionJSON';
 
 export const appRoutes: Routes = [
