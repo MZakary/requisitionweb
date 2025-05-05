@@ -10,6 +10,15 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 
+
+//Form imports
+import { externeFormFields } from '../../../requisition-questions/externe-form-definition';
+import { interneFormFields } from '../../../requisition-questions/interne-form-definition';
+import { scolaireFormFields } from '../../../requisition-questions/scolaire-form-definition';
+import { servicesFormFields } from '../../../requisition-questions/services-form-definition';
+
+
+
 // Définition des types possibles de réquisition
 enum RequisitionType {
   Externe = 'Externe',
@@ -87,45 +96,19 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   private buildFormFields(): void {
     switch (this.requisitionType) {
       case RequisitionType.Externe:
-        this.formFields = [
-          { key: 'name', label: 'Name', type: 'text' },
-          { key: 'age', label: 'Age', type: 'number' },
-          { key: 'agreeToTerms', label: 'Agree to Terms', type: 'checkbox' },
-          {
-            key: 'status',
-            label: 'Status',
-            type: 'select',
-            options: [
-              { label: 'Pending', value: 'pending' },
-              { label: 'Approved', value: 'approved' },
-              { label: 'Rejected', value: 'rejected' }
-            ]
-          }
-        ];
+        this.formFields = externeFormFields
         break;
 
       case RequisitionType.Interne:
-        this.formFields = [
-          { key: 'name', label: 'Name', type: 'text' },
-          { key: 'address', label: 'Address', type: 'text' },
-          { key: 'email', label: 'Email', type: 'email' }
-        ];
+        this.formFields = interneFormFields;
         break;
 
       case RequisitionType.Scholaire:
-        this.formFields = [
-          { key: 'name', label: 'Name', type: 'text' },
-          { key: 'graduationDate', label: 'Graduation Date', type: 'date' },
-          { key: 'schoolAddress', label: 'School Address', type: 'text' }
-        ];
+        this.formFields = scolaireFormFields;
         break;
 
       case RequisitionType.Services:
-        this.formFields = [
-          { key: 'name', label: 'Name', type: 'text' },
-          { key: 'email', label: 'Email', type: 'email' },
-          { key: 'phone', label: 'Phone Number', type: 'text' }
-        ];
+        this.formFields = servicesFormFields;
         break;
 
       default:
