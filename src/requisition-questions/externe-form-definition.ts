@@ -1,3 +1,6 @@
+
+import { productionFields } from './shared/productionFields';
+
 export const externeFormFields = [
     { key: 'name', label: 'Name', type: 'text' },
     { key: 'age', label: 'Age', type: 'number' },
@@ -11,6 +14,7 @@ export const externeFormFields = [
         { label: 'Approved', value: 'approved' },
         { label: 'Rejected', value: 'rejected' }
       ]
-    }
+    },
+    ...productionFields
   ];
   
