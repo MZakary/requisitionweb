@@ -7,9 +7,27 @@
     </div>
   
     <hr />
-  
+    <div class="p-field">
+      <label for="production-select">Options de production</label>
+      <p-multiSelect
+        id="production-select"
+        [options]="productionOptions"
+        [(ngModel)]="selectedProductions"
+        (onChange)="onProductionChange()"
+        defaultLabel="Sélectionner..."
+        optionLabel="label"
+        optionValue="value"
+        [style]="{ width: '100%' }"
+      ></p-multiSelect>
+    </div>
+    <hr />
     <form [formGroup]="form">
         <ng-container *ngFor="let field of formFields">
+
+          <h2 *ngIf="field.type === 'header2'" class="form-section-header">
+            {{ field.label }}
+          </h2>
+
           
           <!-- Text, Email, Number with FloatLabel -->
           <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
@@ -18,6 +36,7 @@
               [type]="field.type"
               [id]="field.key"
               [formControlName]="field.key"
+              style="width: 30%;"
             />
             <label [for]="field.key">{{ field.label }}</label>
           </p-floatLabel>
@@ -51,6 +70,7 @@
               optionValue="value"
               [inputId]="field.key"
               [formControlName]="field.key"
+              [style]="{ width: '30%' }"
             />
           </div>
       

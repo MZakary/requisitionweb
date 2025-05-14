@@ -7,5 +7,5 @@ export const productionFields = [
     { key: 'pdfAccessible', label: 'PDF accessible', type: 'checkbox' },
     { key: 'threeD', label: '3D', type: 'checkbox' },
     { key: 'autres', label: 'Autres (veuillez préciser)', type: 'text' }
-  ];
+];
   

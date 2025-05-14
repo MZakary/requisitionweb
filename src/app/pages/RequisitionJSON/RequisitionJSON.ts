@@ -1,7 +1,7 @@
 // Importation des modules nécessaires d'Angular et PrimeNG
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,6 +9,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 
 
 //Form imports
@@ -16,6 +18,8 @@ import { externeFormFields } from '../../../requisition-questions/externe-form-d
 import { interneFormFields } from '../../../requisition-questions/interne-form-definition';
 import { scolaireFormFields } from '../../../requisition-questions/scolaire-form-definition';
 import { servicesFormFields } from '../../../requisition-questions/services-form-definition';
+import { eTextFormFields } from '../../../requisition-questions/shared/eText-form-definition';
+import { brailleFormFields } from '../../../requisition-questions/shared/braille-form-definition';
 
 
 
@@ -36,12 +40,14 @@ enum RequisitionType {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     InputTextModule,
     CalendarModule,
     CheckboxModule,
     DropdownModule,
     FloatLabelModule,
-    ButtonModule
+    ButtonModule,
+    MultiSelectModule
   ]
 })
 export class RequisitionJSON implements OnInit, AfterViewInit {
@@ -59,6 +65,16 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     type: string;
     options?: { label: string; value: any }[];
   }[] = [];
+
+
+
+  productionOptions = [
+    { label: 'EText', value: 'etext' },
+    { label: 'Braille', value: 'braille' }
+  ];
+  selectedProductions: string[] = []; // What user checks
+
+
 
   constructor(private router: Router, private fb: FormBuilder) {}
 
@@ -155,6 +171,28 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
 
     reader.readAsText(file);
   }
+
+
+  onProductionChange(): void {
+    // Remove all previously added production fields first
+    this.formFields = this.formFields.filter(f => !f.key.startsWith('etext_') && !f.key.startsWith('braille_'));
+
+    // Add new fields
+    if (this.selectedProductions.includes('etext')) {
+      this.formFields.push(...eTextFormFields);
+      eTextFormFields.forEach(field => this.form.addControl(field.key, this.fb.control('')));
+    } else {
+      eTextFormFields.forEach(field => this.form.removeControl(field.key));
+    }
+
+    if (this.selectedProductions.includes('braille')) {
+      this.formFields.push(...brailleFormFields);
+      brailleFormFields.forEach(field => this.form.addControl(field.key, this.fb.control('')));
+    } else {
+      brailleFormFields.forEach(field => this.form.removeControl(field.key));
+    }
+  }
+
 
   // Génère un fichier JSON contenant les valeurs du formulaire et le télécharge
   downloadJson() {
