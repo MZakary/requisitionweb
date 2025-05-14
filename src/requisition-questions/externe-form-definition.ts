@@ -3,6 +3,7 @@ import { productionFields } from './shared/productionFields';
 
 export const externeFormFields = [
     { key: 'infoGeneral', label: 'Informations générales de la demande', type: 'header2' },
+    { key: 'createur', label: 'Réquisition créé par', type: 'text' },
     { key: 'noRequisition', label: 'Numéro de réquisition', type: 'text' },
     { key: 'noDemande', label: 'Numéro de commande', type: 'text' },
     { key: 'dateDemande', label: 'Date de la demande', type: 'text' },
@@ -32,18 +33,5 @@ export const externeFormFields = [
       ]
     },
     { key: 'langueAutre', label: 'Si autre, spécifier', type: 'text' },
-    
-    
-    // {
-    //   key: 'status',
-    //   label: 'Status',
-    //   type: 'select',
-    //   options: [
-    //     { label: 'Pending', value: 'pending' },
-    //     { label: 'Approved', value: 'approved' },
-    //     { label: 'Rejected', value: 'rejected' }
-    //   ]
-    // },
-    // ...productionFields
   ];
   

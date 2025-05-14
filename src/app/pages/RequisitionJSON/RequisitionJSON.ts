@@ -163,6 +163,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string);
+        if (data.selectedProductions) {
+          this.selectedProductions = data.selectedProductions;
+          this.onProductionChange(); // Re-add dynamic fields
+        }
         this.form.patchValue(data); // Appliquer les données JSON dans le formulaire
       } catch (err) {
         alert('Invalid JSON file.');
@@ -172,31 +176,60 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     reader.readAsText(file);
   }
 
+  onCheckboxToggle(value: string, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const checked = input.checked;
+
+    if (checked) {
+      this.selectedProductions.push(value);
+    } else {
+      this.selectedProductions = this.selectedProductions.filter(v => v !== value);
+    }
+    this.onProductionChange();
+  }
+
+
 
   onProductionChange(): void {
-    // Remove all previously added production fields first
-    this.formFields = this.formFields.filter(f => !f.key.startsWith('etext_') && !f.key.startsWith('braille_'));
+    // Supprimer tous les champs liés à EText et Braille, y compris les titres
+    this.formFields = this.formFields.filter(
+      f => !f.key.startsWith('etext_') && !f.key.startsWith('braille_') && f.key !== 'eTextGeneral' && f.key !== 'brailleGeneral'
+    );
 
-    // Add new fields
+    // Supprimer les contrôles du formulaire associés
+    [...eTextFormFields, ...brailleFormFields].forEach(field => {
+      if (this.form.contains(field.key)) {
+        this.form.removeControl(field.key);
+      }
+    });
+
+    // Ajouter les champs EText si sélectionné
     if (this.selectedProductions.includes('etext')) {
       this.formFields.push(...eTextFormFields);
-      eTextFormFields.forEach(field => this.form.addControl(field.key, this.fb.control('')));
-    } else {
-      eTextFormFields.forEach(field => this.form.removeControl(field.key));
+      eTextFormFields.forEach(field => {
+        this.form.addControl(field.key, this.fb.control(''));
+      });
     }
 
+    // Ajouter les champs Braille si sélectionné
     if (this.selectedProductions.includes('braille')) {
       this.formFields.push(...brailleFormFields);
-      brailleFormFields.forEach(field => this.form.addControl(field.key, this.fb.control('')));
-    } else {
-      brailleFormFields.forEach(field => this.form.removeControl(field.key));
+      brailleFormFields.forEach(field => {
+        this.form.addControl(field.key, this.fb.control(''));
+      });
     }
   }
 
 
   // Génère un fichier JSON contenant les valeurs du formulaire et le télécharge
   downloadJson() {
-    const blob = new Blob([JSON.stringify(this.form.value, null, 2)], { type: 'application/json' });
+    const formData = {
+      ...this.form.value,
+      selectedProductions: this.selectedProductions
+    };
+
+    const blob = new Blob([JSON.stringify(formData, null, 2)], { type: 'application/json' });
+
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement('a');

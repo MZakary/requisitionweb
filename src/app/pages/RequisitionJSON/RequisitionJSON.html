@@ -7,23 +7,24 @@
     </div>
   
     <hr />
-    <div class="p-field">
-      <label for="production-select">Options de production</label>
-      <p-multiSelect
-        id="production-select"
-        [options]="productionOptions"
-        [(ngModel)]="selectedProductions"
-        (onChange)="onProductionChange()"
-        defaultLabel="Sélectionner..."
-        optionLabel="label"
-        optionValue="value"
-        [style]="{ width: '100%' }"
-      ></p-multiSelect>
-    </div>
+    <fieldset>
+      <legend>Options de production</legend>
+      <div *ngFor="let option of productionOptions" class="p-field-checkbox">
+        <input
+          type="checkbox"
+          [id]="option.value"
+          [value]="option.value"
+          [checked]="selectedProductions.includes(option.value)"
+          (change)="onCheckboxToggle(option.value, $event)"
+        />
+        <label [for]="option.value">{{ option.label }}</label>
+      </div>
+    </fieldset>
+
     <hr />
     <form [formGroup]="form">
         <ng-container *ngFor="let field of formFields">
-
+          
           <h2 *ngIf="field.type === 'header2'" class="form-section-header">
             {{ field.label }}
           </h2>
