@@ -67,11 +67,11 @@
     <!-- Boucle sur les productions sélectionnées -->
     <ng-container *ngFor="let prod of selectedProductions">
       <div *ngIf="productionFormFieldsMap[prod]">
-        <h3>Phases {{ prod }}</h3>
+        <h2>{{ productionTitles[prod] || prod }}</h2>
 
         <div [formArrayName]="prod + 'Phases'">
           <div *ngFor="let group of getPhasesArray(prod).controls; let i = index" [formGroupName]="i" class="phase-group">
-            <h4>Phase {{ i + 1 }}</h4>
+            <h3>Phase {{ i + 1 }}</h3>
             <ng-container *ngFor="let field of productionFormFieldsMap[prod]">
               <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
                 <input

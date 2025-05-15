@@ -73,6 +73,16 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     // ajoute d'autres si besoin
   };
 
+  public productionTitles: { [key: string]: string } = {
+    braille: 'Production Braille',
+    etext: 'Production E-Text',
+    audio: 'Production Audio',
+    threeD: 'Production 3D',
+    largePrint: 'Production en gros caractères',
+    pdfAccessible: 'PDF accessible',
+    autres: 'Autres formats',
+  };
+
   constructor(private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -186,6 +196,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     // Rebuild the form group each time productions change
     this.buildFormGroup();
   }
+
+
+  /*
+  ---------------------------------------------------------------------------
+  Fonction pour importer et exporter un fichier JSON
+  ---------------------------------------------------------------------------
+  */
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
