@@ -1,6 +1,6 @@
 // production-forms/braille-form-definition.ts
 export const brailleFormFields = [
-  { key: 'brailleInfoGeneral', label: 'Braille - Informations générales', type: 'header2' },
+  //{ key: 'brailleInfoGeneral', label: 'Braille - Informations générales', type: 'header2' },
   { key: 'noFichier', label: 'Numéro du fichier .txt', type: 'text' },
   { key: 'dateRequise', label: 'Date requise', type: 'text' },
   { key: 'reimpression', label: 'Réimpression', type: 'checkbox' },

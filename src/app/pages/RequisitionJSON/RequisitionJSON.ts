@@ -23,9 +23,11 @@ import { scolaireFormFields } from '../../../requisition-questions/scolaire-form
 import { servicesFormFields } from '../../../requisition-questions/services-form-definition';
 import { eTextFormFields } from '../../../requisition-questions/shared/eText-form-definition';
 import { brailleFormFields } from '../../../requisition-questions/shared/braille-form-definition';
+// import { audioFormFields } from '../../../requisition-questions/shared/audio-form-definition'; // Exemple, ajoute tes fichiers
+// import { threeDFormFields } from '../../../requisition-questions/shared/threeD-form-definition'; // Exemple
+
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
 
-// Enumération des types de réquisition possibles
 enum RequisitionType {
   Externe = 'Externe',
   Interne = 'Interne',
@@ -53,32 +55,38 @@ enum RequisitionType {
   ],
 })
 export class RequisitionJSON implements OnInit, AfterViewInit {
-  @ViewChild('pageTitle') pageTitle!: ElementRef; // Référence vers le titre pour y mettre le focus
+  @ViewChild('pageTitle') pageTitle!: ElementRef;
 
-  requisitionType: RequisitionType = RequisitionType.Unknown; // Type de réquisition détecté
-  form!: FormGroup; // Formulaire réactif principal
-  formFields: any[] = []; // Champs du formulaire dynamiques selon le type
+  requisitionType: RequisitionType = RequisitionType.Unknown;
+  form!: FormGroup;
+  formFields: any[] = [];
 
-  productionOptions = productionFields; // Options de production importées (ex: EText, Braille...)
-  selectedProductions: string[] = []; // Productions sélectionnées par l'utilisateur
-  public brailleFormFields = brailleFormFields; // Champs spécifiques Braille exposés au template
+  productionOptions = productionFields;
+  selectedProductions: string[] = [];
+
+  // Map des productions vers leurs questions / champs
+  productionFormFieldsMap: { [key: string]: any[] } = {
+    braille: brailleFormFields,
+    etext: eTextFormFields,
+    // audio: audioFormFields,
+    // threeD: threeDFormFields,
+    // ajoute d'autres si besoin
+  };
 
   constructor(private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.detectRequisitionType(); // Détecte le type selon l'URL
-    this.buildFormFields(); // Initialise les champs dynamiques
-    this.buildFormGroup(); // Construit le groupe de formulaire
+    this.detectRequisitionType();
+    this.buildFormFields();
+    this.buildFormGroup();
   }
 
   ngAfterViewInit(): void {
-    // Met le focus sur le titre de la page après le rendu
     setTimeout(() => {
       this.pageTitle.nativeElement.focus();
     }, 0);
   }
 
-  // Détecte le type de réquisition à partir de l'URL actuelle
   private detectRequisitionType(): void {
     const url = this.router.url;
     if (url.includes('/requisition-json-externe')) {
@@ -94,7 +102,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     }
   }
 
-  // Initialise les champs du formulaire en fonction du type de réquisition
   private buildFormFields(): void {
     switch (this.requisitionType) {
       case RequisitionType.Externe:
@@ -115,95 +122,71 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     }
   }
 
-  // Construit le groupe de formulaire avec FormControls et FormArray pour phases Braille
   private buildFormGroup(): void {
     const group: { [key: string]: any } = {};
 
-    // Ajoute tous les champs sauf les phases Braille qui sont traitées séparément
+    // Champs généraux
     this.formFields.forEach(field => {
-      if (field.key === 'braillePhases') {
-        // Ignorer ici, gérer plus bas dans un FormArray
-      } else if (field.type === 'checkbox') {
-        group[field.key] = new FormControl(false); // case à cocher initialisée à false
+      if (field.type === 'checkbox') {
+        group[field.key] = new FormControl(false);
       } else {
-        group[field.key] = new FormControl(''); // champ texte initialisé vide
+        group[field.key] = new FormControl('');
       }
     });
 
-    // Ajoute les contrôles pour les productions, sauf Braille (traitée séparément)
-    this.productionOptions.forEach(prod => {
-      if (prod.value !== 'braille') {
-        if (!group[prod.value]) {
-          group[prod.value] = new FormControl(false);
-        }
+    // Pour chaque production sélectionnée, créer FormArray phases
+    this.selectedProductions.forEach(prod => {
+      const fields = this.productionFormFieldsMap[prod];
+      if (fields) {
+        group[`${prod}Phases`] = this.fb.array([this.createPhaseGroup(fields)]);
       }
     });
-
-    // Ajoute le FormArray pour les phases Braille si sélectionné
-    if (this.selectedProductions.includes('braille')) {
-      group['braillePhases'] = this.fb.array([this.createBraillePhaseGroup()]);
-    }
 
     this.form = this.fb.group(group);
   }
 
-  // Crée un FormGroup représentant une phase Braille complète
-  createBraillePhaseGroup(): FormGroup {
+  createPhaseGroup(fields: any[]): FormGroup {
     const group: { [key: string]: any } = {};
-    // Pour chaque champ Braille (hors titres), crée un FormControl initialisé selon son type
-    brailleFormFields.forEach(field => {
+    fields.forEach(field => {
       if (field.type !== 'header2') {
-        if (field.type === 'checkbox') {
-          group[field.key] = new FormControl(false);
-        } else {
-          group[field.key] = new FormControl('');
-        }
+        group[field.key] = field.type === 'checkbox' ? new FormControl(false) : new FormControl('');
       }
     });
     return this.fb.group(group);
   }
 
-  // Accesseur pour récupérer le FormArray des phases Braille
-  get braillePhases(): FormArray {
-    return this.form.get('braillePhases') as FormArray;
+  getPhasesArray(prod: string): FormArray {
+    return this.form.get(`${prod}Phases`) as FormArray;
   }
 
-  // Ajoute une nouvelle phase Braille au FormArray
-  addBraillePhase() {
-    this.braillePhases.push(this.createBraillePhaseGroup());
+  addPhase(prod: string) {
+    const fields = this.productionFormFieldsMap[prod];
+    this.getPhasesArray(prod).push(this.createPhaseGroup(fields));
   }
 
-  // Supprime une phase Braille à l'index donné
-  removeBraillePhase(index: number) {
-    this.braillePhases.removeAt(index);
+  removePhase(prod: string, index: number) {
+    this.getPhasesArray(prod).removeAt(index);
   }
 
-  // Gestion du toggle des cases à cocher pour les productions
   onCheckboxToggle(value: string, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked && !this.selectedProductions.includes(value)) {
       this.selectedProductions.push(value);
     } else if (!checked) {
       this.selectedProductions = this.selectedProductions.filter(v => v !== value);
+      // retirer les phases si décoché
+      if (this.form.contains(`${value}Phases`)) {
+        this.form.removeControl(`${value}Phases`);
+      }
     }
     this.onProductionChange();
   }
 
-  // Mise à jour du formulaire en fonction des productions sélectionnées
   onProductionChange() {
-    // Si Braille désélectionné, supprimer le FormArray des phases
-    if (!this.selectedProductions.includes('braille')) {
-      if (this.form.contains('braillePhases')) {
-        this.form.removeControl('braillePhases');
-      }
-    } 
-    // Si Braille sélectionné mais pas présent dans le formulaire, l'ajouter
-    else if (!this.form.contains('braillePhases')) {
-      this.form.addControl('braillePhases', this.fb.array([this.createBraillePhaseGroup()]));
-    }
+    // Rebuild the form group each time productions change
+    this.buildFormGroup();
   }
 
-  // Gestion du chargement d'un fichier JSON pour préremplir le formulaire
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
@@ -222,25 +205,28 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
 
         this.form.patchValue(data);
 
-        // Si des phases Braille sont présentes, patcher leur contenu dans le FormArray
-        if (data.braillePhases && Array.isArray(data.braillePhases)) {
-          const array = this.braillePhases;
-          array.clear(); // vider l'ancien contenu
-          data.braillePhases.forEach((phase: any) => {
-            const fg = this.createBraillePhaseGroup();
-            fg.patchValue(phase);
-            array.push(fg);
-          });
-        }
+        // Patch phases for each production
+        this.selectedProductions.forEach(prod => {
+          const phasesData = data[`${prod}Phases`];
+          if (phasesData && Array.isArray(phasesData)) {
+            const phasesArray = this.getPhasesArray(prod);
+            phasesArray.clear();
+            phasesData.forEach((phase: any) => {
+              const fg = this.createPhaseGroup(this.productionFormFieldsMap[prod]);
+              fg.patchValue(phase);
+              phasesArray.push(fg);
+            });
+          }
+        });
+
       } catch (err) {
-        alert('Fichier JSON invalide.');
+        alert('Invalid JSON file.');
       }
     };
 
     reader.readAsText(file);
   }
 
-  // Téléchargement du formulaire au format JSON
   downloadJson() {
     const data = {
       ...this.form.value,
