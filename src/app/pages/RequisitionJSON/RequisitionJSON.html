@@ -1,85 +1,122 @@
 <div class="card requisitonJSON">
-    <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
-  
-    <div class="p-field">
-      <label for="json-upload">Charger un fichier JSON:</label>
-      <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" />
-    </div>
-  
-    <hr />
-    <fieldset>
-      <legend>Options de production</legend>
-      <div *ngFor="let option of productionOptions" class="p-field-checkbox">
-        <input
-          type="checkbox"
-          [id]="option.value"
-          [value]="option.value"
-          [checked]="selectedProductions.includes(option.value)"
-          (change)="onCheckboxToggle(option.value, $event)"
-        />
-        <label [for]="option.value">{{ option.label }}</label>
-      </div>
-    </fieldset>
+  <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
 
-    <hr />
-    <form [formGroup]="form">
-        <ng-container *ngFor="let field of formFields">
-          
-          <h2 *ngIf="field.type === 'header2'" class="form-section-header">
-            {{ field.label }}
-          </h2>
-
-          
-          <!-- Text, Email, Number with FloatLabel -->
-          <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
-            <input
-              pInputText
-              [type]="field.type"
-              [id]="field.key"
-              [formControlName]="field.key"
-              style="width: 30%;"
-            />
-            <label [for]="field.key">{{ field.label }}</label>
-          </p-floatLabel>
-      
-          <!-- Date with FloatLabel -->
-          <p-floatLabel *ngIf="field.type === 'date'" variant="on">
-            <p-calendar
-              [inputId]="field.key"
-              [formControlName]="field.key"
-              dateFormat="yy-mm-dd"
-            ></p-calendar>
-            <label [for]="field.key">{{ field.label }}</label>
-          </p-floatLabel>
-      
-          <!-- Checkbox without FloatLabel -->
-          <div *ngIf="field.type === 'checkbox'" class="p-field-checkbox">
-            <p-checkbox
-              binary="true"
-              [inputId]="field.key"
-              [formControlName]="field.key"
-            ></p-checkbox>
-            <label [for]="field.key">{{ field.label }}</label>
-          </div>
-      
-          <!-- Dropdown without FloatLabel -->
-          <div *ngIf="field.type === 'select'" class="p-field">
-            <label [for]="field.key">{{ field.label }}</label>
-            <p-dropdown
-              [options]="field.options"
-              optionLabel="label"
-              optionValue="value"
-              [inputId]="field.key"
-              [formControlName]="field.key"
-              [style]="{ width: '30%' }"
-            />
-          </div>
-      
-        </ng-container>
-      </form>      
-  
-    <hr />
-  
-    <p-button label="Download JSON" (onClick)="downloadJson()"></p-button>
+  <div class="p-field">
+    <label for="json-upload">Charger un fichier JSON:</label>
+    <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" />
   </div>
-  
+
+  <hr />
+  <fieldset>
+    <legend>Options de production</legend>
+    <div *ngFor="let option of productionOptions" class="p-field-checkbox">
+      <input
+        type="checkbox"
+        [id]="option.value"
+        [value]="option.value"
+        [checked]="selectedProductions.includes(option.value)"
+        (change)="onCheckboxToggle(option.value, $event)"
+      />
+      <label [for]="option.value">{{ option.label }}</label>
+    </div>
+  </fieldset>
+
+  <hr />
+
+  <form [formGroup]="form">
+
+    <ng-container *ngFor="let field of formFields">
+
+      <h2 *ngIf="field.type === 'header2'">{{ field.label }}</h2>
+
+      <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
+        <input
+          pInputText
+          [type]="field.type"
+          [formControlName]="field.key"
+          [id]="field.key"
+          style="width: 30%"
+        />
+        <label [for]="field.key">{{ field.label }}</label>
+      </p-floatLabel>
+
+      <p-floatLabel *ngIf="field.type === 'date'" variant="on">
+        <p-calendar
+          [inputId]="field.key"
+          [formControlName]="field.key"
+          dateFormat="yy-mm-dd"
+        ></p-calendar>
+        <label [for]="field.key">{{ field.label }}</label>
+      </p-floatLabel>
+
+      <div *ngIf="field.type === 'checkbox'" class="p-field-checkbox">
+        <p-checkbox binary="true" [formControlName]="field.key" [inputId]="field.key"></p-checkbox>
+        <label [for]="field.key">{{ field.label }}</label>
+      </div>
+
+      <div *ngIf="field.type === 'select'" class="p-field">
+        <label [for]="field.key">{{ field.label }}</label>
+        <p-dropdown
+          [options]="field.options"
+          optionLabel="label"
+          optionValue="value"
+          [formControlName]="field.key"
+          [inputId]="field.key"
+          [style]="{ width: '30%' }"
+        ></p-dropdown>
+      </div>
+
+    </ng-container>
+
+    <!-- Braille phases section -->
+    <div *ngIf="selectedProductions.includes('braille')" formArrayName="braillePhases" class="braille-phases">
+      <div *ngFor="let phaseGroup of braillePhases.controls; let i = index" [formGroupName]="i" class="phase">
+        <h3>Phase {{ i + 1 }}</h3>
+        <ng-container *ngFor="let field of brailleFormFields">
+          <ng-container *ngIf="field.type !== 'header2'">
+            <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
+              <input
+                pInputText
+                [type]="field.type"
+                [formControlName]="field.key"
+                [id]="field.key + '_' + i"
+                style="width: 30%"
+              />
+              <label [for]="field.key + '_' + i">{{ field.label }}</label>
+            </p-floatLabel>
+
+            <div *ngIf="field.type === 'checkbox'" class="p-field-checkbox">
+              <p-checkbox
+                binary="true"
+                [formControlName]="field.key"
+                [inputId]="field.key + '_' + i"
+              ></p-checkbox>
+              <label [for]="field.key + '_' + i">{{ field.label }}</label>
+            </div>
+
+            <div *ngIf="field.type === 'select'" class="p-field">
+              <label>{{ field.label }}</label>
+              <p-dropdown
+                [options]="field.options"
+                optionLabel="label"
+                optionValue="value"
+                [formControlName]="field.key"
+                [inputId]="field.key + '_' + i"
+                [style]="{ width: '30%' }"
+              ></p-dropdown>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <button type="button" (click)="removeBraillePhase(i)">Supprimer la phase</button>
+        <hr />
+      </div>
+
+      <button type="button" (click)="addBraillePhase()">Ajouter une phase</button>
+    </div>
+  </form>
+
+  <hr />
+
+  <p-button label="Download JSON" (onClick)="downloadJson()"></p-button>
+</div>

@@ -1,5 +1,5 @@
 
-import { productionFields } from './shared/productionFields';
+// import { productionFields } from './shared/productionFields';
 
 export const externeFormFields = [
     { key: 'infoGeneral', label: 'Informations générales de la demande', type: 'header2' },

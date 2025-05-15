@@ -1,11 +1,9 @@
-// shared production fields used in all requisition forms
 export const productionFields = [
-    { key: 'braille', label: 'Braille', type: 'checkbox' },
-    { key: 'etext', label: 'E-texte', type: 'checkbox' },
-    { key: 'audio', label: 'Audio', type: 'checkbox' },
-    { key: 'largePrint', label: 'Grossi', type: 'checkbox' },
-    { key: 'pdfAccessible', label: 'PDF accessible', type: 'checkbox' },
-    { key: 'threeD', label: '3D', type: 'checkbox' },
-    { key: 'autres', label: 'Autres (veuillez préciser)', type: 'text' }
+  { label: 'EText', value: 'etext' },
+  { label: 'Braille', value: 'braille' },
+  { label: 'Audio', value: 'audio' },
+  { label: 'Grossi', value: 'largePrint' },
+  { label: 'PDF accessible', value: 'pdfAccessible' },
+  { label: '3D', value: 'threeD' },
+  { label: 'Autres (veuillez préciser)', value: 'autres' }
 ];
-  
