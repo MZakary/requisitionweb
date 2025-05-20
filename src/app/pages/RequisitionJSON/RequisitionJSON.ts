@@ -81,6 +81,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   eTextFormFields = eTextFormFields;
   brailleFormFields = brailleFormFields;
 
+  needsPhase: boolean = true;
+
   constructor(private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -105,12 +107,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       this.requisitionType = RequisitionType.Scholaire;
     } else if (url.includes('/requisition-json-services')) {
       this.requisitionType = RequisitionType.Services;
+      this.needsPhase = false; // Services requisition does not need phases
     } else if (url.includes('/requisition-json-banq')) {
       this.requisitionType = RequisitionType.BANQ;
     } else if (url.includes('/requisition-json-hydroqc')) {
       this.requisitionType = RequisitionType.HydroQC;
     } else if (url.includes('/requisition-json-materiel')) {
       this.requisitionType = RequisitionType.Materiel;
+      this.needsPhase = false; // Materiel requisition does not need phases
     } else {
       this.requisitionType = RequisitionType.Unknown;
     }

@@ -35,7 +35,7 @@ export class AppMenu {
                     { label: 'Réquisition Services', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-services'] },
                     { label: 'Réquisition Matériel', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-materiel'] },
                     { label: 'Réquisition BANQ', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-banq'] },
-                    { label: 'Réquisition Hyrdo-Québec', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-hydroqc'] },
+                    { label: 'Réquisition Hydro-Québec', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-hydroqc'] },
                 ]
             },
 

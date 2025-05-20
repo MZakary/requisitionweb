@@ -12,6 +12,7 @@
     <ng-container *ngFor="let field of formFields">
       <!-- Champs généraux -->
       <h2 *ngIf="field.type === 'header2'" class="form-section-header">{{ field.label }}</h2>
+      <h3 *ngIf="field.type === 'header3'" class="form-section-header">{{ field.label }}</h3>
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
         <input
@@ -23,6 +24,10 @@
         />
         <label [for]="field.key">{{ field.label }}</label>
       </p-floatLabel>
+
+      <div *ngIf="field.type === 'tableHeure'">
+        test
+      </div>
 
       <p-floatLabel *ngIf="field.type === 'date'" variant="on">
         <p-calendar [inputId]="field.key" [formControlName]="field.key" dateFormat="yy-mm-dd"></p-calendar>
@@ -49,9 +54,9 @@
 
     <hr />
 
-    <h2>Phases de production</h2>
+    <h2 *ngIf="needsPhase">Phases de production</h2>
 
-    <div formArrayName="phases">
+    <div formArrayName="phases" *ngIf="needsPhase">
       <div
         *ngFor="let phase of phases.controls; let i = index"
         [formGroupName]="i"
@@ -150,7 +155,8 @@
 
       </div>
     </div>
-    <p-button label="Ajouter une phase" icon="pi pi-plus" (onClick)="addPhase()"></p-button>
+
+    <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" (onClick)="addPhase()"></p-button>
     
   </form>
 
