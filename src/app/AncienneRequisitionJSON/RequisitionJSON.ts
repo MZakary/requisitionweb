@@ -7,7 +7,6 @@ import {
   FormControl,
   ReactiveFormsModule,
   FormsModule,
-  AbstractControl
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
@@ -37,14 +36,6 @@ enum RequisitionType {
   Unknown = 'Inconnue',
 }
 
-interface RequisitionPhase {
-  selectedTypes: string[];
-  etext?: { [key: string]: any };
-  braille?: { [key: string]: any };
-  audio?: { [key: string]: any };
-}
-
-
 @Component({
   selector: 'app-requisition-json',
   templateUrl: './RequisitionJSON.html',
@@ -69,8 +60,28 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   requisitionType: RequisitionType = RequisitionType.Unknown;
   form!: FormGroup;
   formFields: any[] = [];
-  eTextFormFields = eTextFormFields;
-  brailleFormFields = brailleFormFields;
+
+  productionOptions = productionFields;
+  selectedProductions: string[] = [];
+
+  // Map des productions vers leurs questions / champs
+  productionFormFieldsMap: { [key: string]: any[] } = {
+    braille: brailleFormFields,
+    etext: eTextFormFields,
+    // audio: audioFormFields,
+    // threeD: threeDFormFields,
+    // ajoute d'autres si besoin
+  };
+
+  public productionTitles: { [key: string]: string } = {
+    braille: 'Production Braille',
+    etext: 'Production E-Text',
+    audio: 'Production Audio',
+    threeD: 'Production 3D',
+    largePrint: 'Production en gros caractères',
+    pdfAccessible: 'PDF accessible',
+    autres: 'Autres formats',
+  };
 
   constructor(private router: Router, private fb: FormBuilder) {}
 
@@ -124,72 +135,67 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   private buildFormGroup(): void {
     const group: { [key: string]: any } = {};
 
+    // Champs généraux
     this.formFields.forEach(field => {
-      group[field.key] = new FormControl(field.type === 'checkbox' ? false : '');
+      if (field.type === 'checkbox') {
+        group[field.key] = new FormControl(false);
+      } else {
+        group[field.key] = new FormControl('');
+      }
     });
 
-    group['phases'] = this.fb.array([]); // Add dynamic phases
+    // Pour chaque production sélectionnée, créer FormArray phases
+    this.selectedProductions.forEach(prod => {
+      const fields = this.productionFormFieldsMap[prod];
+      if (fields) {
+        group[`${prod}Phases`] = this.fb.array([this.createPhaseGroup(fields)]);
+      }
+    });
+
     this.form = this.fb.group(group);
   }
 
-
-
-
-  /*
-  ---------------------------------------------------------------------------
-  Fonctions pour tous ce qui est les types de productions
-  ---------------------------------------------------------------------------
-  */
-  productionTypes = productionFields;
-
-  get phases(): FormArray {
-    return this.form.get('phases') as FormArray;
-  }
-
-  addPhase(): void {
-    const phaseGroup = this.fb.group({
-      selectedTypes: this.fb.control([]), // selected production types
-      etext: this.buildProductionGroup(eTextFormFields),
-      braille: this.buildProductionGroup(brailleFormFields),
-      audio: this.fb.group({}) // you can load audioFormFields here
-    });
-
-    this.phases.push(phaseGroup);
-  }
-
-  private buildProductionGroup(fields: any[]): FormGroup {
-    const group: { [key: string]: FormControl } = {};
+  createPhaseGroup(fields: any[]): FormGroup {
+    const group: { [key: string]: any } = {};
     fields.forEach(field => {
-      group[field.key] = new FormControl('');
+      if (field.type !== 'header2') {
+        group[field.key] = field.type === 'checkbox' ? new FormControl(false) : new FormControl('');
+      }
     });
     return this.fb.group(group);
   }
 
-  getPhaseGroup(phase: AbstractControl | null): FormGroup {
-    return phase as FormGroup;
+  getPhasesArray(prod: string): FormArray {
+    return this.form.get(`${prod}Phases`) as FormArray;
   }
 
-  getNestedGroup(phase: AbstractControl | null, key: string): FormGroup {
-    return this.getPhaseGroup(phase).get(key) as FormGroup;
+  addPhase(prod: string) {
+    const fields = this.productionFormFieldsMap[prod];
+    this.getPhasesArray(prod).push(this.createPhaseGroup(fields));
   }
 
-  onProductionTypeToggle(phaseIndex: number, value: string): void {
-    const selectedTypesControl = this.phases.at(phaseIndex).get('selectedTypes');
-    if (!selectedTypesControl) return;
+  removePhase(prod: string, index: number) {
+    this.getPhasesArray(prod).removeAt(index);
+  }
 
-    const selectedTypes = selectedTypesControl.value as string[] || [];
-
-    if (selectedTypes.includes(value)) {
-      selectedTypesControl.setValue(selectedTypes.filter(v => v !== value));
-    } else {
-      selectedTypesControl.setValue([...selectedTypes, value]);
+  onCheckboxToggle(value: string, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked && !this.selectedProductions.includes(value)) {
+      this.selectedProductions.push(value);
+    } else if (!checked) {
+      this.selectedProductions = this.selectedProductions.filter(v => v !== value);
+      // retirer les phases si décoché
+      if (this.form.contains(`${value}Phases`)) {
+        this.form.removeControl(`${value}Phases`);
+      }
     }
+    this.onProductionChange();
   }
 
-  deletePhase(index: number): void {
-    this.phases.removeAt(index);
+  onProductionChange() {
+    // Rebuild the form group each time productions change
+    this.buildFormGroup();
   }
-
 
 
   /*
@@ -199,50 +205,37 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   */
 
   onFileSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (!input.files?.length) return;
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
 
-  const file = input.files[0];
-  const reader = new FileReader();
+    const file = input.files[0];
+    const reader = new FileReader();
 
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string);
 
-        if (data.phases && Array.isArray(data.phases)) {
-          const phasesArray = this.form.get('phases') as FormArray;
-
-          (data.phases as RequisitionPhase[]).forEach((phase: RequisitionPhase) => {
-            const phaseGroup = this.fb.group({
-              selectedTypes: [phase.selectedTypes || []],
-              etext: this.fb.group({}),
-              braille: this.fb.group({}),
-              audio: this.fb.group({}),
-            });
-
-            if (phase.selectedTypes?.includes('etext')) {
-              const etextGroup = this.buildProductionGroup(eTextFormFields);
-              etextGroup.patchValue(phase.etext || {});
-              phaseGroup.setControl('etext', etextGroup);
-            }
-
-            if (phase.selectedTypes?.includes('braille')) {
-              const brailleGroup = this.buildProductionGroup(brailleFormFields);
-              brailleGroup.patchValue(phase.braille || {});
-              phaseGroup.setControl('braille', brailleGroup);
-            }
-
-            if (phase.selectedTypes?.includes('audio')) {
-              const audioGroup = this.fb.group({}); // Update if audioFormFields are defined
-              audioGroup.patchValue(phase.audio || {});
-              phaseGroup.setControl('audio', audioGroup);
-            }
-
-            phasesArray.push(phaseGroup);
-          });
+        if (data.selectedProductions) {
+          this.selectedProductions = data.selectedProductions;
+          this.onProductionChange();
         }
 
         this.form.patchValue(data);
+
+        // Patch phases for each production
+        this.selectedProductions.forEach(prod => {
+          const phasesData = data[`${prod}Phases`];
+          if (phasesData && Array.isArray(phasesData)) {
+            const phasesArray = this.getPhasesArray(prod);
+            phasesArray.clear();
+            phasesData.forEach((phase: any) => {
+              const fg = this.createPhaseGroup(this.productionFormFieldsMap[prod]);
+              fg.patchValue(phase);
+              phasesArray.push(fg);
+            });
+          }
+        });
+
       } catch (err) {
         alert('Invalid JSON file.');
       }
@@ -251,9 +244,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     reader.readAsText(file);
   }
 
-
   downloadJson() {
-    const data = this.form.value;
+    const data = {
+      ...this.form.value,
+      selectedProductions: this.selectedProductions,
+    };
     const blob = new Blob([JSON.stringify(data, null, 2)], {
       type: 'application/json',
     });

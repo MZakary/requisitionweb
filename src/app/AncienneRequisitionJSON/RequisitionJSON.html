@@ -1,0 +1,119 @@
+<div class="card requisitonJSON">
+  <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
+
+  <div class="p-field">
+    <label for="json-upload">Charger un fichier JSON:</label>
+    <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" />
+  </div>
+
+  <hr />
+  <fieldset>
+    <legend>Options de production</legend>
+    <div *ngFor="let option of productionOptions" class="p-field-checkbox">
+      <input
+        type="checkbox"
+        [id]="option.value"
+        [value]="option.value"
+        [checked]="selectedProductions.includes(option.value)"
+        (change)="onCheckboxToggle(option.value, $event)"
+      />
+      <label [for]="option.value">{{ option.label }}</label>
+    </div>
+  </fieldset>
+
+  <hr />
+
+  <form [formGroup]="form">
+    <ng-container *ngFor="let field of formFields">
+      <!-- Champs généraux -->
+      <h2 *ngIf="field.type === 'header2'" class="form-section-header">{{ field.label }}</h2>
+
+      <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
+        <input
+          pInputText
+          [type]="field.type"
+          [id]="field.key"
+          [formControlName]="field.key"
+          style="width: 30%"
+        />
+        <label [for]="field.key">{{ field.label }}</label>
+      </p-floatLabel>
+
+      <p-floatLabel *ngIf="field.type === 'date'" variant="on">
+        <p-calendar [inputId]="field.key" [formControlName]="field.key" dateFormat="yy-mm-dd"></p-calendar>
+        <label [for]="field.key">{{ field.label }}</label>
+      </p-floatLabel>
+
+      <div *ngIf="field.type === 'checkbox'" class="p-field-checkbox">
+        <p-checkbox binary="true" [inputId]="field.key" [formControlName]="field.key"></p-checkbox>
+        <label [for]="field.key">{{ field.label }}</label>
+      </div>
+
+      <div *ngIf="field.type === 'select'" class="p-field">
+        <label [for]="field.key">{{ field.label }}</label>
+        <p-dropdown
+          [options]="field.options"
+          optionLabel="label"
+          optionValue="value"
+          [inputId]="field.key"
+          [formControlName]="field.key"
+          [style]="{ width: '30%' }"
+        ></p-dropdown>
+      </div>
+    </ng-container>
+
+    <hr />
+
+    <!-- Boucle sur les productions sélectionnées -->
+    <ng-container *ngFor="let prod of selectedProductions">
+      <div *ngIf="productionFormFieldsMap[prod]">
+        <h2>{{ productionTitles[prod] || prod }}</h2>
+
+        <div [formArrayName]="prod + 'Phases'">
+          <div *ngFor="let group of getPhasesArray(prod).controls; let i = index" [formGroupName]="i" class="phase-group">
+            <h3>Phase {{ i + 1 }}</h3>
+            <ng-container *ngFor="let field of productionFormFieldsMap[prod]">
+              <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
+                <input
+                  pInputText
+                  [type]="field.type"
+                  [formControlName]="field.key"
+                  style="width: 30%"
+                />
+                <label>{{ field.label }}</label>
+              </p-floatLabel>
+
+              <p-floatLabel *ngIf="field.type === 'date'" variant="on">
+                <p-calendar [formControlName]="field.key" dateFormat="yy-mm-dd"></p-calendar>
+                <label>{{ field.label }}</label>
+              </p-floatLabel>
+
+              <div *ngIf="field.type === 'checkbox'" class="p-field-checkbox">
+                <p-checkbox binary="true" [formControlName]="field.key"></p-checkbox>
+                <label>{{ field.label }}</label>
+              </div>
+
+              <div *ngIf="field.type === 'select'" class="p-field">
+                <label>{{ field.label }}</label>
+                <p-dropdown
+                  [options]="field.options"
+                  optionLabel="label"
+                  optionValue="value"
+                  [formControlName]="field.key"
+                  [style]="{ width: '30%' }"
+                ></p-dropdown>
+              </div>
+            </ng-container>
+
+            <button type="button" (click)="removePhase(prod, i)">Supprimer cette phase</button>
+            <hr />
+          </div>
+          <button type="button" (click)="addPhase(prod)">Ajouter une phase</button>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+
+  <hr />
+  <p-button label="Download JSON" (onClick)="downloadJson()"></p-button>
+</div>
