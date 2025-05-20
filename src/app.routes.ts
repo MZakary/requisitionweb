@@ -18,6 +18,9 @@ export const appRoutes: Routes = [
             { path: 'requisition-json-interne', component: RequisitionJSON },
             { path: 'requisition-json-scolaire', component: RequisitionJSON },
             { path: 'requisition-json-services', component: RequisitionJSON },
+            { path: 'requisition-json-banq', component: RequisitionJSON },
+            { path: 'requisition-json-hydroqc', component: RequisitionJSON },
+            { path: 'requisition-json-materiel', component: RequisitionJSON },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ]
     },

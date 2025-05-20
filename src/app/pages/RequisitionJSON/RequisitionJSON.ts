@@ -18,10 +18,16 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
 
+//Requisition imports
 import { externeFormFields } from '../../../requisition-questions/externe-form-definition';
 import { interneFormFields } from '../../../requisition-questions/interne-form-definition';
 import { scolaireFormFields } from '../../../requisition-questions/scolaire-form-definition';
 import { servicesFormFields } from '../../../requisition-questions/services-form-definition';
+import { banqFormFields } from '../../../requisition-questions/banq-form-definition';
+import { hydroqcFormFields } from '../../../requisition-questions/hydroQC-form-definition';
+import { materielFormFields } from '../../../requisition-questions/materiel-form-definition';
+
+//Production imports
 import { eTextFormFields } from '../../../requisition-questions/shared/eText-form-definition';
 import { brailleFormFields } from '../../../requisition-questions/shared/braille-form-definition';
 // import { audioFormFields } from '../../../requisition-questions/shared/audio-form-definition'; // Exemple, ajoute tes fichiers
@@ -30,10 +36,13 @@ import { brailleFormFields } from '../../../requisition-questions/shared/braille
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
 
 enum RequisitionType {
-  Externe = 'Externe',
-  Interne = 'Interne',
-  Scholaire = 'Scholaire',
-  Services = 'Services',
+  Externe = 'externe pour adaptation',
+  Interne = 'interne pour adaptation',
+  Scholaire = 'scolaire pour adaptation',
+  Services = 'services conseils en accessibilité',
+  BANQ = 'BANQ',
+  Materiel = 'matériel 3D pour adaptation',
+  HydroQC = 'Hydro-Québec',
   Unknown = 'Inconnue',
 }
 
@@ -96,6 +105,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       this.requisitionType = RequisitionType.Scholaire;
     } else if (url.includes('/requisition-json-services')) {
       this.requisitionType = RequisitionType.Services;
+    } else if (url.includes('/requisition-json-banq')) {
+      this.requisitionType = RequisitionType.BANQ;
+    } else if (url.includes('/requisition-json-hydroqc')) {
+      this.requisitionType = RequisitionType.HydroQC;
+    } else if (url.includes('/requisition-json-materiel')) {
+      this.requisitionType = RequisitionType.Materiel;
     } else {
       this.requisitionType = RequisitionType.Unknown;
     }
@@ -114,6 +129,15 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         break;
       case RequisitionType.Services:
         this.formFields = servicesFormFields;
+        break;
+      case RequisitionType.BANQ:
+        this.formFields = banqFormFields;
+        break;
+      case RequisitionType.HydroQC:
+        this.formFields = hydroqcFormFields;
+        break;
+      case RequisitionType.Materiel:
+        this.formFields = materielFormFields;
         break;
       default:
         this.formFields = [];
