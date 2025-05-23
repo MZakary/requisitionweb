@@ -25,8 +25,40 @@
         <label [for]="field.key">{{ field.label }}</label>
       </p-floatLabel>
 
-      <div *ngIf="field.type === 'tableHeure'">
-        test
+      <div *ngIf="field.type === 'tableHeure'" [formGroupName]="field.key" class="table-heure-wrapper">
+        <h4>{{ field.label }}</h4>
+
+        <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: center;">
+          <li *ngFor="let col of field.columns" class="table-heure-col">
+            <!-- <label [for]="field.key + '-' + col.key" class="p-sr-only">
+              {{ col.label }}
+            </label> -->
+            <p-floatLabel>
+              <input
+                pInputText
+                [id]="field.key + '-' + col.key"
+                [type]="col.type || 'text'"
+                [formControlName]="col.key"
+              />
+              <label [for]="field.key + '-' + col.key">{{ col.label }}</label>
+            </p-floatLabel>
+          </li>
+
+          <li>
+            <p-floatLabel>
+              <input
+                pInputText
+                id="total-heures"
+                [value]="totalHeures"
+                readonly
+                style="font-weight: bold;"
+                aria-live="polite"
+                aria-label="Total des heures"
+              />
+              <label for="total-heures">Total des heures</label>
+            </p-floatLabel>
+          </li>
+        </ul>
       </div>
 
       <p-floatLabel *ngIf="field.type === 'date'" variant="on">
@@ -52,8 +84,8 @@
       </div>
     </ng-container>
 
-    <hr />
-
+    
+    <hr *ngIf="needsPhase"/>
     <h2 *ngIf="needsPhase">Phases de production</h2>
 
     <div formArrayName="phases" *ngIf="needsPhase">

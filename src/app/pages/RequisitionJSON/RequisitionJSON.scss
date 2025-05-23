@@ -4,6 +4,16 @@
     margin-bottom: 20px;
   }
 
+
+  .table-heure-wrapper{
+    .table-heure-col{
+      width: 100%;
+      input{
+        width: 100%;
+      }
+    }
+  }
+
   form {
     display: flex;
     flex-direction: column;

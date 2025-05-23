@@ -24,7 +24,15 @@ export const servicesFormFields = [
   { key: 'sout', label: 'Soutien professionnel', type: 'checkbox' },
 
   /*Add table here */
-  //{ key: 'eval', label: 'test', type: 'tableHeure' },
+  { key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
+    columns: [
+      { key: 'HeureMS', label: 'M/S', type: 'text' },
+      { key: 'HeureSP', label: 'S/P', type: 'text' },
+      { key: 'HeureZM', label: 'Z/M', type: 'text' },
+      { key: 'HeureJL', label: 'J/L', type: 'text' },
+      { key: 'HeureAutre', label: 'Autre', type: 'text' },
+    ],
+  },
 
   { key: 'infoAdmin', label: 'Informations administratives', type: 'header3' },
   { key: 'createur', label: 'Réquisition créé par', type: 'text' },

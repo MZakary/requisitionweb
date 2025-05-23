@@ -153,14 +153,39 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     const group: { [key: string]: any } = {};
 
     this.formFields.forEach(field => {
-      group[field.key] = new FormControl(field.type === 'checkbox' ? false : '');
+      if (field.type === 'tableHeure') {
+        // Create a FormGroup with the column keys
+        const tableGroup: { [key: string]: FormControl } = {};
+        field.columns.forEach((col: any) => {
+          tableGroup[col.key] = new FormControl('');
+        });
+        group[field.key] = this.fb.group(tableGroup);
+      } else {
+        group[field.key] = new FormControl(field.type === 'checkbox' ? false : '');
+      }
     });
 
     group['phases'] = this.fb.array([]); // Add dynamic phases
     this.form = this.fb.group(group);
   }
 
+  /*
+  ---------------------------------------------------------------------------
+  Fonction pour tous ce qui est la table d'heures
+  ---------------------------------------------------------------------------
+  */
+  get totalHeures(): number {
+    const tableHeureGroup = this.form.get('tableHeure') as FormGroup;
+    if (!tableHeureGroup) return 0;
 
+    let total = 0;
+    for (const key of Object.keys(tableHeureGroup.controls)) {
+      const val = parseFloat(tableHeureGroup.get(key)?.value);
+      if (!isNaN(val)) total += val;
+    }
+    return total;
+  }
+  
 
 
   /*
