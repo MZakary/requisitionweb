@@ -84,7 +84,7 @@
       </div>
     </ng-container>
 
-    
+    <!-- ------------------------------------------------------ PHASES ------------------------------------------------------ -->
     <hr *ngIf="needsPhase"/>
     <h2 *ngIf="needsPhase">Phases de production</h2>
 
@@ -114,10 +114,14 @@
         <ng-template #renderFields let-type="type" let-fields="fields" let-i="index">
           <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
             <hr />
-            <h4>{{ type | titlecase }}</h4>
+            <h3>{{ type | titlecase }}</h3> 
+
             <div [formGroup]="getNestedGroup(phase, type)">
               <div *ngFor="let field of fields" style="margin-bottom: 1rem;">
                 <ng-container [ngSwitch]="field.type">
+
+                  <!-- Header 4 -->
+                  <h4 *ngSwitchCase="'header4'">{{ field.label }}</h4>
 
                   <!-- Text input -->
                   <p-floatLabel *ngSwitchCase="'text'">
