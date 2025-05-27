@@ -160,6 +160,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           tableGroup[col.key] = new FormControl('');
         });
         group[field.key] = this.fb.group(tableGroup);
+      } else if (field.type === 'checkbox-list') {
+      // For checkbox lists, create a FormGroup with each option as a FormControl
+      const checkboxGroup: { [key: string]: FormControl } = {};
+      field.options.forEach((option: any) => {
+        checkboxGroup[option.value] = new FormControl(false);
+      });
+      group[field.key] = this.fb.group(checkboxGroup);
       } else {
         group[field.key] = new FormControl(field.type === 'checkbox' ? false : '');
       }
@@ -211,10 +218,26 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   }
 
   private buildProductionGroup(fields: any[]): FormGroup {
-    const group: { [key: string]: FormControl } = {};
+    const group: { [key: string]: any } = {};
+    
     fields.forEach(field => {
-      group[field.key] = new FormControl('');
+      if (field.type === 'checkbox-list') {
+        // Create a FormGroup for checkbox lists
+        const checkboxGroup: { [key: string]: FormControl } = {};
+        field.options.forEach((option: any) => {
+          checkboxGroup[option.value] = new FormControl(false);
+        });
+        group[field.key] = this.fb.group(checkboxGroup);
+      } else {
+        // Regular fields
+        group[field.key] = new FormControl(
+          field.type === 'checkbox' ? false : 
+          field.type === 'select' ? null : 
+          ''
+        );
+      }
     });
+
     return this.fb.group(group);
   }
 
@@ -252,52 +275,54 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   */
 
   onFileSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (!input.files?.length) return;
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
 
-  const file = input.files[0];
-  const reader = new FileReader();
+    const file = input.files[0];
+    const reader = new FileReader();
 
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string);
+        
+        // Patch main form
+        this.form.patchValue(data, { emitEvent: false });
 
+        // Handle phases
         if (data.phases && Array.isArray(data.phases)) {
           const phasesArray = this.form.get('phases') as FormArray;
+          phasesArray.clear();
 
-          (data.phases as RequisitionPhase[]).forEach((phase: RequisitionPhase) => {
+          data.phases.forEach((phaseData: any) => {
             const phaseGroup = this.fb.group({
-              selectedTypes: [phase.selectedTypes || []],
-              etext: this.fb.group({}),
-              braille: this.fb.group({}),
-              audio: this.fb.group({}),
+              selectedTypes: [[]],
+              etext: this.buildProductionGroup(eTextFormFields),
+              braille: this.buildProductionGroup(brailleFormFields),
+              audio: this.fb.group({})
             });
 
-            if (phase.selectedTypes?.includes('etext')) {
-              const etextGroup = this.buildProductionGroup(eTextFormFields);
-              etextGroup.patchValue(phase.etext || {});
-              phaseGroup.setControl('etext', etextGroup);
+            // Special handling for checkbox lists in phases
+            if (phaseData.braille?.accessOptions) {
+              const brailleGroup = phaseGroup.get('braille') as FormGroup;
+              if (brailleGroup) {
+                const accessOptions = brailleGroup.get('accessOptions') as FormGroup;
+                if (accessOptions) {
+                  Object.keys(phaseData.braille.accessOptions).forEach(key => {
+                    if (accessOptions.get(key)) {
+                      accessOptions.get(key)?.setValue(phaseData.braille.accessOptions[key]);
+                    }
+                  });
+                }
+              }
             }
 
-            if (phase.selectedTypes?.includes('braille')) {
-              const brailleGroup = this.buildProductionGroup(brailleFormFields);
-              brailleGroup.patchValue(phase.braille || {});
-              phaseGroup.setControl('braille', brailleGroup);
-            }
-
-            if (phase.selectedTypes?.includes('audio')) {
-              const audioGroup = this.fb.group({}); // Update if audioFormFields are defined
-              audioGroup.patchValue(phase.audio || {});
-              phaseGroup.setControl('audio', audioGroup);
-            }
-
+            phaseGroup.patchValue(phaseData, { emitEvent: false });
             phasesArray.push(phaseGroup);
           });
         }
-
-        this.form.patchValue(data);
       } catch (err) {
-        alert('Invalid JSON file.');
+        console.error('Error loading file:', err);
+        alert('Invalid JSON file format');
       }
     };
 

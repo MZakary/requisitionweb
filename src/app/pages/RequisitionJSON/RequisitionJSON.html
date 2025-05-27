@@ -120,6 +120,8 @@
               <div *ngFor="let field of fields" style="margin-bottom: 1rem;">
                 <ng-container [ngSwitch]="field.type">
 
+                  <!-- Horizontal Seperator -->
+                  <hr *ngSwitchCase="'hr'" style="width: 30%" />
                   <!-- Header 4 -->
                   <h4 *ngSwitchCase="'header4'">{{ field.label }}</h4>
 
@@ -143,6 +145,22 @@
                     ></p-checkbox>
                     <label [for]="field.key" style="margin-left: 0.5rem;">{{ field.label }}</label>
                   </div>
+
+                  <!-- Add this case to your ngSwitch in the template -->
+                  <div *ngSwitchCase="'checkbox-list'" class="checkbox-list">
+                    <label>{{ field.label }}</label>
+                    <div class="checkbox-options" [formGroupName]="field.key">
+                      <div *ngFor="let option of field.options" class="p-field-checkbox">
+                        <p-checkbox
+                          [inputId]="field.key + '-' + option.value"
+                          formControlName="{{option.value}}"
+                          [binary]="true"
+                        ></p-checkbox>
+                        <label [for]="field.key + '-' + option.value">{{ option.label }}</label>
+                      </div>
+                    </div>
+                  </div>
+
 
                   <!-- Select dropdown -->
                   <ng-container *ngSwitchCase="'select'">

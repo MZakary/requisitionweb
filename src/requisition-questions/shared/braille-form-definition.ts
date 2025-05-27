@@ -1,6 +1,6 @@
 // production-forms/braille-form-definition.ts
 export const brailleFormFields = [
-  { key: 'brailleInfoGeneral', label: 'Braille - Informations générales', type: 'header4' },
+  { label: 'Braille - Informations générales', type: 'header4' },
   { key: 'noFichier', label: 'Numéro du fichier .txt', type: 'text' },
   { key: 'dateRequise', label: 'Date requise', type: 'text' },
   { key: 'reimpression', label: 'Réimpression', type: 'checkbox' },
@@ -30,7 +30,7 @@ export const brailleFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'autre', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'autreCodeBraille', label: 'Si autre, spécifier', type: 'text' },
   { key: 'format', label: 'Format', type: 'select',
     options: [
       { label: '25x30', value: '25x30' },
@@ -38,10 +38,46 @@ export const brailleFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'autre', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'autreFormat', label: 'Si autre, spécifier', type: 'text' },
   { key: 'graphique', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
 
-  { key: 'brailleFinitionMontage', label: 'Braille - finition et montage', type: 'header4' },
+  { label: 'Braille - finition et montage', type: 'header4' },
+  { key: 'recto', label: 'Recto', type: 'checkbox' },
+  { key: 'rectoVerso', label: 'Recto/Verso', type: 'checkbox' },
+  { key: 'embossage', label: 'Embossage', type: 'select',
+    options: [
+      { label: 'Braillo', value: 'braillo' },
+      { label: 'ViewPlus', value: 'viewplus' },
+      { label: 'Autre', value: 'autre' },
+    ]
+  },
+  { key: 'autreEmbossage', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'materiel', label: 'Matériel', type: 'select',
+    options: [
+      { label: 'Papier avec trous', value: 'papierAvecTrous' },
+      { label: 'Papier sans trous', value: 'papierSansTrous' },
+      { label: 'Plastique', value: 'plastique' },
+      { label: 'Braille label', value: 'brailleLabel' },
+      { label: 'Plaque argent', value: 'plaqueArgent' },
+      { label: 'Plaque noire', value: 'plaqueNoire' },
+      { label: 'Plaque dorée', value: 'plaqueDoree' },
+      { label: 'Plaque de zinc', value: 'plaqueZinc' },
+      { label: 'Autre', value: 'autre' },
+    ]
+  },
+  { key: 'autreMateriel', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'broche', label: 'Broché', type: 'checkbox' },
+  { key: 'cerlox', label: 'Cerlox', type: 'checkbox' },
+  { key: 'wireO', label: 'Wire-O', type: 'checkbox' },
+  { type: 'hr' },
+  {
+    key: 'accessOptions',
+    type: 'checkbox-list',
+    options: [
+      { label: 'Braille', value: 'braille' },
+      { label: 'Audio', value: 'audio' }
+    ]
+  }
 
 ];
