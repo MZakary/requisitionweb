@@ -2,7 +2,7 @@
 // import { productionFields } from './shared/productionFields';
 
 export const externeFormFields = [
-  { key: 'infoGeneral', label: 'Informations générales de la demande', type: 'header2' },
+  { label: 'Informations générales de la demande', type: 'header2' },
   { key: 'createur', label: 'Réquisition créé par', type: 'text' },
   { key: 'noRequisition', label: 'Numéro de réquisition', type: 'text' },
   { key: 'noDemande', label: 'Numéro de commande', type: 'text' },
@@ -14,7 +14,7 @@ export const externeFormFields = [
   { key: 'courrielContact', label: 'Courriel du contact', type: 'text' },
   { key: 'noTelephone', label: 'Numéro de téléphone', type: 'text' },
   { key: 'adresseFacturation', label: 'Adresse de facturation postale et courriel', type: 'text' },
-  { key: 'infoGeneral', label: 'Informations spécifiques du document', type: 'header2' },
+  { label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'nomProjet', label: 'Nom du projet', type: 'text' },
   { key: 'confidentiel', label: 'Confidentiel', type: 'checkbox' },
   { key: 'docSource', label: 'Document source', type: 'select',

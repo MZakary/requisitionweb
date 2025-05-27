@@ -152,7 +152,16 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   private buildFormGroup(): void {
     const group: { [key: string]: any } = {};
 
-    this.formFields.forEach(field => {
+    // Filter out headers and separators
+    const dataFields = this.formFields.filter(field => 
+      field.type !== 'header2' && 
+      field.type !== 'header3' && 
+      field.type !== 'header4' && 
+      field.type !== 'hr' &&
+      field.key !== '' // Additional check for empty key separators
+    );
+
+    dataFields.forEach(field => {
       if (field.type === 'tableHeure') {
         // Create a FormGroup with the column keys
         const tableGroup: { [key: string]: FormControl } = {};
@@ -161,14 +170,19 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         });
         group[field.key] = this.fb.group(tableGroup);
       } else if (field.type === 'checkbox-list') {
-      // For checkbox lists, create a FormGroup with each option as a FormControl
-      const checkboxGroup: { [key: string]: FormControl } = {};
-      field.options.forEach((option: any) => {
-        checkboxGroup[option.value] = new FormControl(false);
-      });
-      group[field.key] = this.fb.group(checkboxGroup);
+        // For checkbox lists, create a FormGroup with each option as a FormControl
+        const checkboxGroup: { [key: string]: FormControl } = {};
+        field.options.forEach((option: any) => {
+          checkboxGroup[option.value] = new FormControl(false);
+        });
+        group[field.key] = this.fb.group(checkboxGroup);
       } else {
-        group[field.key] = new FormControl(field.type === 'checkbox' ? false : '');
+        // Handle all other field types with proper default values
+        group[field.key] = new FormControl(
+          field.type === 'checkbox' ? false : 
+          field.type === 'select' ? null : 
+          ''
+        );
       }
     });
 
@@ -220,7 +234,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   private buildProductionGroup(fields: any[]): FormGroup {
     const group: { [key: string]: any } = {};
     
-    fields.forEach(field => {
+    // Filter out headers (header4) and separators (hr)
+    const dataFields = fields.filter(field => 
+      field.type !== 'header4' && 
+      field.type !== 'hr' &&
+      field.key !== '' // Additional check for empty key separators
+    );
+
+    dataFields.forEach(field => {
       if (field.type === 'checkbox-list') {
         // Create a FormGroup for checkbox lists
         const checkboxGroup: { [key: string]: FormControl } = {};
@@ -228,8 +249,17 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           checkboxGroup[option.value] = new FormControl(false);
         });
         group[field.key] = this.fb.group(checkboxGroup);
-      } else {
-        // Regular fields
+      } 
+      else if (field.type === 'tableHeure') {
+        // Handle time tables
+        const tableGroup: { [key: string]: FormControl } = {};
+        field.columns.forEach((col: any) => {
+          tableGroup[col.key] = new FormControl('');
+        });
+        group[field.key] = this.fb.group(tableGroup);
+      }
+      else {
+        // Handle all other field types
         group[field.key] = new FormControl(
           field.type === 'checkbox' ? false : 
           field.type === 'select' ? null : 

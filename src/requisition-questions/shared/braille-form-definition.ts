@@ -43,8 +43,12 @@ export const brailleFormFields = [
 
 
   { label: 'Braille - finition et montage', type: 'header4' },
-  { key: 'recto', label: 'Recto', type: 'checkbox' },
-  { key: 'rectoVerso', label: 'Recto/Verso', type: 'checkbox' },
+  { key: 'typeFeuille', type: 'checkbox-list',
+    options: [
+      { label: 'Recto', value: 'recto' },
+      { label: 'Recto/Verso', value: 'rectoVerso' }
+    ]
+  },
   { key: 'embossage', label: 'Embossage', type: 'select',
     options: [
       { label: 'Braillo', value: 'braillo' },
@@ -67,13 +71,14 @@ export const brailleFormFields = [
     ]
   },
   { key: 'autreMateriel', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'broche', label: 'Broché', type: 'checkbox' },
-  { key: 'cerlox', label: 'Cerlox', type: 'checkbox' },
-  { key: 'wireO', label: 'Wire-O', type: 'checkbox' },
-  { type: 'hr' },
-  {
-    key: 'accessOptions',
-    type: 'checkbox-list',
+  { key: 'typeTeneur', type: 'checkbox-list',
+    options: [
+      { label: 'Broché', value: 'broche' },
+      { label: 'Cerlox', value: 'cerlox' },
+      { label: 'Wire-O', value: 'wireO' },
+    ]
+  },
+  { key: 'accessOptions', type: 'checkbox-list',
     options: [
       { label: 'Braille', value: 'braille' },
       { label: 'Audio', value: 'audio' }
