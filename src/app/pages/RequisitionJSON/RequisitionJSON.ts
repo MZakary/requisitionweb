@@ -17,6 +17,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TextareaModule } from 'primeng/textarea';
 
 //Requisition imports
 import { externeFormFields } from '../../../requisition-questions/externe-form-definition';
@@ -69,6 +70,7 @@ interface RequisitionPhase {
     DropdownModule,
     FloatLabelModule,
     ButtonModule,
+    TextareaModule,
     MultiSelectModule,
   ],
 })

@@ -1,12 +1,12 @@
 // production-forms/braille-form-definition.ts
 export const brailleFormFields = [
   { label: 'Braille - Informations générales', type: 'header4' },
-  { key: 'noFichier', label: 'Numéro du fichier .txt', type: 'text' },
-  { key: 'dateRequise', label: 'Date requise', type: 'text' },
-  { key: 'reimpression', label: 'Réimpression', type: 'checkbox' },
-  { key: 'quantite', label: 'Quantité', type: 'text' },
-  { key: 'noPageImprimees', label: 'Nombre de pages imprimées', type: 'text' },
-  { key: 'niveauDifficulte', label: 'Niveau de difficulté', type: 'select',
+  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', type: 'text' },
+  { key: 'dateRequiseBraille', label: 'Date requise', type: 'text' },
+  { key: 'reimpressionBraille', label: 'Réimpression', type: 'checkbox' },
+  { key: 'quantiteBraille', label: 'Quantité', type: 'text' },
+  { key: 'noPageImprimeesBraille', label: 'Nombre de pages imprimées', type: 'text' },
+  { key: 'niveauDifficulteBraille', label: 'Niveau de difficulté', type: 'select',
     options: [
       { label: 'Standard', value: 'standard' },
       { label: 'Complexe', value: 'complexe' },
@@ -78,11 +78,47 @@ export const brailleFormFields = [
       { label: 'Wire-O', value: 'wireO' },
     ]
   },
-  { key: 'accessOptions', type: 'checkbox-list',
+  { key: 'typeCouverture', type: 'checkbox-list',
     options: [
-      { label: 'Braille', value: 'braille' },
-      { label: 'Audio', value: 'audio' }
+      { label: 'Couverture vinyle', value: 'couvVinyle' },
+      { label: 'Couverture plastifiée couleur', value: 'couvPlasCouleur' },
+      { label: 'Couverture plastifiée monochrome', value: 'couvPlasMonochrome' },
+      { label: 'Couverture personnalisée', value: 'couvPersonnalisee' },
+      { label: 'Page endos du service', value: 'pageEndos' },
+      { label: 'Étiquette braille', value: 'etiqBraille' },
+      { label: 'Étiquette imprimée', value: 'etiqImprimee' },
+      { label: 'Page titre braille', value: 'pageTitreBraille' },
+      { label: 'Page titre imprimée', value: 'pageTitreImprimee' },
+      { label: 'Autre', value: 'autreTypeCouv' },
     ]
-  }
+  },
 
+  { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
+  { key: 'nomFichierSource', label: 'Nom du fichier source', type: 'text' },
+  
+  { label: 'Braille - commentaire', type: 'header4' },
+  { key: 'brailleCommentaire', label: 'Commentaire', type: 'textarea' },
+  
+  { label: 'Braille - informations tech. multimédia', type: 'header4' },
+  { key: 'nomTechMulti', label: 'Nom', type: 'text' },
+  { key: 'dateTermineMulti', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureMulti', label: 'Nombre d\'heure(s) de travail', type: 'text' },
+  { key: 'commentaireTechMulti', label: 'Commentaire', type: 'textarea' },
+
+  { label: 'Braille - informations tech. tactile', type: 'header4' },
+  { key: 'nomTechTactile', label: 'Nom', type: 'text' },
+  { key: 'dateTermineTactile', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureTactile', label: 'Nombre d\'heure(s) de travail', type: 'text' },
+  { key: 'commentaireTechTactile', label: 'Commentaire', type: 'textarea' },
+  
+  { label: 'Braille - contrôle de qualité', type: 'header4' },
+  { key: 'nomContQual', label: 'Nom', type: 'text' },
+  { key: 'dateTermineContQual', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureContQual', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
+  { key: 'commentaireContQual', label: 'Commentaire', type: 'textarea' },
+
+  { label: 'Braille - tableau de production', type: 'header4' },
+  /* Add tableau */
+  { label: 'Braille - tableau des étiquettes', type: 'header4' },
+  /* Add tableau */
 ];
