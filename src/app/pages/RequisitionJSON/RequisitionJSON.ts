@@ -84,6 +84,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   brailleFormFields = brailleFormFields;
 
   needsPhase: boolean = true;
+  productionTypes = productionFields;
 
   constructor(private router: Router, private fb: FormBuilder) {}
 
@@ -99,6 +100,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     }, 0);
   }
 
+
+  /*
+  ---------------------------------------------------------------------------
+  Fonction pour détecter le type de réquisition en fonction de l'URL
+  ---------------------------------------------------------------------------
+  */
   private detectRequisitionType(): void {
     const url = this.router.url;
     if (url.includes('/requisition-json-externe')) {
@@ -121,6 +128,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       this.requisitionType = RequisitionType.Unknown;
     }
   }
+
+  /*
+  ---------------------------------------------------------------------------
+  Fonction pour construire les champs du formulaire en fonction du type de réquisition
+  ---------------------------------------------------------------------------
+  */
 
   private buildFormFields(): void {
     switch (this.requisitionType) {
@@ -208,6 +221,38 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     }
     return total;
   }
+
+
+
+  addTableRow(phase: AbstractControl, type: string, field: any): void {
+    const group = this.getNestedGroup(phase, type);
+    const array = group.get(field.key) as FormArray;
+
+    const newRow = this.fb.group(
+      field.columns.reduce((acc: any, col: any) => {
+        acc[col.key] = new FormControl('');
+        return acc;
+      }, {})
+    );
+
+    array.push(newRow);
+  }
+
+  removeTableRow(phase: AbstractControl, type: string, key: string, index: number): void {
+    const group = this.getNestedGroup(phase, type);
+    const array = group.get(key) as FormArray;
+    array.removeAt(index);
+  }
+
+  getFormArrayFromNestedGroup(phase: AbstractControl, type: string, key: string): FormArray {
+    const group = this.getNestedGroup(phase, type);
+    const array = group?.get(key);
+    if (array instanceof FormArray) {
+      return array;
+    }
+    return this.fb.array([]);
+  }
+
   
 
 
@@ -216,7 +261,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   Fonctions pour tous ce qui est les types de productions
   ---------------------------------------------------------------------------
   */
-  productionTypes = productionFields;
 
   get phases(): FormArray {
     return this.form.get('phases') as FormArray;
@@ -259,8 +303,17 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           tableGroup[col.key] = new FormControl('');
         });
         group[field.key] = this.fb.group(tableGroup);
-      }
-      else {
+      }else if (field.type === 'dynamicTable') {
+        const rows = this.fb.array([
+          this.fb.group(
+            field.columns.reduce((acc: any, col: any) => {
+              acc[col.key] = new FormControl('');
+              return acc;
+            }, {})
+          )
+        ]);
+        group[field.key] = rows;
+      }else {
         // Handle all other field types
         group[field.key] = new FormControl(
           field.type === 'checkbox' ? false : 
@@ -306,6 +359,15 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   ---------------------------------------------------------------------------
   */
 
+  private getFieldDefByType(type: string): any[] {
+    switch (type) {
+      case 'etext': return this.eTextFormFields;
+      case 'braille': return this.brailleFormFields;
+      case 'audio': return []; // Add if you implement audioFormFields
+      default: return [];
+    }
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
@@ -316,12 +378,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string);
-        
-        // Patch main form
-        this.form.patchValue(data, { emitEvent: false });
 
-        // Handle phases
-        if (data.phases && Array.isArray(data.phases)) {
+        // Patch base form values (excluding phases)
+        const patchableData = { ...data };
+        delete patchableData.phases;
+        this.form.patchValue(patchableData, { emitEvent: false });
+
+        // Handle dynamic phases
+        if (Array.isArray(data.phases)) {
           const phasesArray = this.form.get('phases') as FormArray;
           phasesArray.clear();
 
@@ -330,30 +394,44 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               selectedTypes: [[]],
               etext: this.buildProductionGroup(eTextFormFields),
               braille: this.buildProductionGroup(brailleFormFields),
-              audio: this.fb.group({})
+              audio: this.fb.group({}) // Load audioFormFields if needed
             });
 
-            // Special handling for checkbox lists in phases
-            if (phaseData.braille?.accessOptions) {
-              const brailleGroup = phaseGroup.get('braille') as FormGroup;
-              if (brailleGroup) {
-                const accessOptions = brailleGroup.get('accessOptions') as FormGroup;
-                if (accessOptions) {
-                  Object.keys(phaseData.braille.accessOptions).forEach(key => {
-                    if (accessOptions.get(key)) {
-                      accessOptions.get(key)?.setValue(phaseData.braille.accessOptions[key]);
-                    }
-                  });
+            // 🧠 Handle dynamicTable for etext, braille, audio
+            for (const typeKey of ['etext', 'braille', 'audio']) {
+              const sectionData = phaseData[typeKey];
+              const sectionDef = this.getFieldDefByType(typeKey);
+              const sectionGroup = phaseGroup.get(typeKey) as FormGroup;
+
+              if (sectionData && sectionGroup) {
+                for (const field of sectionDef) {
+                  if (field.type === 'dynamicTable' && Array.isArray(sectionData[field.key])) {
+                    const formArray = sectionGroup.get(field.key) as FormArray;
+                    formArray.clear(); // Remove the default row
+
+                    // Push each row from JSON
+                    sectionData[field.key].forEach((row: any) => {
+                      const rowGroup = this.fb.group(
+                        field.columns.reduce((acc: any, col: any) => {
+                          acc[col.key] = new FormControl(row[col.key] ?? '');
+                          return acc;
+                        }, {})
+                      );
+                      formArray.push(rowGroup);
+                    });
+                  }
                 }
               }
             }
 
+            // Patch remaining values
             phaseGroup.patchValue(phaseData, { emitEvent: false });
             phasesArray.push(phaseGroup);
           });
         }
+
       } catch (err) {
-        console.error('Error loading file:', err);
+        console.error('Error loading JSON file:', err);
         alert('Invalid JSON file format');
       }
     };

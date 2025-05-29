@@ -118,7 +118,27 @@ export const brailleFormFields = [
   { key: 'commentaireContQual', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Braille - tableau de production', type: 'header4' },
-  /* Add tableau */
+  {
+    key: 'tableProduction',
+    label: 'Tableau de production',
+    type: 'dynamicTable',
+    columns: [
+      { key: 'noFichProd', label: 'Numéro du fichier .dxb', type: 'text' },
+      { key: 'detProd', label: 'Détail de la pagination', type: 'text' },
+      { key: 'nbsPageProd', label: 'Nombre de pages total (pair)', type: 'text' },
+      { key: 'noteProd', label: 'Notes Prod.', type: 'text' }
+    ]
+  },
+
   { label: 'Braille - tableau des étiquettes', type: 'header4' },
-  /* Add tableau */
+  {
+    key: 'tableEtiquettes',
+    label: 'Tableau des étiquettes',
+    type: 'dynamicTable',
+    columns: [
+      { key: 'noFichierEtiq', label: 'Numéro du fichier .dxb', type: 'text' },
+      { key: 'libEtiq', label: 'Libellé de l’étiquette', type: 'text' },
+      { key: 'noteEtiq', label: 'Notes Prod.', type: 'text' }
+    ]
+  },
 ];

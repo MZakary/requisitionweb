@@ -143,7 +143,7 @@
                       pTextarea 
                       [id]="field.key"
                       [formControlName]="field.key"
-                      cols="36"
+                      style="width: 30%"
                       [autoResize]="true"
                       class="p-inputtext"
                     ></textarea>
@@ -174,6 +174,33 @@
                       </div>
                     </div>
                   </div>
+
+
+                  <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section">
+                    <label>{{ field.label }}</label>
+                    <div formArrayName="{{field.key}}">
+                      <div
+                        *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"
+                        [formGroupName]="rowIndex"
+                        class="dynamic-table-row"
+                      >
+                        <div *ngFor="let col of field.columns" style="display: inline-block; margin-right: 1rem;">
+                          <p-floatLabel variant="on">
+                            <input
+                              pInputText
+                              [id]="field.key + '-' + rowIndex + '-' + col.key"
+                              [formControlName]="col.key"
+                              type="text"
+                            />
+                            <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+                          </p-floatLabel>
+                        </div>
+                        <p-button label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)" icon="pi pi-trash"></p-button>
+                      </div>
+                    </div>
+                    <p-button label="Ajouter une ligne" (click)="addTableRow(phase, type, field)" icon="pi pi-add"></p-button>
+                  </div>
+
 
 
                   <!-- Select dropdown -->
