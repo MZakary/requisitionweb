@@ -112,7 +112,6 @@
         </div>
 
 
-        <!-- eText Fields -->
         <ng-template #renderFields let-type="type" let-fields="fields" let-i="index">
           <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
             <hr />
@@ -138,6 +137,7 @@
                     <label [for]="field.key">{{ field.label }}</label>
                   </p-floatLabel>
 
+                  <!-- Text Area input -->
                   <p-floatLabel *ngSwitchCase="'textarea'" variant="on" class="textarea-label">
                     <textarea
                       pTextarea 
@@ -175,9 +175,9 @@
                     </div>
                   </div>
 
-
+                  <!-- Dynamic Table -->
                   <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section">
-                    <label>{{ field.label }}</label>
+                    <!-- <label>{{ field.label }}</label> -->
                     <div formArrayName="{{field.key}}">
                       <div
                         *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"

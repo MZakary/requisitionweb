@@ -222,7 +222,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     return total;
   }
 
-
+  /*
+  ---------------------------------------------------------------------------
+  Fonctions pour tous ce qui est la table dynamique
+  ---------------------------------------------------------------------------
+  */
 
   addTableRow(phase: AbstractControl, type: string, field: any): void {
     const group = this.getNestedGroup(phase, type);
@@ -423,19 +427,16 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
                 }
               }
             }
-
             // Patch remaining values
             phaseGroup.patchValue(phaseData, { emitEvent: false });
             phasesArray.push(phaseGroup);
           });
         }
-
       } catch (err) {
         console.error('Error loading JSON file:', err);
         alert('Invalid JSON file format');
       }
     };
-
     reader.readAsText(file);
   }
 
