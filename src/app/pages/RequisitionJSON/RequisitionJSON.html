@@ -112,10 +112,10 @@
         </div>
 
 
-        <ng-template #renderFields let-type="type" let-fields="fields" let-i="index">
+        <ng-template #renderFields let-type="type" let-fields="fields" let-i="index" let-title="title">
           <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
             <hr />
-            <h3>{{ type | titlecase }}</h3> 
+            <h3>{{ title }}</h3> 
 
             <div [formGroup]="getNestedGroup(phase, type)">
               <div *ngFor="let field of fields" style="margin-bottom: 1rem;">
@@ -234,12 +234,18 @@
 
         <!-- Then call it twice for eText and Braille -->
         <ng-container
-          *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields }"
+          *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text' }"
         ></ng-container>
 
         <ng-container
-          *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields }"
+          *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"
         ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"
+        ></ng-container>
+
+
 
         <!-- Audio Fields -->
 

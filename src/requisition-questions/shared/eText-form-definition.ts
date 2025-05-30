@@ -38,4 +38,15 @@ export const eTextFormFields = [
   { key: 'commentaireCDQEText', label: 'Commentaire', type: 'textarea' },
 
   /* Add tableau */
+  { label: 'E-Text - tableau de production', type: 'header4' },
+
+  {
+    key: 'tableauProductionEText',
+    label: 'Tableau de production',
+    type: 'dynamicTable',
+    columns: [
+      { key: 'noFichProd', label: 'Numéro du fichier', type: 'text' },
+      { key: 'nbsCaracteresProd', label: 'Nombre de caractères', type: 'text' },
+    ]
+  },
 ];

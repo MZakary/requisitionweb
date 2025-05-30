@@ -31,6 +31,7 @@ import { materielFormFields } from '../../../requisition-questions/materiel-form
 //Production imports
 import { eTextFormFields } from '../../../requisition-questions/shared/eText-form-definition';
 import { brailleFormFields } from '../../../requisition-questions/shared/braille-form-definition';
+import { grossiFormFields } from '../../../requisition-questions/shared/grossi-form-definition';
 // import { audioFormFields } from '../../../requisition-questions/shared/audio-form-definition'; // Exemple, ajoute tes fichiers
 // import { threeDFormFields } from '../../../requisition-questions/shared/threeD-form-definition'; // Exemple
 
@@ -51,6 +52,7 @@ interface RequisitionPhase {
   selectedTypes: string[];
   etext?: { [key: string]: any };
   braille?: { [key: string]: any };
+  grossi?: { [key: string]: any };
   audio?: { [key: string]: any };
 }
 
@@ -82,6 +84,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   formFields: any[] = [];
   eTextFormFields = eTextFormFields;
   brailleFormFields = brailleFormFields;
+  grossiFormFields = grossiFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -275,6 +278,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       selectedTypes: this.fb.control([]), // selected production types
       etext: this.buildProductionGroup(eTextFormFields),
       braille: this.buildProductionGroup(brailleFormFields),
+      grossi: this.buildProductionGroup(this.grossiFormFields),
       audio: this.fb.group({}) // you can load audioFormFields here
     });
 
@@ -367,6 +371,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     switch (type) {
       case 'etext': return this.eTextFormFields;
       case 'braille': return this.brailleFormFields;
+      case 'grossi': return this.grossiFormFields;
       case 'audio': return []; // Add if you implement audioFormFields
       default: return [];
     }
@@ -398,22 +403,22 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               selectedTypes: [[]],
               etext: this.buildProductionGroup(eTextFormFields),
               braille: this.buildProductionGroup(brailleFormFields),
+              grossi: this.buildProductionGroup(this.grossiFormFields),
               audio: this.fb.group({}) // Load audioFormFields if needed
             });
 
             // 🧠 Handle dynamicTable for etext, braille, audio
-            for (const typeKey of ['etext', 'braille', 'audio']) {
+            for (const typeKey of Object.keys(phaseData)) {
               const sectionData = phaseData[typeKey];
               const sectionDef = this.getFieldDefByType(typeKey);
               const sectionGroup = phaseGroup.get(typeKey) as FormGroup;
 
-              if (sectionData && sectionGroup) {
+              if (sectionData && sectionDef && sectionGroup) {
                 for (const field of sectionDef) {
                   if (field.type === 'dynamicTable' && Array.isArray(sectionData[field.key])) {
                     const formArray = sectionGroup.get(field.key) as FormArray;
-                    formArray.clear(); // Remove the default row
+                    formArray.clear(); // Remove default row
 
-                    // Push each row from JSON
                     sectionData[field.key].forEach((row: any) => {
                       const rowGroup = this.fb.group(
                         field.columns.reduce((acc: any, col: any) => {
