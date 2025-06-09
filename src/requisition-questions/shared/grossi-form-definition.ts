@@ -58,33 +58,33 @@ export const grossiFormFields = [
   { key: 'libelleEtiquetteGrossi', label: 'Libellé de l\'étiquette', type: 'text' },
   { key: 'autreFinitionGrossi', label: 'Autre', type: 'text' },
 
-  { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSource', label: 'Nom du fichier source', type: 'text' },
+  { label: 'Caractères agrandis - nom du fichier source ou description de la production', type: 'header4' },
+  { key: 'nomFichierSourceGrossi', label: 'Nom du fichier source', type: 'text' },
   
-  { label: 'Braille - commentaire', type: 'header4' },
-  { key: 'brailleCommentaire', label: 'Commentaire', type: 'textarea' },
+  { label: 'Caractères agrandis - commentaire', type: 'header4' },
+  { key: 'grossiCommentaire', label: 'Commentaire', type: 'textarea' },
   
-  { label: 'Braille - informations tech. multimédia', type: 'header4' },
+  { label: 'Caractères agrandis - informations tech. multimédia', type: 'header4' },
   { key: 'nomTechMulti', label: 'Nom', type: 'text' },
   { key: 'dateTermineMulti', label: 'Terminé le', type: 'text' },
   { key: 'noHeureMulti', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechMulti', label: 'Commentaire', type: 'textarea' },
 
-   { label: 'Braille - contrôle de qualité', type: 'header4' },
+   { label: 'Caractères agrandis - contrôle de qualité', type: 'header4' },
   { key: 'nomContQual', label: 'Nom', type: 'text' },
   { key: 'dateTermineContQual', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQual', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
   { key: 'commentaireContQual', label: 'Commentaire', type: 'textarea' },
 
-  { label: 'Braille - tableau de production', type: 'header4' },
+  { label: 'Caractères agrandis - tableau de production', type: 'header4' },
   {
-    key: 'tableProduction',
+    key: 'tableProductionGrossi',
     label: 'Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProd', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'detProd', label: 'Détail de la pagination', type: 'text' },
-      { key: 'nbsPageProd', label: 'Nombre de pages total (pair)', type: 'text' },
+      { key: 'noFichProd', label: 'Numéro du fichier', type: 'text' },
+      { key: 'nbsPage', label: 'Nombre de pages', type: 'text' },
+      { key: 'nbsCaracteres', label: 'Nombre de caractères', type: 'text' },
       { key: 'noteProd', label: 'Notes Prod.', type: 'text' }
     ]
   },
