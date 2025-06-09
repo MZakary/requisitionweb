@@ -245,6 +245,14 @@
           *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"
         ></ng-container>
 
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'agrandis', fields: agrandisFormFields, title: 'Agrandissement' }"
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'num', fields: numerisationFormFields, title: 'Numérisation' }"
+        ></ng-container>
+
 
 
         <!-- Audio Fields -->

@@ -1,4 +1,4 @@
-export const grossiFormFields = [
+export const agrandisFormFields = [
   { label: 'Agrandissement - informations générales', type: 'header4' },
   { key: 'dateRequiseAgrandissement', label: 'Date requise', type: 'text' },
   { key: 'quantiteAgrandissement', label: 'Quantité', type: 'text' },

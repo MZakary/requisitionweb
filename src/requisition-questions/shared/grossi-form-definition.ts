@@ -16,9 +16,10 @@ export const grossiFormFields = [
   { key: 'taillePolice', label: 'Taille de police de caractères', type: 'text' },
   { key: 'FormatGrossi', label: 'Format', type: 'select',
     options: [
-      { label: '8 1/2 x 11', value: 'format8demi' },
-      { label: 'Complexe', value: 'complexe' },
-      { label: 'Musical', value: 'musical' },
+      { label: '8 1/2 x 11', value: 'format8demi11' },
+      { label: '8 1/2 x 14', value: 'format8demi14' },
+      { label: '11 x 17', value: 'format11par17' },
+      { label: 'Autre', value: 'formatAutre' },
     ]
   },
   { key: 'autreFormat', label: 'Si autre, spécifier', type: 'text' },

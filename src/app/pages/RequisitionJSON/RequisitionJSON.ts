@@ -32,6 +32,8 @@ import { materielFormFields } from '../../../requisition-questions/materiel-form
 import { eTextFormFields } from '../../../requisition-questions/shared/eText-form-definition';
 import { brailleFormFields } from '../../../requisition-questions/shared/braille-form-definition';
 import { grossiFormFields } from '../../../requisition-questions/shared/grossi-form-definition';
+import { agrandisFormFields } from '../../../requisition-questions/shared/agrandis-form-definition'; // Exemple, ajoute tes fichiers
+import { numerisationFormFields } from '../../../requisition-questions/shared/numerisation-form-definition';
 // import { audioFormFields } from '../../../requisition-questions/shared/audio-form-definition'; // Exemple, ajoute tes fichiers
 // import { threeDFormFields } from '../../../requisition-questions/shared/threeD-form-definition'; // Exemple
 
@@ -48,13 +50,14 @@ enum RequisitionType {
   Unknown = 'Inconnue',
 }
 
-interface RequisitionPhase {
-  selectedTypes: string[];
-  etext?: { [key: string]: any };
-  braille?: { [key: string]: any };
-  grossi?: { [key: string]: any };
-  audio?: { [key: string]: any };
-}
+// interface RequisitionPhase {
+//   selectedTypes: string[];
+//   etext?: { [key: string]: any };
+//   braille?: { [key: string]: any };
+//   grossi?: { [key: string]: any };
+//   agrandis?: { [key: string]: any };
+//   audio?: { [key: string]: any };
+// }
 
 
 @Component({
@@ -85,6 +88,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   eTextFormFields = eTextFormFields;
   brailleFormFields = brailleFormFields;
   grossiFormFields = grossiFormFields;
+  agrandisFormFields = agrandisFormFields;
+  numerisationFormFields = numerisationFormFields; // Example, add your files
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -279,6 +284,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       etext: this.buildProductionGroup(eTextFormFields),
       braille: this.buildProductionGroup(brailleFormFields),
       grossi: this.buildProductionGroup(this.grossiFormFields),
+      agrandis: this.buildProductionGroup(this.agrandisFormFields), // Example, add your files
+      num: this.buildProductionGroup(this.numerisationFormFields), // Example, add your files
       audio: this.fb.group({}) // you can load audioFormFields here
     });
 
@@ -372,6 +379,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'etext': return this.eTextFormFields;
       case 'braille': return this.brailleFormFields;
       case 'grossi': return this.grossiFormFields;
+      case 'agrandis': return this.agrandisFormFields;
+      case 'num': return this.numerisationFormFields; // Example, add your files
       case 'audio': return []; // Add if you implement audioFormFields
       default: return [];
     }
@@ -404,6 +413,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               etext: this.buildProductionGroup(eTextFormFields),
               braille: this.buildProductionGroup(brailleFormFields),
               grossi: this.buildProductionGroup(this.grossiFormFields),
+              agrandis: this.buildProductionGroup(this.agrandisFormFields),
+              num: this.buildProductionGroup(this.numerisationFormFields), // Example, add your files
               audio: this.fb.group({}) // Load audioFormFields if needed
             });
 
