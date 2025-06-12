@@ -11,13 +11,13 @@ export const numerisationFormFields = [
       { label: 'Autre', value: 'formatAutre' },
     ]
   },
-  { key: 'autreFormat', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'autreFormatNum', label: 'Si autre, spécifier', type: 'text' },
   { key: 'monochromeNum', label: 'Monochrome', type: 'checkbox' },
   { key: 'couleurNum', label: 'Couleur', type: 'checkbox' },
 
   { label: 'Numérisation - finition et montage', type: 'header4' },
-  { key:"courrielCheck", label: 'Courriel', type: 'checkbox' },
-  { key:"autreExpliquation", label: 'Courriel', type: 'text' },
+  { key:"courrielCheckNum", label: 'Courriel', type: 'checkbox' },
+  { key:"autreExpliquationNum", label: 'Courriel', type: 'text' },
 
   { label: 'Numérisation - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceNum', label: 'Nom du fichier source', type: 'text' },
@@ -26,16 +26,16 @@ export const numerisationFormFields = [
   { key: 'commentaireNum', label: 'Commentaire', type: 'textarea' },
   
   { label: 'Numérisation - informations tech.', type: 'header4' },
-  { key: 'nomTech', label: 'Nom', type: 'text' },
-  { key: 'dateTermineTech', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTech', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTech', label: 'Commentaire', type: 'textarea' },
+  { key: 'nomTechNum', label: 'Nom', type: 'text' },
+  { key: 'dateTermineTechNum', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureTechNum', label: 'Nombre d\'heure(s) de travail', type: 'text' },
+  { key: 'commentaireTechNum', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Numérisation - contrôle de qualité', type: 'header4' },
-  { key: 'nomContQual', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQual', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQual', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQual', label: 'Commentaire', type: 'textarea' },
+  { key: 'nomContQualNum', label: 'Nom', type: 'text' },
+  { key: 'dateTermineContQualNum', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureContQualNum', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
+  { key: 'commentaireContQualNum', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Numérisation - tableau de production', type: 'header4' },
   {
@@ -43,8 +43,8 @@ export const numerisationFormFields = [
     label: 'Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProd', label: 'Numéro du fichier', type: 'text' },
-      { key: 'nbsPage', label: 'Nombre de pages', type: 'text' },
+      { key: 'noFichProdNum', label: 'Numéro du fichier', type: 'text' },
+      { key: 'nbsPageNum', label: 'Nombre de pages', type: 'text' },
     ]
   },
 

@@ -12,8 +12,8 @@ export const grossiFormFields = [
       { label: 'Musical', value: 'musical' },
     ]
   },
-  { key: 'typePolice', label: 'Type de police de caractères', type: 'text' },
-  { key: 'taillePolice', label: 'Taille de police de caractères', type: 'text' },
+  { key: 'typePoliceGrossi', label: 'Type de police de caractères', type: 'text' },
+  { key: 'taillePoliceGrossi', label: 'Taille de police de caractères', type: 'text' },
   { key: 'FormatGrossi', label: 'Format', type: 'select',
     options: [
       { label: '8 1/2 x 11', value: 'format8demi11' },
@@ -22,11 +22,11 @@ export const grossiFormFields = [
       { label: 'Autre', value: 'formatAutre' },
     ]
   },
-  { key: 'autreFormat', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'autreFormatGrossi', label: 'Si autre, spécifier', type: 'text' },
   { key: 'monochromeGrossi', label: 'Monochrome', type: 'checkbox' },
   { key: 'couleurGrossi', label: 'Couleur', type: 'checkbox' },
   { key: 'graphiqueGrossi', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
-  { key: 'envoiCourrielSeul', label: 'Envoi par courriel seulement', type: 'checkbox' },
+  { key: 'envoiCourrielSeulGrossi', label: 'Envoi par courriel seulement', type: 'checkbox' },
 
   { label: 'Caractères agrandis - impression', type: 'header4' },
   { key: 'impressionGrossi', type: 'checkbox-list',
@@ -36,6 +36,8 @@ export const grossiFormFields = [
       { label: 'Recto/Verso', value: 'rectoVerso' }
     ]
   },
+
+  { label: 'Caractères agrandis - finition et montage', type: 'header4' },
   { key: 'typeTeneurGrossi', type: 'checkbox-list',
     options: [
       { label: 'Broché', value: 'broche' },
@@ -66,16 +68,16 @@ export const grossiFormFields = [
   { key: 'grossiCommentaire', label: 'Commentaire', type: 'textarea' },
   
   { label: 'Caractères agrandis - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMulti', label: 'Nom', type: 'text' },
-  { key: 'dateTermineMulti', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureMulti', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechMulti', label: 'Commentaire', type: 'textarea' },
+  { key: 'nomTechMultiGrossi', label: 'Nom', type: 'text' },
+  { key: 'dateTermineMultiGrossi', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureMultiGrossi', label: 'Nombre d\'heure(s) de travail', type: 'text' },
+  { key: 'commentaireTechMultiGrossi', label: 'Commentaire', type: 'textarea' },
 
    { label: 'Caractères agrandis - contrôle de qualité', type: 'header4' },
-  { key: 'nomContQual', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQual', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQual', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQual', label: 'Commentaire', type: 'textarea' },
+  { key: 'nomContQualGrossi', label: 'Nom', type: 'text' },
+  { key: 'dateTermineContQualGrossi', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureContQualGrossi', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
+  { key: 'commentaireContQualGrossi', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Caractères agrandis - tableau de production', type: 'header4' },
   {
@@ -83,10 +85,10 @@ export const grossiFormFields = [
     label: 'Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProd', label: 'Numéro du fichier', type: 'text' },
-      { key: 'nbsPage', label: 'Nombre de pages', type: 'text' },
-      { key: 'nbsCaracteres', label: 'Nombre de caractères', type: 'text' },
-      { key: 'noteProd', label: 'Notes Prod.', type: 'text' }
+      { key: 'noFichProdGrossi', label: 'Numéro du fichier', type: 'text' },
+      { key: 'nbsPageGrossi', label: 'Nombre de pages', type: 'text' },
+      { key: 'nbsCaracteresGrossi', label: 'Nombre de caractères', type: 'text' },
+      { key: 'noteProdGrossi', label: 'Notes Prod.', type: 'text' }
     ]
   },
 

@@ -283,10 +283,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       selectedTypes: this.fb.control([]), // selected production types
       etext: this.buildProductionGroup(eTextFormFields),
       braille: this.buildProductionGroup(brailleFormFields),
-      grossi: this.buildProductionGroup(this.grossiFormFields),
-      agrandis: this.buildProductionGroup(this.agrandisFormFields), // Example, add your files
-      num: this.buildProductionGroup(this.numerisationFormFields), // Example, add your files
-      audio: this.fb.group({}) // you can load audioFormFields here
+      grossi: this.buildProductionGroup(grossiFormFields),
+      agrandis: this.buildProductionGroup(agrandisFormFields), // Example, add your files
+      num: this.buildProductionGroup(numerisationFormFields), // Example, add your files
     });
 
     this.phases.push(phaseGroup);
@@ -381,7 +380,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'grossi': return this.grossiFormFields;
       case 'agrandis': return this.agrandisFormFields;
       case 'num': return this.numerisationFormFields; // Example, add your files
-      case 'audio': return []; // Add if you implement audioFormFields
       default: return [];
     }
   }
@@ -412,13 +410,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               selectedTypes: [[]],
               etext: this.buildProductionGroup(eTextFormFields),
               braille: this.buildProductionGroup(brailleFormFields),
-              grossi: this.buildProductionGroup(this.grossiFormFields),
-              agrandis: this.buildProductionGroup(this.agrandisFormFields),
-              num: this.buildProductionGroup(this.numerisationFormFields), // Example, add your files
-              audio: this.fb.group({}) // Load audioFormFields if needed
+              grossi: this.buildProductionGroup(grossiFormFields),
+              agrandis: this.buildProductionGroup(agrandisFormFields),
+              num: this.buildProductionGroup(numerisationFormFields), // Example, add your files
             });
 
-            // 🧠 Handle dynamicTable for etext, braille, audio
+            // 🧠 Handle dynamicTable
             for (const typeKey of Object.keys(phaseData)) {
               const sectionData = phaseData[typeKey];
               const sectionDef = this.getFieldDefByType(typeKey);

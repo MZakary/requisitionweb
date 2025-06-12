@@ -32,7 +32,7 @@ export class AppMenu {
                     { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-externe'] },
                     { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-interne'] },
                     { label: 'Réquisition Scolaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-scolaire'] },
-                    { label: 'Réquisition Services', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-services'] },
+                    { label: 'Réquisition Accessibilité', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-services'] },
                     { label: 'Réquisition Matériel', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-materiel'] },
                     { label: 'Réquisition BANQ', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-banq'] },
                     { label: 'Réquisition Hydro-Québec', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-hydroqc'] },

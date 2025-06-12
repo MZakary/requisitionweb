@@ -25,15 +25,17 @@
         <label [for]="field.key">{{ field.label }}</label>
       </p-floatLabel>
 
+      <!-- TABLEAU HEURE REQ -->
+
       <div *ngIf="field.type === 'tableHeure'" [formGroupName]="field.key" class="table-heure-wrapper">
-        <h4>{{ field.label }}</h4>
+        <h3>{{ field.label }}</h3>
 
         <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: center;">
           <li *ngFor="let col of field.columns" class="table-heure-col">
             <!-- <label [for]="field.key + '-' + col.key" class="p-sr-only">
               {{ col.label }}
             </label> -->
-            <p-floatLabel>
+            <p-floatLabel variant="on">
               <input
                 pInputText
                 [id]="field.key + '-' + col.key"
@@ -45,7 +47,7 @@
           </li>
 
           <li>
-            <p-floatLabel>
+            <p-floatLabel variant="on">
               <input
                 pInputText
                 id="total-heures"
@@ -71,6 +73,21 @@
         <label [for]="field.key">{{ field.label }}</label>
       </div>
 
+      <div *ngIf="field.type === 'checkbox-list'" class="checkbox-list">
+        <label>{{ field.label }}</label>
+        <div class="checkbox-options" [formGroupName]="field.key">
+          <div *ngFor="let option of field.options" class="p-field-checkbox">
+            <p-checkbox
+              [inputId]="field.key + '-' + option.value"
+              formControlName="{{option.value}}"
+              [binary]="true"
+              ariaLabel="{{ field.label }} - {{ option.label }}"
+            ></p-checkbox>
+            <label [for]="field.key + '-' + option.value" >{{ option.label }}</label>
+          </div>
+        </div>
+      </div>
+
       <div *ngIf="field.type === 'select'" class="p-field">
         <label [for]="field.key">{{ field.label }}</label>
         <p-dropdown
@@ -82,6 +99,7 @@
           [showClear]="true"
           [formControlName]="field.key"
           [style]="{ width: '30%' }"
+          ariaLabel="{{ field.label }}"
         ></p-dropdown>
       </div>
     </ng-container>
@@ -133,6 +151,7 @@
                       [id]="field.key"
                       [formControlName]="field.key"
                       style="width: 30%"
+                      ariaLabel="{{field.label2}} - {{ field.label }}"
                     />
                     <label [for]="field.key">{{ field.label }}</label>
                   </p-floatLabel>
@@ -213,9 +232,9 @@
                       [formControlName]="field.key"
                       [filter]="true" 
                       [showClear]="true"
-                      placeholder="Select {{ field.label }}"
                       [style]="{ width: '30%' }"
                       [inputId]="field.key"
+                      ariaLabel="{{ field.label }}"
                     ></p-dropdown>
                   </ng-container>
 
