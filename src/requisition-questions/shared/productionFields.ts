@@ -1,11 +1,13 @@
 export const productionFields = [
-  { label: 'EText', value: 'etext' },
   { label: 'Braille', value: 'braille' },
+  { label: 'EText', value: 'etext' },
   { label: 'Caractères Agrandis', value: 'grossi' },
   { label: 'Agrandissement', value: 'agrandis' },
   { label: 'Numérisation', value: 'num' },
-  { label: 'Audio', value: 'audio' },
-  { label: 'PDF accessible', value: 'pdfAccessible' },
-  { label: '3D', value: 'threeD' },
+  { label: 'PDF', value: 'pdf' },
+  { label: 'HTML', value: 'html' },
+  { label: 'Formulaire', value: 'form' },
+  { label: 'Dessin', value: 'dessin' },
+  { label: 'Sonore', value: 'audio' },
   { label: 'Autres (veuillez préciser)', value: 'autres' }
 ];

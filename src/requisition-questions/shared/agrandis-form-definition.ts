@@ -1,5 +1,6 @@
 export const agrandisFormFields = [
   { label: 'Agrandissement - informations générales', type: 'header4' },
+  { key: 'numFichierAgrandissement', label: 'Numéro du fichier',label2:"informations générales", type: 'text' },
   { key: 'dateRequiseAgrandissement', label: 'Date requise', type: 'text' },
   { key: 'quantiteAgrandissement', label: 'Quantité', type: 'text' },
   { key: 'nbsPageImprimeeAgrandissement', label: 'Nombre de pages imprimées', type: 'text' },
@@ -20,7 +21,7 @@ export const agrandisFormFields = [
   { label: 'Agrandissement - impression', type: 'header4' },
   { key: 'impressionAgrandissement', type: 'checkbox-list',
     options: [
-      { label: 'XEROX', value: 'xeroxAgrandissement' },
+      { label: 'XEROX', value: 'xeroxAgrandissement', label2:"Impression" },
       { label: 'Recto', value: 'rectoAgrandissement' },
       { label: 'Recto/Verso', value: 'rectoVersoAgrandissement' }
     ]
@@ -45,18 +46,19 @@ export const agrandisFormFields = [
   { key: 'autreCouvAgrandissement', label: 'Si autre, spécifier', type: 'text' },
 
   { label: 'Agrandissement - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceAgrandissement', label: 'Nom du fichier source', type: 'text' },
+  { key: 'nomFichierSourceAgrandissement', label: 'Nom/Description', label2:"nom du fichier source ou description de la production", type: 'text' },
   
   { label: 'Agrandissement - commentaire', type: 'header4' },
   { key: 'commentaireAgrandissement', label: 'Commentaire', type: 'textarea' },
   
   { label: 'Agrandissement - informations tech.', type: 'header4' },
-  { key: 'nomTechAgrandissement', label: 'Nom', type: 'text' },
+  { key: 'nomTechAgrandissement', label: 'Nom', label2:"Informations tech.", type: 'text' },
   { key: 'dateTermineTechAgrandissement', label: 'Terminé le', type: 'text' },
   { key: 'noHeureTechAgrandissement', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechAgrandissement', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Agrandissement - contrôle de qualité', type: 'header4' },
+  { key: 'checkboxCQTermineAgrandissement', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
   { key: 'nomContQualAgrandissement', label: 'Nom', type: 'text' },
   { key: 'dateTermineContQualAgrandissement', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualAgrandissement', label: 'Nombre d\'heure(s) CDQ', type: 'text' },

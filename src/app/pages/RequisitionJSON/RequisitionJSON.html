@@ -175,6 +175,7 @@
                       [inputId]="field.key"
                       [formControlName]="field.key"
                       binary="true"
+                      ariaLabel="{{ field.label2 }} - {{ field.label }}"
                     ></p-checkbox>
                     <label [for]="field.key" style="margin-left: 0.5rem;">{{ field.label }}</label>
                   </div>
@@ -188,6 +189,7 @@
                           [inputId]="field.key + '-' + option.value"
                           formControlName="{{option.value}}"
                           [binary]="true"
+                          ariaLabel="{{ option.label2 }} - {{ option.label }}"
                         ></p-checkbox>
                         <label [for]="field.key + '-' + option.value">{{ option.label }}</label>
                       </div>
@@ -195,7 +197,7 @@
                   </div>
 
                   <!-- Dynamic Table -->
-                  <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section">
+                  <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
                     <!-- <label>{{ field.label }}</label> -->
                     <div formArrayName="{{field.key}}">
                       <div
@@ -270,6 +272,18 @@
 
         <ng-container
           *ngTemplateOutlet="renderFields; context: { type: 'num', fields: numerisationFormFields, title: 'Numérisation' }"
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'pdf', fields: pdfFormFields, title: 'PDF' }"
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'html', fields: htmlFormFields, title: 'HTML' }"
+        ></ng-container>
+        
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'form', fields: formulaireFormFields, title: 'Formulaire' }"
         ></ng-container>
 
 

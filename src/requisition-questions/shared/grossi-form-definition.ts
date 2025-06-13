@@ -1,6 +1,6 @@
 export const grossiFormFields = [
   { label: 'Caractères agrandis - informations générales', type: 'header4' },
-  { key: 'noFichierGrossi', label: 'Numéro du fichier .txt', type: 'text' },
+  { key: 'noFichierGrossi', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
   { key: 'dateRequiseGrossi', label: 'Date requise', type: 'text' },
   { key: 'reimpressionGrossi', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteGrossi', label: 'Quantité', type: 'text' },
@@ -31,7 +31,7 @@ export const grossiFormFields = [
   { label: 'Caractères agrandis - impression', type: 'header4' },
   { key: 'impressionGrossi', type: 'checkbox-list',
     options: [
-      { label: 'XEROX', value: 'xerox' },
+      { label: 'XEROX', value: 'xerox', label2: "Impression" },
       { label: 'Recto', value: 'recto' },
       { label: 'Recto/Verso', value: 'rectoVerso' }
     ]
@@ -40,7 +40,7 @@ export const grossiFormFields = [
   { label: 'Caractères agrandis - finition et montage', type: 'header4' },
   { key: 'typeTeneurGrossi', type: 'checkbox-list',
     options: [
-      { label: 'Broché', value: 'broche' },
+      { label: 'Broché', value: 'broche', label2: "Finition et montage" },
       { label: 'Cerlox', value: 'cerlox' },
       { label: 'Wire-O', value: 'wireO' },
     ]
@@ -62,19 +62,20 @@ export const grossiFormFields = [
   { key: 'autreFinitionGrossi', label: 'Autre', type: 'text' },
 
   { label: 'Caractères agrandis - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceGrossi', label: 'Nom du fichier source', type: 'text' },
+  { key: 'nomFichierSourceGrossi', label: 'Nom/Description', label2:"nom du fichier source ou description de la production", type: 'text' },
   
   { label: 'Caractères agrandis - commentaire', type: 'header4' },
   { key: 'grossiCommentaire', label: 'Commentaire', type: 'textarea' },
   
   { label: 'Caractères agrandis - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiGrossi', label: 'Nom', type: 'text' },
+  { key: 'nomTechMultiGrossi', label: 'Nom', label2:"Informations tech. multimédia", type: 'text' },
   { key: 'dateTermineMultiGrossi', label: 'Terminé le', type: 'text' },
   { key: 'noHeureMultiGrossi', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechMultiGrossi', label: 'Commentaire', type: 'textarea' },
 
    { label: 'Caractères agrandis - contrôle de qualité', type: 'header4' },
-  { key: 'nomContQualGrossi', label: 'Nom', type: 'text' },
+  { key: 'checkboxCQTermineGrossi', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
+  { key: 'nomContQualGrossi', label: 'Nom', label2:"Contrôle de qualité", type: 'text' },
   { key: 'dateTermineContQualGrossi', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualGrossi', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
   { key: 'commentaireContQualGrossi', label: 'Commentaire', type: 'textarea' },

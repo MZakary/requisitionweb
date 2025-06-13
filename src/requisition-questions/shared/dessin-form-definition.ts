@@ -1,26 +1,29 @@
-export const brailleFormFields = [
-  { label: 'Braille - Informations générales', type: 'header4' },
-  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2:"Informations Générales", type: 'text' },
-  { key: 'dateRequiseBraille', label: 'Date requise', type: 'text' },
-  { key: 'reimpressionBraille', label: 'Réimpression', type: 'checkbox' },
-  { key: 'quantiteBraille', label: 'Quantité', type: 'text' },
-  { key: 'noPageImprimeesBraille', label: 'Nombre de pages imprimées', type: 'text' },
-  { key: 'niveauDifficulteBraille', label: 'Niveau de difficulté', type: 'select',
+export const dessinFormFields = [
+  { label: 'Dessin - Informations générales', type: 'header4' },
+  { key: 'noFichierDessin', label: 'Numéro du fichier', label2:"Informations Générales", type: 'text' },
+  { key: 'dateRequiseDessin', label: 'Date requise', type: 'text' },
+  { key: 'reimpressionDessin', label: 'Réimpression', type: 'checkbox' },
+  { key: 'quantiteDessin', label: 'Quantité', type: 'text' },
+  { key: 'nbsEstimeDessin', label: 'Nombre de dessin estimé (si nécessaire)', type: 'text' },
+    { key: 'typeCheckboxDessin', type: 'checkbox-list',
+    options: [
+      { label: 'Dessin tactile', value: 'dessinTactile' },
+      { label: 'Dessin en caractères agrandis', value: 'dessinCaractAgrandis' },
+    ]
+  },
+  { key: 'niveauDifficulteDessin', label: 'Niveau de difficulté', type: 'select',
     options: [
       { label: 'Standard', value: 'standard' },
       { label: 'Complexe', value: 'complexe' },
-      { label: 'Musical simple', value: 'musicalSimple' },
-      { label: 'Musical intermédiaire', value: 'musicalIntermediaire' },
-      { label: 'Musical complexe', value: 'musicalComplexe' },
     ]
   },
-  { key: 'typeBrailleCheckboxBraille', type: 'checkbox-list',
+  { key: 'typeBrailleCheckboxDessin', type: 'checkbox-list',
     options: [
       { label: 'Braille abrégé', value: 'abregeBraille' },
       { label: 'Braille intégral', value: 'integralBraille' },
     ]
   },
-  { key: 'codeBrailleBaseBraille', label: 'Code braille de base', type: 'select',
+  { key: 'codeBrailleBaseDessin', label: 'Code braille de base', type: 'select',
     options: [
       { label: 'CBFU', value: 'cbfu' },
       { label: 'Anglais UEB', value: 'aueb' },
@@ -33,7 +36,7 @@ export const brailleFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'autreCodeBraille', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'autreCodeBrailleDessin', label: 'Si autre, spécifier', type: 'text' },
   { key: 'formatBraille', label: 'Format', type: 'select',
     options: [
       { label: '25x30', value: '25x30' },

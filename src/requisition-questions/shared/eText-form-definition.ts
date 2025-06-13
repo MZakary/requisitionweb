@@ -1,6 +1,6 @@
 export const eTextFormFields = [
   { label: 'E-Text - informations générales', type: 'header4' },
-  { key: 'noFichierEText', label: 'Numéro du fichier', type: 'text' },
+  { key: 'noFichierEText', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
   { key: 'dateRequiseEText', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeEText', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'niveauDifficulteEtext', label: 'Niveau de difficulté', type: 'select',
@@ -19,7 +19,7 @@ export const eTextFormFields = [
   { key: 'graphiqueEText', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
   { label: 'E-Text - finition et montage', type: 'header4' },
-  { key: 'courrielEText', label: 'Courriel - finition et montage', type: 'checkbox' },
+  { key: 'courrielEText', label: 'Courriel', label2:"Finition et montage", type: 'checkbox' },
   { key: 'autreCourrielEText', label: 'Si autre, expliquer', type: 'text' },
 
   { label: 'E-Text - nom du fichier source ou description de la production', type: 'header4' },
@@ -32,6 +32,7 @@ export const eTextFormFields = [
   { key: 'commentaireTechEText', label: 'Commentaire', type: 'textarea' },
 
   { label: 'E-Text - contrôle de qualité', type: 'header4' },
+  { key: 'checkboxCQTermineEText', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
   { key: 'nomCDQEText', label: 'Nom', label2: "contrôle de qualité", type: 'text' },
   { key: 'terminerCDQEText', label: 'Terminé le', type: 'text' },
   { key: 'nbsHeureTravailCDQEText', label: 'Nombre d\'heure(s) de travail', type: 'text' },

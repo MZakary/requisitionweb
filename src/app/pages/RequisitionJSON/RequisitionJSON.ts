@@ -34,6 +34,9 @@ import { brailleFormFields } from '../../../requisition-questions/shared/braille
 import { grossiFormFields } from '../../../requisition-questions/shared/grossi-form-definition';
 import { agrandisFormFields } from '../../../requisition-questions/shared/agrandis-form-definition'; // Exemple, ajoute tes fichiers
 import { numerisationFormFields } from '../../../requisition-questions/shared/numerisation-form-definition';
+import { pdfFormFields } from '../../../requisition-questions/shared/pdf-form-definition';
+import { htmlFormFields } from '../../../requisition-questions/shared/html-form-definition';
+import { formulaireFormFields } from '../../../requisition-questions/shared/formulaire-form-definition';  
 // import { audioFormFields } from '../../../requisition-questions/shared/audio-form-definition'; // Exemple, ajoute tes fichiers
 // import { threeDFormFields } from '../../../requisition-questions/shared/threeD-form-definition'; // Exemple
 
@@ -49,16 +52,6 @@ enum RequisitionType {
   HydroQC = 'Hydro-Québec',
   Unknown = 'Inconnue',
 }
-
-// interface RequisitionPhase {
-//   selectedTypes: string[];
-//   etext?: { [key: string]: any };
-//   braille?: { [key: string]: any };
-//   grossi?: { [key: string]: any };
-//   agrandis?: { [key: string]: any };
-//   audio?: { [key: string]: any };
-// }
-
 
 @Component({
   selector: 'app-requisition-json',
@@ -89,7 +82,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   brailleFormFields = brailleFormFields;
   grossiFormFields = grossiFormFields;
   agrandisFormFields = agrandisFormFields;
-  numerisationFormFields = numerisationFormFields; // Example, add your files
+  numerisationFormFields = numerisationFormFields;
+  pdfFormFields = pdfFormFields;
+  htmlFormFields = htmlFormFields;
+  formulaireFormFields = formulaireFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -277,7 +273,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   get phases(): FormArray {
     return this.form.get('phases') as FormArray;
   }
-
+  /* ADD PRODUCTIONS HERE */
   addPhase(): void {
     const phaseGroup = this.fb.group({
       selectedTypes: this.fb.control([]), // selected production types
@@ -286,6 +282,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       grossi: this.buildProductionGroup(grossiFormFields),
       agrandis: this.buildProductionGroup(agrandisFormFields), // Example, add your files
       num: this.buildProductionGroup(numerisationFormFields), // Example, add your files
+      pdf: this.buildProductionGroup(pdfFormFields), // Example, add your files
+      html: this.buildProductionGroup(htmlFormFields), // Example, add your files
+      form: this.buildProductionGroup(formulaireFormFields), // Example, add your files
     });
 
     this.phases.push(phaseGroup);
@@ -380,6 +379,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'grossi': return this.grossiFormFields;
       case 'agrandis': return this.agrandisFormFields;
       case 'num': return this.numerisationFormFields; // Example, add your files
+      case 'pdf': return this.pdfFormFields; // Example, add your files
+      case 'html': return this.htmlFormFields; // Example, add your files
+      case 'form': return this.formulaireFormFields; // Example, add your files
       default: return [];
     }
   }
@@ -413,6 +415,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               grossi: this.buildProductionGroup(grossiFormFields),
               agrandis: this.buildProductionGroup(agrandisFormFields),
               num: this.buildProductionGroup(numerisationFormFields), // Example, add your files
+              pdf: this.buildProductionGroup(pdfFormFields), // Example, add your files
+              html: this.buildProductionGroup(htmlFormFields), // Example, add your files
+              form: this.buildProductionGroup(formulaireFormFields), // Example, add your files
             });
 
             // 🧠 Handle dynamicTable
