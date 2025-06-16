@@ -37,54 +37,64 @@ export const dessinFormFields = [
     ]
   },
   { key: 'autreCodeBrailleDessin', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'formatBraille', label: 'Format', type: 'select',
+  { key: 'typePoliceCaracteresDessin', label: 'Type de police de caractères', type: 'text' },
+  { key: 'taillePoliceCaracteresDessin', label: 'Taille de police de caractères', type: 'text' },
+  
+  { key: 'formatDessin', label: 'Format', type: 'select',
     options: [
+      { label: '11 x 11,5', value: '11x11.5' },
+      { label: '8 1/2 x 11', value: '81/2x11' },
+      { label: '8 1/2 x 14', value: '81/2x14' },
+      { label: '11 x 17', value: '11x17' },
       { label: '25x30', value: '25x30' },
       { label: '25x40', value: '25x40' },
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'autreFormatBraille', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'graphiqueBraille', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
-
-
-  { label: 'Braille - finition et montage', type: 'header4' },
-  { key: 'typeFeuilleBraille', type: 'checkbox-list',
+  { key: 'autreFormatDessin', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'typeCouleurAChoisirDessin', type: 'checkbox-list',
     options: [
-      { label: 'Recto', value: 'recto', label2:"Finition et montage" },
-      { label: 'Recto/Verso', value: 'rectoVerso' }
+      { label: 'Monochrome', value: 'monochromeDessin' },
+      { label: 'Couleur', value: 'couleurDessin' },
     ]
   },
-  { key: 'embossageBraille', label: 'Embossage', type: 'select',
+
+  { label: 'Dessin - impression et/ou embossage', type: 'header4' },
+  { key: 'typeImpressionDessin', type: 'checkbox-list',
     options: [
-      { label: 'Braillo', value: 'braillo' },
-      { label: 'ViewPlus', value: 'viewplus' },
-      { label: 'Autre', value: 'autre' },
+      { label: 'ViewPlus', value: 'viewplus', label2:"Impression et/ou embossage" },
+      { label: 'XEROX', value: 'xerox' },
+      { label: 'autre', value: 'autreTypeImpression' },
     ]
   },
-  { key: 'autreEmbossageBraille', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'materielBraille', label: 'Matériel', type: 'select',
+  { key: 'autretypeImpressionDessin', label: 'Si autre, spécifier', type: 'text' },
+
+  { key: 'rectoVersoCheckboxDessin', type: 'select',
     options: [
-      { label: 'Papier avec trous', value: 'papierAvecTrous' },
-      { label: 'Papier sans trous', value: 'papierSansTrous' },
+      { label: 'Recto', value: 'recto' },
+      { label: 'Recto/Verso', value: 'rectoVerso' },
+    ]
+  },
+  { key: 'materielDessin', label: 'Matériel', type: 'select',
+    options: [
+      { label: 'Papier', value: 'papier' },
       { label: 'Plastique', value: 'plastique' },
-      { label: 'Braille label', value: 'brailleLabel' },
-      { label: 'Plaque argent', value: 'plaqueArgent' },
-      { label: 'Plaque noire', value: 'plaqueNoire' },
-      { label: 'Plaque dorée', value: 'plaqueDoree' },
-      { label: 'Plaque de zinc', value: 'plaqueZinc' },
+      { label: 'Braille Label', value: 'brailleLabel' },
+      { label: 'Carton', value: 'carton' },
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'autreMaterielBraille', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'typeTeneurBraille', type: 'checkbox-list',
+  { key: 'autreMaterielDessin', label: 'Si autre, spécifier', type: 'text' },
+  
+  { label: 'Dessin - finition et montage', type: 'header4' },
+  { key: 'typeTeneurDessin', type: 'checkbox-list',
     options: [
       { label: 'Broché', value: 'broche' },
       { label: 'Cerlox', value: 'cerlox' },
       { label: 'Wire-O', value: 'wireO' },
     ]
   },
-  { key: 'typeCouvertureBraille', type: 'checkbox-list',
+  { key: 'typeCouvertureDessin', type: 'checkbox-list',
     options: [
       { label: 'Couverture vinyle', value: 'couvVinyle' },
       { label: 'Couverture plastifiée couleur', value: 'couvPlasCouleur' },
@@ -95,59 +105,55 @@ export const dessinFormFields = [
       { label: 'Étiquette imprimée', value: 'etiqImprimee' },
       { label: 'Page titre braille', value: 'pageTitreBraille' },
       { label: 'Page titre imprimée', value: 'pageTitreImprimee' },
+      { label: 'Joint avec le text', value: 'joinAvecText' },
       { label: 'Autre', value: 'autreTypeCouv' },
     ]
   },
-  { key: 'autreTypeCouvBraille', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'specificationMontageDessin', label: 'Spécification du montage', type: 'text' },
+  { key: 'autreTypeCouvDessin', label: 'Si autre, spécifier', type: 'text' },
 
 
-  { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Nom du fichier source ou description de la production", type: 'text' },
+  { label: 'Dessin - nom du fichier source ou description de la production', type: 'header4' },
+  { key: 'nomFichierSourceDessin', label: 'Nom/Description', label2:"Nom du fichier source ou description de la production", type: 'text' },
   
-  { label: 'Braille - commentaire', type: 'header4' },
-  { key: 'commentaireBraille', label: 'Commentaire', type: 'textarea' },
+  { label: 'Dessin - commentaire', type: 'header4' },
+  { key: 'commentaireDessin', label: 'Commentaire', type: 'textarea' },
   
-  { label: 'Braille - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiBraille', label: 'Nom', label2:"Informations tech. multimédia", type: 'text' },
-  { key: 'dateTermineMultiBraille', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureMultiBraille', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechMultiBraille', label: 'Commentaire', type: 'textarea' },
-
-  { label: 'Braille - informations tech. tactile', type: 'header4' },
-  { key: 'nomTechTactileBraille', label: 'Nom', label2:"Informations tech. tactile", type: 'text' },
-  { key: 'dateTermineTactileBraille', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTactileBraille', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechTactileBraille', label: 'Commentaire', type: 'textarea' },
+  { label: 'Dessin - informations tech. multimédia', type: 'header4' },
+  { key: 'nomTechMultiDessin', label: 'Nom', label2:"Informations tech. multimédia", type: 'text' },
+  { key: 'dateTermineMultiDessin', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureMultiDessin', label: 'Nombre d\'heure(s) de travail', type: 'text' },
+  { key: 'commentaireTechMultiDessin', label: 'Commentaire', type: 'textarea' },
   
-  { label: 'Braille - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineBraille', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualBraille', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualBraille', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualBraille', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualBraille', label: 'Commentaire', type: 'textarea' },
+  { label: 'Dessin - contrôle de qualité', type: 'header4' },
+  { key: 'checkboxCQTermineDessin', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
+  { key: 'nomContQualDessin', label: 'Nom', type: 'text' },
+  { key: 'dateTermineContQualDessin', label: 'Terminé le', type: 'text' },
+  { key: 'noHeureContQualDessin', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
+  { key: 'commentaireContQualDessin', label: 'Commentaire', type: 'textarea' },
 
-  { label: 'Braille - tableau de production', type: 'header4' },
+  { label: 'Dessin - tableau de production', type: 'header4' },
   {
-    key: 'tableProductionBraille',
+    key: 'tableProductionDessin',
     label: 'Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'detProdBraille', label: 'Détail de la pagination', type: 'text' },
-      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'text' },
-      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'text' }
+      { key: 'noFichProdDessin', label: 'Numéro du fichier', type: 'text' },
+      { key: 'nbsPageProdDessin', label: 'Nombre de pages', type: 'text' },
+      { key: 'nbsDessins', label: 'Nombre de dessins', type: 'text' },
+      { key: 'noteProdDessin', label: 'Notes Prod.', type: 'text' }
     ]
   },
 
-  { label: 'Braille - tableau des étiquettes', type: 'header4' },
+  { label: 'Dessin - tableau des étiquettes', type: 'header4' },
   {
-    key: 'tableEtiquettesBraille',
+    key: 'tableEtiquettesDessin',
     label: 'Tableau des étiquettes',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichierEtiqBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'libEtiqBraille', label: 'Libellé de l’étiquette', type: 'text' },
-      { key: 'noteEtiqBraille', label: 'Notes Prod.', type: 'text' }
+      { key: 'noFichierEtiqDessin', label: 'Numéro du fichier .dxb', type: 'text' },
+      { key: 'libEtiqDessin', label: 'Libellé de l’étiquette', type: 'text' },
+      { key: 'noteEtiqDessin', label: 'Notes Prod.', type: 'text' }
     ]
   },
 ];
