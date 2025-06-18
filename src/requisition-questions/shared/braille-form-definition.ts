@@ -1,6 +1,6 @@
 export const brailleFormFields = [
   { label: 'Braille - Informations générales', type: 'header4' },
-  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2:"Informations Générales", type: 'text' },
+  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2:"Informations Générales - Braille", type: 'text' },
   { key: 'dateRequiseBraille', label: 'Date requise', type: 'text' },
   { key: 'reimpressionBraille', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteBraille', label: 'Quantité', type: 'text' },

@@ -1,6 +1,6 @@
 export const pdfFormFields = [
   { label: 'PDF - informations générales', type: 'header4' },
-  { key: 'noFichierPDF', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
+  { key: 'noFichierPDF', label: 'Numéro du fichier', label2:"Informations générales - PDF", type: 'text' },
   { key: 'dateRequisePDF', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeePDF', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'pdfAccessiblePDF', label: 'PDF accessible', type: 'checkbox' },

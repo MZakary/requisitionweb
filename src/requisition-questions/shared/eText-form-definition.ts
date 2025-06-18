@@ -1,6 +1,6 @@
 export const eTextFormFields = [
   { label: 'E-Text - informations générales', type: 'header4' },
-  { key: 'noFichierEText', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
+  { key: 'noFichierEText', label: 'Numéro du fichier', label2:"Informations générales - E-Text", type: 'text' },
   { key: 'dateRequiseEText', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeEText', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'niveauDifficulteEtext', label: 'Niveau de difficulté', type: 'select',

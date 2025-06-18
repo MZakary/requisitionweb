@@ -1,6 +1,6 @@
 export const htmlFormFields = [
   { label: 'HTML - informations générales', type: 'header4' },
-  { key: 'noFichierHTML', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
+  { key: 'noFichierHTML', label: 'Numéro du fichier', label2:"Informations générales - HTML", type: 'text' },
   { key: 'dateRequiseHTML', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeHTML', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'niveauDifficulteHTML', label: 'Niveau de difficulté', type: 'select',

@@ -1,6 +1,6 @@
 export const numerisationFormFields = [
   { label: 'Numérisation - informations générales', type: 'header4' },
-  { key: 'noFichierNum', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
+  { key: 'noFichierNum', label: 'Numéro du fichier', label2:"Informations générales - Numérisation", type: 'text' },
   { key: 'dateRequiseNum', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeNum', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'FormatNum', label: 'Format', type: 'select',

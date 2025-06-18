@@ -1,6 +1,6 @@
 export const agrandisFormFields = [
   { label: 'Agrandissement - informations générales', type: 'header4' },
-  { key: 'numFichierAgrandissement', label: 'Numéro du fichier',label2:"informations générales", type: 'text' },
+  { key: 'numFichierAgrandissement', label: 'Numéro du fichier',label2:"informations générales - Agrandissement", type: 'text' },
   { key: 'dateRequiseAgrandissement', label: 'Date requise', type: 'text' },
   { key: 'quantiteAgrandissement', label: 'Quantité', type: 'text' },
   { key: 'nbsPageImprimeeAgrandissement', label: 'Nombre de pages imprimées', type: 'text' },

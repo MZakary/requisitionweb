@@ -37,7 +37,9 @@ import { numerisationFormFields } from '../../../requisition-questions/shared/nu
 import { pdfFormFields } from '../../../requisition-questions/shared/pdf-form-definition';
 import { htmlFormFields } from '../../../requisition-questions/shared/html-form-definition';
 import { formulaireFormFields } from '../../../requisition-questions/shared/formulaire-form-definition';
-import { dessinFormFields } from '../../../requisition-questions/shared/dessin-form-definition'; // Exemple, ajoute tes fichiers
+import { dessinFormFields } from '../../../requisition-questions/shared/dessin-form-definition';
+import { sonoreFormFields } from '../../../requisition-questions/shared/sonore-form-definition';
+import { autreFormFields } from '../../../requisition-questions/shared/autre-form-definition';
 
 
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
@@ -87,6 +89,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   htmlFormFields = htmlFormFields;
   formulaireFormFields = formulaireFormFields;
   dessinFormFields= dessinFormFields;
+  sonoreFormFields = sonoreFormFields;
+  autreFormFields = autreFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -287,6 +291,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       html: this.buildProductionGroup(htmlFormFields), // Example, add your files
       form: this.buildProductionGroup(formulaireFormFields), // Example, add your files
       dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
+      sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
+      autre: this.buildProductionGroup(autreFormFields), // Example, add your files
     });
 
     this.phases.push(phaseGroup);
@@ -385,6 +391,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'html': return this.htmlFormFields; // Example, add your files
       case 'form': return this.formulaireFormFields; // Example, add your files
       case 'dessin': return this.dessinFormFields; // Example, add your files
+      case 'sonore': return this.sonoreFormFields; // Example, add your files
+      case 'autre': return this.autreFormFields; // Example, add your files
       default: return [];
     }
   }
@@ -422,6 +430,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               html: this.buildProductionGroup(htmlFormFields), // Example, add your files
               form: this.buildProductionGroup(formulaireFormFields), // Example, add your files
               dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
+              sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
+              autre: this.buildProductionGroup(autreFormFields), // Example, add your files
             });
 
             // 🧠 Handle dynamicTable

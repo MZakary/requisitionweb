@@ -290,6 +290,13 @@
           *ngTemplateOutlet="renderFields; context: { type: 'dessin', fields: dessinFormFields, title: 'Dessin' }"
         ></ng-container>
 
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'sonore', fields: sonoreFormFields, title: 'Sonore' }"
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"
+        ></ng-container>
 
         <!-- Audio Fields -->
 

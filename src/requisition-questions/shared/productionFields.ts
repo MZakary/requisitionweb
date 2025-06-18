@@ -8,6 +8,6 @@ export const productionFields = [
   { label: 'HTML', value: 'html' },
   { label: 'Formulaire', value: 'form' },
   { label: 'Dessin', value: 'dessin' },
-  { label: 'Sonore', value: 'audio' },
-  { label: 'Autres (veuillez préciser)', value: 'autres' }
+  { label: 'Sonore', value: 'sonore' },
+  { label: 'Autres', value: 'autre' }
 ];

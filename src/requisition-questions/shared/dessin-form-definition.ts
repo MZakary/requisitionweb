@@ -1,6 +1,6 @@
 export const dessinFormFields = [
   { label: 'Dessin - Informations générales', type: 'header4' },
-  { key: 'noFichierDessin', label: 'Numéro du fichier', label2:"Informations Générales", type: 'text' },
+  { key: 'noFichierDessin', label: 'Numéro du fichier', label2:"Informations Générales - Dessin", type: 'text' },
   { key: 'dateRequiseDessin', label: 'Date requise', type: 'text' },
   { key: 'reimpressionDessin', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteDessin', label: 'Quantité', type: 'text' },
@@ -89,7 +89,7 @@ export const dessinFormFields = [
   { label: 'Dessin - finition et montage', type: 'header4' },
   { key: 'typeTeneurDessin', type: 'checkbox-list',
     options: [
-      { label: 'Broché', value: 'broche' },
+      { label: 'Broché', value: 'broche', label2:"Finition et montage" },
       { label: 'Cerlox', value: 'cerlox' },
       { label: 'Wire-O', value: 'wireO' },
     ]

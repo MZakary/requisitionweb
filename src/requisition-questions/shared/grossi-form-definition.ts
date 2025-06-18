@@ -1,6 +1,6 @@
 export const grossiFormFields = [
   { label: 'Caractères agrandis - informations générales', type: 'header4' },
-  { key: 'noFichierGrossi', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
+  { key: 'noFichierGrossi', label: 'Numéro du fichier', label2:"Informations générales - Caractères agrandis", type: 'text' },
   { key: 'dateRequiseGrossi', label: 'Date requise', type: 'text' },
   { key: 'reimpressionGrossi', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteGrossi', label: 'Quantité', type: 'text' },

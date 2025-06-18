@@ -1,6 +1,6 @@
 export const formulaireFormFields = [
   { label: 'Formulaire - informations générales', type: 'header4' },
-  { key: 'noFichierFormulaire', label: 'Numéro du fichier', label2:"Informations générales", type: 'text' },
+  { key: 'noFichierFormulaire', label: 'Numéro du fichier', label2:"Informations générales - Formulaire", type: 'text' },
   { key: 'dateRequiseFormulaire', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeFormulaire', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'typeFormFormulaire', label: 'Type de formulaire', type: 'select',
