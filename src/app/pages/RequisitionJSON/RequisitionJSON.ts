@@ -69,6 +69,7 @@ enum RequisitionType {
 export class RequisitionJSON implements OnInit, AfterViewInit {
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
+  //@ViewChild('phaseAnnounce') phaseAnnounce!: ElementRef;
 
   requisitionType: RequisitionType = RequisitionType.Unknown;
   form!: FormGroup;
@@ -295,8 +296,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       const lastTitle = this.phaseTitles.last;
       if (lastTitle) {
         lastTitle.nativeElement.focus();
+        //lastTitle.nativeElement.setAttribute('aria-label', `Phase ${this.phases.length}`);
       }
-    }, 100); // petite pause pour garantir le rendu
+      
+    }, 300); // petite pause pour garantir le rendu
   }
 
   private buildProductionGroup(fields: any[]): FormGroup {

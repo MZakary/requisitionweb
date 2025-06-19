@@ -114,7 +114,8 @@
         [formGroupName]="i"
         class="phase-section"
       >
-        <h3 tabindex="-1" #phaseTitle>Phase {{ i + 1 }}</h3>
+        <h3 tabindex="-1" #phaseTitle role="heading" aria-level="3">Phase {{ i + 1 }}</h3>
+        <!-- <div aria-live="polite" class="sr-only" #phaseAnnounce></div> -->
 
         <!-- List of checkboxes for selectedTypes -->
         <div class="production-types">
