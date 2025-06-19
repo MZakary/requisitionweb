@@ -1,14 +1,6 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  FormControl,
-  ReactiveFormsModule,
-  FormsModule,
-  AbstractControl
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, ReactiveFormsModule, FormsModule, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
@@ -76,6 +68,7 @@ enum RequisitionType {
 })
 export class RequisitionJSON implements OnInit, AfterViewInit {
   @ViewChild('pageTitle') pageTitle!: ElementRef;
+  @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
 
   requisitionType: RequisitionType = RequisitionType.Unknown;
   form!: FormGroup;
@@ -296,6 +289,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     });
 
     this.phases.push(phaseGroup);
+
+    // ⚠️ Donne le temps à Angular de rendre la nouvelle phase avant d’y mettre le focus
+    setTimeout(() => {
+      const lastTitle = this.phaseTitles.last;
+      if (lastTitle) {
+        lastTitle.nativeElement.focus();
+      }
+    }, 100); // petite pause pour garantir le rendu
   }
 
   private buildProductionGroup(fields: any[]): FormGroup {
