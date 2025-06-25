@@ -13,23 +13,26 @@ export const externeFormFields = [
   { key: 'courrielContactExterne', label: 'Courriel du contact', type: 'text' },
   { key: 'noTelephoneExterne', label: 'Numéro de téléphone', type: 'text' },
   { key: 'adresseFacturationExterne', label: 'Adresse de facturation postale et courriel', type: 'text' },
-  
+
   { label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text' },
-  { key: 'confidentielExterne', type: 'checkbox-list', label: 'Confidentiel',
+  {
+    key: 'confidentielExterne', type: 'checkbox-list', label: 'Confidentiel',
     options: [
       { label: 'Oui', value: 'recto' },
       { label: 'Non', value: 'rectoVerso' }
     ]
   },
-  { key: 'docSourceExterne', label: 'Document source', type: 'select',
+  {
+    key: 'docSourceExterne', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
       { label: 'À téléchargé', value: 'telecharger' }
     ]
   },
   { key: 'dosTravailExterne', label: 'Dossier de travail', type: 'text' },
-  { key: 'langueExterne', label: 'Langue', type: 'select',
+  {
+    key: 'langueExterne', label: 'Langue', type: 'select',
     options: [
       { label: 'Français', value: 'retourner' },
       { label: 'Anglais', value: 'telecharger' },
@@ -38,15 +41,42 @@ export const externeFormFields = [
     ]
   },
   { key: 'langueAutreExterne', label: 'Si autre, spécifier', type: 'text' },
-  
+
   { key: 'createurExterne', label: 'Réquisition préparée par', type: 'text' },
 ];
 
 export const externeFormFieldsAfterPhases = [
-  { label: 'Informations supplémentaires', type: 'header2' },
-  { key: 'nomResponsable', label: 'Nom du responsable', type: 'text' },
-  { key: 'emailResponsable', label: 'Courriel du responsable', type: 'text' },
-  { key: 'commentaire', label: 'Commentaires supplémentaires', type: 'textarea' },
-  { key: 'validationApprouvee', label: 'Validation approuvée', type: 'checkbox' },
-  { key: 'dateValidation', label: 'Date de validation', type: 'text' }
+  { label: 'Archivage', type: 'header2' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
+
+  { label: 'Livraison', type: 'header2' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
+  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
+  { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
+  { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
+  { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
+  { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
+  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
+
+  { label: 'Retour du document', type: 'header2' },
+  { key: 'retourDocument', label: 'Retour du document', type: 'text' },
+  
+  { label: 'Livraison - commentaire', type: 'header2' },
+  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },
+
+
+  { label: 'Test tableau', type: 'header2' },
+  {
+    key: 'tableauProductionEText',
+    label: 'Tableau de production',
+    type: 'dynamicTable',
+    columns: [
+      { key: 'noFichProdEText', label: 'test1', type: 'text' },
+      { key: 'nbsCaracteresProdEText', label: 'test2', type: 'text' },
+    ]
+  },
+
+
 ];

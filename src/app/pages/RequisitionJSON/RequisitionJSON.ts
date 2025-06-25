@@ -198,7 +198,17 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           checkboxGroup[option.value] = new FormControl(false);
         });
         group[field.key] = this.fb.group(checkboxGroup);
-      } else {
+      } else if (field.type === 'dynamicTable') {
+        const rows = this.fb.array([
+          this.fb.group(
+            field.columns.reduce((acc: any, col: any) => {
+              acc[col.key] = new FormControl('');
+              return acc;
+            }, {})
+          )
+        ]);
+        group[field.key] = rows;
+      }else {
         // Handle all other field types with proper default values
         group[field.key] = new FormControl(
           field.type === 'checkbox' ? false : 
@@ -234,6 +244,28 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   Fonctions pour tous ce qui est la table dynamique
   ---------------------------------------------------------------------------
   */
+
+  getTopLevelDynamicTableArray(key: string): FormArray {
+    return this.form.get(key) as FormArray;
+  }
+
+  addTopLevelTableRow(field: any): void {
+    const array = this.getTopLevelDynamicTableArray(field.key);
+    const newRow = this.fb.group(
+      field.columns.reduce((acc: any, col: any) => {
+        acc[col.key] = new FormControl('');
+        return acc;
+      }, {})
+    );
+    array.push(newRow);
+  }
+
+  removeTopLevelTableRow(key: string, index: number): void {
+    const array = this.getTopLevelDynamicTableArray(key);
+    array.removeAt(index);
+  }
+
+  
 
   addTableRow(phase: AbstractControl, type: string, field: any): void {
     const group = this.getNestedGroup(phase, type);
@@ -420,6 +452,24 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         const patchableData = { ...data };
         delete patchableData.phases;
         this.form.patchValue(patchableData, { emitEvent: false });
+
+        // Patch dynamicTable fields manually (outside phases)
+        for (const field of this.formFields) {
+          if (field.type === 'dynamicTable' && Array.isArray(data[field.key])) {
+            const formArray = this.form.get(field.key) as FormArray;
+            formArray.clear(); // Remove any default row
+
+            data[field.key].forEach((row: any) => {
+              const rowGroup = this.fb.group(
+                field.columns.reduce((acc: any, col: any) => {
+                  acc[col.key] = new FormControl(row[col.key] ?? '');
+                  return acc;
+                }, {})
+              );
+              formArray.push(rowGroup);
+            });
+          }
+        }
 
         // Handle dynamic phases
         if (Array.isArray(data.phases)) {
