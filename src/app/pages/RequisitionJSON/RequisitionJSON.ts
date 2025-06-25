@@ -12,7 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 
 //Requisition imports
-import { externeFormFields } from '../../../requisition-questions/externe-form-definition';
+import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
 import { interneFormFields } from '../../../requisition-questions/interne-form-definition';
 import { scolaireFormFields } from '../../../requisition-questions/scolaire-form-definition';
 import { servicesFormFields } from '../../../requisition-questions/services-form-definition';
@@ -141,7 +141,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   private buildFormFields(): void {
     switch (this.requisitionType) {
       case RequisitionType.Externe:
-        this.formFields = externeFormFields;
+        this.formFields = [
+          ...externeFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...externeFormFieldsAfterPhases
+        ];
         break;
       case RequisitionType.Interne:
         this.formFields = interneFormFields;

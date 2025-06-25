@@ -41,3 +41,12 @@ export const externeFormFields = [
   
   { key: 'createurExterne', label: 'Réquisition préparée par', type: 'text' },
 ];
+
+export const externeFormFieldsAfterPhases = [
+  { label: 'Informations supplémentaires', type: 'header2' },
+  { key: 'nomResponsable', label: 'Nom du responsable', type: 'text' },
+  { key: 'emailResponsable', label: 'Courriel du responsable', type: 'text' },
+  { key: 'commentaire', label: 'Commentaires supplémentaires', type: 'textarea' },
+  { key: 'validationApprouvee', label: 'Validation approuvée', type: 'checkbox' },
+  { key: 'dateValidation', label: 'Date de validation', type: 'text' }
+];
