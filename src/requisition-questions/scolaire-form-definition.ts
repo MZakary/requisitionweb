@@ -43,4 +43,59 @@ export const scolaireFormFields = [
   
   { key: 'createurScolaire', label: 'Réquisition préparée par', type: 'text' },
 ];
+
+export const scolaireFormFieldsAfterPhases = [
+  { label: 'Archivage', type: 'header2' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
+
+  { label: 'Livraison', type: 'header2' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
+  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
+  { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
+  { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
+  { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
+  { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
+  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
+
+  { label: 'Retour du document', type: 'header2' },
+  { key: 'retourDocument', label: 'Retour du document', type: 'text' },
+  
+  { label: 'Livraison - commentaire', type: 'header2' },
+  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },
+
+
+  { label: 'Tableau de livraisons', type: 'header2' },
+  { key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
+    columns: [
+      { key: 'phasesExterne', label: 'Phases', type: 'text' },
+      { key: 'typeDeProductionExterne', label: 'Type de production', type: 'text' },
+      { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'text' },
+      { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'text' },
+      { key: 'archiveExterne', label: 'Archivé', type: 'text' },
+    ]
+  },
+
+  { label: 'Facturation', type: 'header2' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
+  {
+    key: 'facturation',
+    label: 'Tableau de facturation',
+    type: 'facturationTable',
+    columns: [
+      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'quantite', label: 'Quantité', type: 'number' },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
+      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+    ]
+  },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
+  { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
+
+
+
+];
   

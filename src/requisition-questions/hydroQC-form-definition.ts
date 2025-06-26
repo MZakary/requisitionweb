@@ -35,3 +35,43 @@ export const hydroqcFormFields = [
   },
   { key: 'langueAutreHydro', label: 'Si autre, spécifier', type: 'text' },
 ];
+
+export const hydroqcFormFieldsAfterPhases = [
+  { label: 'Archivage', type: 'header2' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
+
+  { label: 'Livraison', type: 'header2' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
+  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
+  { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
+  { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
+  { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
+  { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
+  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
+  
+  { label: 'Livraison - commentaire', type: 'header2' },
+  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
+
+  { label: 'Facturation', type: 'header2' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
+  {
+    key: 'facturation',
+    label: 'Tableau de facturation',
+    type: 'facturationTable',
+    columns: [
+      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'quantite', label: 'Quantité', type: 'number' },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
+      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+    ]
+  },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
+  { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
+
+
+
+];

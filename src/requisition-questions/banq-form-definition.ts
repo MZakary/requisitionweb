@@ -21,4 +21,27 @@ export const banqFormFields = [
 
   { key: 'createurBANQ', label: 'Réquisition préparée par', type: 'text' },
 ];
+
+export const banqFormFieldsAfterPhases = [
+
+  { label: 'Facturation', type: 'header2' },
+  {
+    key: 'facturation',
+    label: 'Tableau de facturation',
+    type: 'facturationTable',
+    columns: [
+      { key: 'typeDeBraille', label: 'Type de braille', type: 'text' },
+      { key: 'nbrVol', label: 'Nbr vol.', type: 'number' },
+      { key: 'quantite', label: 'Nbr page', type: 'number' },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
+      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+    ]
+  },
+  { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
+
+   {label: 'SVP envoyer la facture par courriel à acquisitions.gb@banq.qc.ca', type: 'header2' },
+
+];
   

@@ -42,3 +42,27 @@ export const materielFormFields = [
   { key: 'facturableMateriel', label: 'Réquisition facturable', type: 'checkbox' },
   { key: 'createurMateriel', label: 'Réquisition préparée par', type: 'text' },
 ];
+
+export const materielFormFieldsAfterPhases = [
+
+  { label: 'Facturation', type: 'header2' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
+  {
+    key: 'facturation',
+    label: 'Tableau de facturation',
+    type: 'facturationTable',
+    columns: [
+      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'quantite', label: 'Quantité', type: 'number' },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
+      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+    ]
+  },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
+  { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
+
+
+
+];

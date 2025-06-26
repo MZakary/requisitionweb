@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, FormControl, ReactiveFormsModule, FormsModule, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,12 +13,12 @@ import { TextareaModule } from 'primeng/textarea';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
-import { interneFormFields } from '../../../requisition-questions/interne-form-definition';
-import { scolaireFormFields } from '../../../requisition-questions/scolaire-form-definition';
-import { servicesFormFields } from '../../../requisition-questions/services-form-definition';
-import { banqFormFields } from '../../../requisition-questions/banq-form-definition';
-import { hydroqcFormFields } from '../../../requisition-questions/hydroQC-form-definition';
-import { materielFormFields } from '../../../requisition-questions/materiel-form-definition';
+import { interneFormFields, interneFormFieldsAfterPhases } from '../../../requisition-questions/interne-form-definition';
+import { scolaireFormFields, scolaireFormFieldsAfterPhases } from '../../../requisition-questions/scolaire-form-definition';
+import { servicesFormFields, servicesFormFieldsAfterPhases } from '../../../requisition-questions/services-form-definition';
+import { banqFormFields, banqFormFieldsAfterPhases } from '../../../requisition-questions/banq-form-definition';
+import { hydroqcFormFields, hydroqcFormFieldsAfterPhases } from '../../../requisition-questions/hydroQC-form-definition';
+import { materielFormFields, materielFormFieldsAfterPhases } from '../../../requisition-questions/materiel-form-definition';
 
 //Production imports
 import { eTextFormFields } from '../../../requisition-questions/shared/eText-form-definition';
@@ -82,14 +82,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   pdfFormFields = pdfFormFields;
   htmlFormFields = htmlFormFields;
   formulaireFormFields = formulaireFormFields;
-  dessinFormFields= dessinFormFields;
+  dessinFormFields = dessinFormFields;
   sonoreFormFields = sonoreFormFields;
   autreFormFields = autreFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
 
-  constructor(private router: Router, private fb: FormBuilder) {}
+  constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.detectRequisitionType();
@@ -148,22 +148,46 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         ];
         break;
       case RequisitionType.Interne:
-        this.formFields = interneFormFields;
+        this.formFields = [
+          ...interneFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...interneFormFieldsAfterPhases
+        ];
         break;
       case RequisitionType.Scholaire:
-        this.formFields = scolaireFormFields;
+        this.formFields = [
+          ...scolaireFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...scolaireFormFieldsAfterPhases
+        ];
         break;
       case RequisitionType.Services:
-        this.formFields = servicesFormFields;
+        this.formFields = [
+          ...servicesFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...servicesFormFieldsAfterPhases
+        ];
         break;
       case RequisitionType.BANQ:
-        this.formFields = banqFormFields;
+        this.formFields = [
+          ...banqFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...banqFormFieldsAfterPhases
+        ];
         break;
       case RequisitionType.HydroQC:
-        this.formFields = hydroqcFormFields;
+        this.formFields = [
+          ...hydroqcFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...hydroqcFormFieldsAfterPhases
+        ];
         break;
       case RequisitionType.Materiel:
-        this.formFields = materielFormFields;
+        this.formFields = [
+          ...materielFormFields,
+          { key: 'phases', type: 'phases' }, // Add marker to split before/after
+          ...materielFormFieldsAfterPhases
+        ];
         break;
       default:
         this.formFields = [];
@@ -175,10 +199,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     const group: { [key: string]: any } = {};
 
     // Filter out headers and separators
-    const dataFields = this.formFields.filter(field => 
-      field.type !== 'header2' && 
-      field.type !== 'header3' && 
-      field.type !== 'header4' && 
+    const dataFields = this.formFields.filter(field =>
+      field.type !== 'header2' &&
+      field.type !== 'header3' &&
+      field.type !== 'header4' &&
       field.type !== 'hr' &&
       field.key !== '' // Additional check for empty key separators
     );
@@ -208,12 +232,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           )
         ]);
         group[field.key] = rows;
-      }else {
+      } else {
         // Handle all other field types with proper default values
         group[field.key] = new FormControl(
-          field.type === 'checkbox' ? false : 
-          field.type === 'select' ? null : 
-          ''
+          field.type === 'checkbox' ? false :
+            field.type === 'select' ? null :
+              ''
         );
       }
     });
@@ -277,7 +301,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     array.removeAt(index);
   }
 
-  
+
 
   addTableRow(phase: AbstractControl, type: string, field: any): void {
     const group = this.getNestedGroup(phase, type);
@@ -308,7 +332,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     return this.fb.array([]);
   }
 
-  
+
 
 
   /*
@@ -346,16 +370,16 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         lastTitle.nativeElement.focus();
         //lastTitle.nativeElement.setAttribute('aria-label', `Phase ${this.phases.length}`);
       }
-      
+
     }, 300); // petite pause pour garantir le rendu
   }
 
   private buildProductionGroup(fields: any[]): FormGroup {
     const group: { [key: string]: any } = {};
-    
+
     // Filter out headers (header4) and separators (hr)
-    const dataFields = fields.filter(field => 
-      field.type !== 'header4' && 
+    const dataFields = fields.filter(field =>
+      field.type !== 'header4' &&
       field.type !== 'hr' &&
       field.key !== '' // Additional check for empty key separators
     );
@@ -368,7 +392,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           checkboxGroup[option.value] = new FormControl(false);
         });
         group[field.key] = this.fb.group(checkboxGroup);
-      } 
+      }
       else if (field.type === 'tableHeure') {
         // Handle time tables
         const tableGroup: { [key: string]: FormControl } = {};
@@ -376,7 +400,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           tableGroup[col.key] = new FormControl('');
         });
         group[field.key] = this.fb.group(tableGroup);
-      }else if (field.type === 'dynamicTable') {
+      } else if (field.type === 'dynamicTable') {
         const rows = this.fb.array([
           this.fb.group(
             field.columns.reduce((acc: any, col: any) => {
@@ -386,12 +410,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           )
         ]);
         group[field.key] = rows;
-      }else {
+      } else {
         // Handle all other field types
         group[field.key] = new FormControl(
-          field.type === 'checkbox' ? false : 
-          field.type === 'select' ? null : 
-          ''
+          field.type === 'checkbox' ? false :
+            field.type === 'select' ? null :
+              ''
         );
       }
     });
@@ -534,12 +558,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
             phasesArray.push(phaseGroup);
           });
         }
+
       } catch (err) {
         console.error('Error loading JSON file:', err);
         alert('Invalid JSON file format');
       }
     };
     reader.readAsText(file);
+
   }
 
 

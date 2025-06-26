@@ -64,7 +64,7 @@ export const externeFormFieldsAfterPhases = [
   { key: 'retourDocument', label: 'Retour du document', type: 'text' },
   
   { label: 'Livraison - commentaire', type: 'header2' },
-  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },
+  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
 
 
   { label: 'Tableau de livraisons', type: 'header2' },
@@ -78,7 +78,8 @@ export const externeFormFieldsAfterPhases = [
     ]
   },
 
-  { label: 'Tableau de facturation', type: 'header2' },
+  { label: 'Facturation', type: 'header2' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
   {
     key: 'facturation',
     label: 'Tableau de facturation',
@@ -90,6 +91,11 @@ export const externeFormFieldsAfterPhases = [
       { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
     ]
   },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
+  { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
+
 
 
 ];

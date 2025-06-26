@@ -46,6 +46,12 @@
         </ul>
       </div>
 
+      <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
+        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 30%" [autoResize]="true"
+          class="p-inputtext"></textarea>
+        <label [for]="field.key">{{ field.label }}</label>
+      </p-floatLabel>
+
       <p-floatLabel *ngIf="field.type === 'date'" variant="on">
         <p-calendar [inputId]="field.key" [formControlName]="field.key" dateFormat="yy-mm-dd"></p-calendar>
         <label [for]="field.key">{{ field.label }}</label>
@@ -117,11 +123,11 @@
           </div>
         </div>
 
-        
+
         <div class="facturation-total-row">
           <p-floatLabel variant="on">
             <input pInputText id="facturation-total" [value]="facturationTotal | number : '1.2-2'" readonly
-            style="font-weight: bold;" aria-label="Total de la facturation" aria-live="polite" />
+              style="font-weight: bold;" aria-label="Total de la facturation" aria-live="polite" />
             <label for="facturation-total">Total</label>
           </p-floatLabel>
         </div>
