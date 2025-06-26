@@ -198,7 +198,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
           checkboxGroup[option.value] = new FormControl(false);
         });
         group[field.key] = this.fb.group(checkboxGroup);
-      } else if (field.type === 'dynamicTable') {
+      } else if (field.type === 'dynamicTable' || field.type === 'facturationTable') {
         const rows = this.fb.array([
           this.fb.group(
             field.columns.reduce((acc: any, col: any) => {
@@ -244,6 +244,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   Fonctions pour tous ce qui est la table dynamique
   ---------------------------------------------------------------------------
   */
+
+  facturationTotal: number = 0;
+
+  updateFacturationTotal(): void {
+    const array = this.form.get('facturation') as FormArray;
+    if (!array) return;
+    this.facturationTotal = array.controls.reduce((sum, group: AbstractControl) => {
+      const q = Number(group.get('quantite')?.value) || 0;
+      const p = Number(group.get('prix')?.value) || 0;
+      return sum + q * p;
+    }, 0);
+  }
 
   getTopLevelDynamicTableArray(key: string): FormArray {
     return this.form.get(key) as FormArray;
@@ -455,7 +467,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
 
         // Patch dynamicTable fields manually (outside phases)
         for (const field of this.formFields) {
-          if (field.type === 'dynamicTable' && Array.isArray(data[field.key])) {
+          if ((field.type === 'dynamicTable' || field.type === 'facturationTable') && Array.isArray(data[field.key])) {
             const formArray = this.form.get(field.key) as FormArray;
             formArray.clear(); // Remove any default row
 

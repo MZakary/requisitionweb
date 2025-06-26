@@ -67,14 +67,27 @@ export const externeFormFieldsAfterPhases = [
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },
 
 
-  { label: 'Test tableau', type: 'header2' },
-  {
-    key: 'tableauProductionEText',
-    label: 'Tableau de production',
-    type: 'dynamicTable',
+  { label: 'Tableau de livraisons', type: 'header2' },
+  { key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
     columns: [
-      { key: 'noFichProdEText', label: 'test1', type: 'text' },
-      { key: 'nbsCaracteresProdEText', label: 'test2', type: 'text' },
+      { key: 'phasesExterne', label: 'Phases', type: 'text' },
+      { key: 'typeDeProductionExterne', label: 'Type de production', type: 'text' },
+      { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'text' },
+      { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'text' },
+      { key: 'archiveExterne', label: 'Archivé', type: 'text' },
+    ]
+  },
+
+  { label: 'Tableau de facturation', type: 'header2' },
+  {
+    key: 'facturation',
+    label: 'Tableau de facturation',
+    type: 'facturationTable',
+    columns: [
+      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'quantite', label: 'Quantité', type: 'number' },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
+      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
     ]
   },
 

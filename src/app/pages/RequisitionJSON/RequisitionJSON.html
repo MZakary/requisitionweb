@@ -15,13 +15,7 @@
       <h3 *ngIf="field.type === 'header3'" class="form-section-header">{{ field.label }}</h3>
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
-        <input
-          pInputText
-          [type]="field.type"
-          [id]="field.key"
-          [formControlName]="field.key"
-          style="width: 30%"
-        />
+        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 30%" />
         <label [for]="field.key">{{ field.label }}</label>
       </p-floatLabel>
 
@@ -36,27 +30,16 @@
               {{ col.label }}
             </label> -->
             <p-floatLabel variant="on">
-              <input
-                pInputText
-                [id]="field.key + '-' + col.key"
-                [type]="col.type || 'text'"
-                [formControlName]="col.key"
-              />
+              <input pInputText [id]="field.key + '-' + col.key" [type]="col.type || 'text'"
+                [formControlName]="col.key" />
               <label [for]="field.key + '-' + col.key">{{ col.label }}</label>
             </p-floatLabel>
           </li>
 
           <li>
             <p-floatLabel variant="on">
-              <input
-                pInputText
-                id="total-heures"
-                [value]="totalHeures"
-                readonly
-                style="font-weight: bold;"
-                aria-live="polite"
-                aria-label="Total des heures"
-              />
+              <input pInputText id="total-heures" [value]="totalHeures" readonly style="font-weight: bold;"
+                aria-live="polite" aria-label="Total des heures" />
               <label for="total-heures">Total des heures</label>
             </p-floatLabel>
           </li>
@@ -77,281 +60,243 @@
         <label>{{ field.label }}</label>
         <div class="checkbox-options" [formGroupName]="field.key">
           <div *ngFor="let option of field.options" class="p-field-checkbox">
-            <p-checkbox
-              [inputId]="field.key + '-' + option.value"
-              formControlName="{{option.value}}"
-              [binary]="true"
-              ariaLabel="{{ field.label }} - {{ option.label }}"
-            ></p-checkbox>
-            <label [for]="field.key + '-' + option.value" >{{ option.label }}</label>
+            <p-checkbox [inputId]="field.key + '-' + option.value" formControlName="{{option.value}}" [binary]="true"
+              ariaLabel="{{ field.label }} - {{ option.label }}"></p-checkbox>
+            <label [for]="field.key + '-' + option.value">{{ option.label }}</label>
           </div>
         </div>
       </div>
 
       <div *ngIf="field.type === 'select'" class="p-field">
         <label [for]="field.key">{{ field.label }}</label>
-        <p-dropdown
-          [options]="field.options"
-          optionLabel="label"
-          optionValue="value"
-          [inputId]="field.key"
-          [filter]="true"
-          [showClear]="true"
-          [formControlName]="field.key"
-          [style]="{ width: '30%' }"
-          ariaLabel="{{ field.label }}"
-        ></p-dropdown>
+        <p-dropdown [options]="field.options" optionLabel="label" optionValue="value" [inputId]="field.key"
+          [filter]="true" [showClear]="true" [formControlName]="field.key" [style]="{ width: '30%' }"
+          ariaLabel="{{ field.label }}"></p-dropdown>
       </div>
 
       <!-- Dynamic Table (outside phases) -->
       <div *ngIf="field.type === 'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
         <div [formArrayName]="field.key">
-          <div
-            *ngFor="let row of getTopLevelDynamicTableArray(field.key).controls; let rowIndex = index"
-            [formGroupName]="rowIndex"
-            class="dynamic-table-row"
-          >
-            <div *ngFor="let col of field.columns" style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
+          <div *ngFor="let row of getTopLevelDynamicTableArray(field.key).controls; let rowIndex = index"
+            [formGroupName]="rowIndex" class="dynamic-table-row">
+            <div *ngFor="let col of field.columns"
+              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
               <p-floatLabel variant="on">
-                <input
-                  pInputText
-                  [id]="field.key + '-' + rowIndex + '-' + col.key"
-                  [formControlName]="col.key"
-                  type="text"
-                />
+                <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
+                  type="text" />
                 <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
               </p-floatLabel>
             </div>
 
-            <p-button
-              label="Effacer"
-              (click)="removeTopLevelTableRow(field.key, rowIndex)"
-              icon="pi pi-trash"
-            ></p-button>
+            <p-button label="Effacer" (click)="removeTopLevelTableRow(field.key, rowIndex)"
+              icon="pi pi-trash"></p-button>
           </div>
         </div>
 
-        <p-button
-          label="Ajouter une ligne"
-          (click)="addTopLevelTableRow(field)"
-          icon="pi pi-plus"
-        ></p-button>
+        <p-button label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" icon="pi pi-plus"></p-button>
       </div>
 
-      
+
+      <!-- INSERT FACTURATION TABLE HERE -->
+      <div *ngIf="field.type === 'facturationTable'" class="facturation-table-section">
+        <h3>{{ field.label }}</h3>
+
+        <div [formArrayName]="field.key">
+          <div *ngFor="let row of getTopLevelDynamicTableArray(field.key).controls; let i = index" [formGroupName]="i"
+            class="dynamic-table-row">
+            <div *ngFor="let col of field.columns"
+              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
+              <p-floatLabel variant="on">
+                <input pInputText [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key"
+                  [type]="col.type || 'text'" (input)="updateFacturationTotal()" />
+                <label [for]="field.key + '-' + i + '-' + col.key">{{ col.label }}</label>
+              </p-floatLabel>
+            </div>
+
+            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer"></p-button>
+          </div>
+        </div>
+
+        
+        <div class="facturation-total-row">
+          <p-floatLabel variant="on">
+            <input pInputText id="facturation-total" [value]="facturationTotal | number : '1.2-2'" readonly
+            style="font-weight: bold;" aria-label="Total de la facturation" aria-live="polite" />
+            <label for="facturation-total">Total</label>
+          </p-floatLabel>
+        </div>
+        <br>
+        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)"></p-button>
+      </div>
+
+
+
       <!-- ------------------------------------------------------ PHASES ------------------------------------------------------ -->
       <ng-container *ngIf="field.type === 'phases'">
 
-        <hr *ngIf="needsPhase"/>
+        <hr *ngIf="needsPhase" />
         <h2 *ngIf="needsPhase">Phases de production</h2>
-        
+
         <div formArrayName="phases" *ngIf="needsPhase">
-          <div
-          *ngFor="let phase of phases.controls; let i = index"
-          [formGroupName]="i"
-          class="phase-section"
-          >
-          <h3 tabindex="-1" #phaseTitle role="heading" aria-level="3">Phase {{ i + 1 }}</h3>
-          <!-- <div aria-live="polite" class="sr-only" #phaseAnnounce></div> -->
-          
-          <!-- List of checkboxes for selectedTypes -->
-          <div class="production-types">
-            <div *ngFor="let type of productionTypes" style="display: flex; align-items: center; gap: 10px;">
-              <p-checkbox
-              [inputId]="'phase-' + i + '-' + type.value"
-              [binary]="false"
-            [value]="type.value"
-            formControlName="selectedTypes"
-              ></p-checkbox>
-              <label [for]="'phase-' + i + '-' + type.value">{{ type.label }}</label>
+          <div *ngFor="let phase of phases.controls; let i = index" [formGroupName]="i" class="phase-section">
+            <h3 tabindex="-1" #phaseTitle role="heading" aria-level="3">Phase {{ i + 1 }}</h3>
+            <!-- <div aria-live="polite" class="sr-only" #phaseAnnounce></div> -->
+
+            <!-- List of checkboxes for selectedTypes -->
+            <div class="production-types">
+              <div *ngFor="let type of productionTypes" style="display: flex; align-items: center; gap: 10px;">
+                <p-checkbox [inputId]="'phase-' + i + '-' + type.value" [binary]="false" [value]="type.value"
+                  formControlName="selectedTypes"></p-checkbox>
+                <label [for]="'phase-' + i + '-' + type.value">{{ type.label }}</label>
+              </div>
             </div>
-          </div>
-          
-          
-          <ng-template #renderFields let-type="type" let-fields="fields" let-i="index" let-title="title">
-            <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
-              <hr />
-              <h3>{{ title }}</h3> 
-              
-              <div [formGroup]="getNestedGroup(phase, type)">
-                <div *ngFor="let field of fields" style="margin-bottom: 1rem;">
-                  <ng-container [ngSwitch]="field.type">
-                    
-                    <!-- Horizontal Seperator -->
-                    <hr *ngSwitchCase="'hr'" style="width: 30%" />
-                    <!-- Header 4 -->
-                    <h4 *ngSwitchCase="'header4'">{{ field.label }}</h4>
-                    
-                    <!-- Text input -->
-                    <p-floatLabel *ngSwitchCase="'text'" variant="on">
-                      <input
-                      pInputText
-                      [id]="field.key"
-                      [formControlName]="field.key"
-                      style="width: 30%"
-                      ariaLabel="{{field.label2}} - {{ field.label }}"
-                      />
-                      <label [for]="field.key">{{ field.label }}</label>
-                    </p-floatLabel>
-                    
-                    <!-- Text Area input -->
-                    <p-floatLabel *ngSwitchCase="'textarea'" variant="on" class="textarea-label">
-                      <textarea
-                      pTextarea 
-                      [id]="field.key"
-                      [formControlName]="field.key"
-                      style="width: 30%"
-                    [autoResize]="true"
-                    class="p-inputtext"
-                    ></textarea>
-                    <label [for]="field.key">{{ field.label }}</label>
-                  </p-floatLabel>
-                  
-                  <!-- Checkbox -->
-                  <div *ngSwitchCase="'checkbox'" style="display: flex; align-items: center;">
-                    <p-checkbox
-                    [inputId]="field.key"
-                    [formControlName]="field.key"
-                    binary="true"
-                    ariaLabel="{{ field.label2 }} - {{ field.label }}"
-                    ></p-checkbox>
-                    <label [for]="field.key" style="margin-left: 0.5rem;">{{ field.label }}</label>
-                  </div>
-                  
-                  <!-- Add this case to your ngSwitch in the template -->
-                  <div *ngSwitchCase="'checkbox-list'" class="checkbox-list">
-                    <label>{{ field.label }}</label>
-                    <div class="checkbox-options" [formGroupName]="field.key">
-                      <div *ngFor="let option of field.options" class="p-field-checkbox">
-                        <p-checkbox
-                        [inputId]="field.key + '-' + option.value"
-                        formControlName="{{option.value}}"
-                        [binary]="true"
-                        ariaLabel="{{ option.label2 }} - {{ option.label }}"
-                        ></p-checkbox>
-                        <label [for]="field.key + '-' + option.value">{{ option.label }}</label>
+
+
+            <ng-template #renderFields let-type="type" let-fields="fields" let-i="index" let-title="title">
+              <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
+                <hr />
+                <h3>{{ title }}</h3>
+
+                <div [formGroup]="getNestedGroup(phase, type)">
+                  <div *ngFor="let field of fields" style="margin-bottom: 1rem;">
+                    <ng-container [ngSwitch]="field.type">
+
+                      <!-- Horizontal Seperator -->
+                      <hr *ngSwitchCase="'hr'" style="width: 30%" />
+                      <!-- Header 4 -->
+                      <h4 *ngSwitchCase="'header4'">{{ field.label }}</h4>
+
+                      <!-- Text input -->
+                      <p-floatLabel *ngSwitchCase="'text'" variant="on">
+                        <input pInputText [id]="field.key" [formControlName]="field.key" style="width: 30%"
+                          ariaLabel="{{field.label2}} - {{ field.label }}" />
+                        <label [for]="field.key">{{ field.label }}</label>
+                      </p-floatLabel>
+
+                      <!-- Text Area input -->
+                      <p-floatLabel *ngSwitchCase="'textarea'" variant="on" class="textarea-label">
+                        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 30%"
+                          [autoResize]="true" class="p-inputtext"></textarea>
+                        <label [for]="field.key">{{ field.label }}</label>
+                      </p-floatLabel>
+
+                      <!-- Checkbox -->
+                      <div *ngSwitchCase="'checkbox'" style="display: flex; align-items: center;">
+                        <p-checkbox [inputId]="field.key" [formControlName]="field.key" binary="true"
+                          ariaLabel="{{ field.label2 }} - {{ field.label }}"></p-checkbox>
+                        <label [for]="field.key" style="margin-left: 0.5rem;">{{ field.label }}</label>
                       </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Dynamic Table -->
-                  <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
-                    <!-- <label>{{ field.label }}</label> -->
-                    <div formArrayName="{{field.key}}">
-                      <div
-                      *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"
-                      [formGroupName]="rowIndex"
-                      class="dynamic-table-row"
-                      >
-                      <div *ngFor="let col of field.columns" style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
-                        <p-floatLabel variant="on">
-                          <input
-                          pInputText
-                          [id]="field.key + '-' + rowIndex + '-' + col.key"
-                          [formControlName]="col.key"
-                          type="text"
-                          />
-                          <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
-                        </p-floatLabel>
+
+                      <!-- Add this case to your ngSwitch in the template -->
+                      <div *ngSwitchCase="'checkbox-list'" class="checkbox-list">
+                        <label>{{ field.label }}</label>
+                        <div class="checkbox-options" [formGroupName]="field.key">
+                          <div *ngFor="let option of field.options" class="p-field-checkbox">
+                            <p-checkbox [inputId]="field.key + '-' + option.value" formControlName="{{option.value}}"
+                              [binary]="true" ariaLabel="{{ option.label2 }} - {{ option.label }}"></p-checkbox>
+                            <label [for]="field.key + '-' + option.value">{{ option.label }}</label>
+                          </div>
+                        </div>
                       </div>
-                      <p-button label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)" icon="pi pi-trash"></p-button>
-                    </div>
+
+                      <!-- Dynamic Table -->
+                      <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
+                        <!-- <label>{{ field.label }}</label> -->
+                        <div formArrayName="{{field.key}}">
+                          <div
+                            *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"
+                            [formGroupName]="rowIndex" class="dynamic-table-row">
+                            <div *ngFor="let col of field.columns"
+                              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
+                              <p-floatLabel variant="on">
+                                <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                                  [formControlName]="col.key" type="text" />
+                                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+                              </p-floatLabel>
+                            </div>
+                            <p-button label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)"
+                              icon="pi pi-trash"></p-button>
+                          </div>
+                        </div>
+                        <p-button label="Ajouter une ligne" (click)="addTableRow(phase, type, field)"
+                          icon="pi pi-add"></p-button>
+                      </div>
+
+
+
+                      <!-- Select dropdown -->
+                      <ng-container *ngSwitchCase="'select'">
+                        <label [for]="field.key" style="display:block; margin-bottom: 0.25rem;">
+                          {{ field.label }}
+                        </label>
+                        <p-dropdown [options]="field.options" [formControlName]="field.key" [filter]="true"
+                          [showClear]="true" [style]="{ width: '30%' }" [inputId]="field.key"
+                          ariaLabel="{{ field.label }}"></p-dropdown>
+                      </ng-container>
+
+                      <!-- Default fallback -->
+                      <div *ngSwitchDefault>
+                        Unknown field type: {{ field.type }}
+                      </div>
+
+                    </ng-container>
+
                   </div>
-                  <p-button label="Ajouter une ligne" (click)="addTableRow(phase, type, field)" icon="pi pi-add"></p-button>
                 </div>
-                
-                
-                
-                <!-- Select dropdown -->
-                <ng-container *ngSwitchCase="'select'">
-                  <label [for]="field.key" style="display:block; margin-bottom: 0.25rem;">
-                    {{ field.label }}
-                  </label>
-                  <p-dropdown
-                  [options]="field.options"
-                  [formControlName]="field.key"
-                  [filter]="true" 
-                  [showClear]="true"
-                  [style]="{ width: '30%' }"
-                  [inputId]="field.key"
-                  ariaLabel="{{ field.label }}"
-                  ></p-dropdown>
-                </ng-container>
-                
-                <!-- Default fallback -->
-                <div *ngSwitchDefault>
-                  Unknown field type: {{ field.type }}
-                </div>
-                
-              </ng-container>
-              
-            </div>
+
+              </div>
+            </ng-template>
+
+            <!-- Then call it twice for eText and Braille -->
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'agrandis', fields: agrandisFormFields, title: 'Agrandissement' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'num', fields: numerisationFormFields, title: 'Numérisation' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'pdf', fields: pdfFormFields, title: 'PDF' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'html', fields: htmlFormFields, title: 'HTML' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'form', fields: formulaireFormFields, title: 'Formulaire' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'dessin', fields: dessinFormFields, title: 'Dessin' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'sonore', fields: sonoreFormFields, title: 'Sonore' }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"></ng-container>
+
+            <!-- Audio Fields -->
+
+            <!-- ✅ Move delete button here -->
+            <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="deletePhase(i)" />
+
+            <hr />
+
           </div>
-          
         </div>
-      </ng-template>
-        
-      <!-- Then call it twice for eText and Braille -->
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'agrandis', fields: agrandisFormFields, title: 'Agrandissement' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'num', fields: numerisationFormFields, title: 'Numérisation' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'pdf', fields: pdfFormFields, title: 'PDF' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'html', fields: htmlFormFields, title: 'HTML' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'form', fields: formulaireFormFields, title: 'Formulaire' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'dessin', fields: dessinFormFields, title: 'Dessin' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'sonore', fields: sonoreFormFields, title: 'Sonore' }"
-      ></ng-container>
-      
-      <ng-container
-      *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"
-      ></ng-container>
-      
-      <!-- Audio Fields -->
-      
-      <!-- ✅ Move delete button here -->
-      <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="deletePhase(i)" />
-      
-      <hr />
-      
-        </div>
-      </div>
-  
-      <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" (onClick)="addPhase()"></p-button>
-  
-      <hr>
+
+        <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" (onClick)="addPhase()"></p-button>
+
+        <hr>
+      </ng-container>
     </ng-container>
-    </ng-container>
-    
+
   </form>
 
   <hr />
