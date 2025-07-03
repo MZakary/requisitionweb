@@ -1,14 +1,24 @@
 .requisitonJSON {
 
-  .production-types{
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--primary-color);
+  }
+
+  .production-types {
     margin-bottom: 20px;
   }
 
 
-  .table-heure-wrapper{
-    .table-heure-col{
+  .table-heure-wrapper {
+    .table-heure-col {
       width: 100%;
-      input{
+
+      input {
         width: 100%;
       }
     }
@@ -25,7 +35,7 @@
   }
 
   label {
-    
+
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -41,36 +51,22 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-  
+
     input[type='checkbox'] {
       width: auto;
       margin-top: 0.5rem;
       align-self: flex-start;
     }
   }
-    
+
   input[type='file'] {
     margin-top: 1rem;
   }
-    
-  button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    background-color: #2e7d32;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: fit-content;
-  
-    &:hover {
-      background-color: #1b5e20;
-    }
-  }
-    
-  
-  .p-field-checkbox {
-    display: flex; gap: 5px;
-  }	
-}	
 
+
+  .p-field-checkbox {
+    display: flex;
+    gap: 5px;
+  }
+
+}
