@@ -15,8 +15,8 @@
       <h3 *ngIf="field.type === 'header3'" class="form-section-header">{{ field.label }}</h3>
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
-        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 30%" />
         <label [for]="field.key">{{ field.label }}</label>
+        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 30%" />
       </p-floatLabel>
 
       <!-- TABLEAU HEURE REQ -->
