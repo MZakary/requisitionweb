@@ -14,12 +14,13 @@
     "build": {
         "appId": "com.yourcompany.requisitionweb",
         "productName": "RequisitionWeb",
-        "icon": "src/assets/icon/icon.png", 
+        "icon": "src/assets/icon/icon.png",
         "files": [
-            "dist/", 
+            "dist/",
             "main.js",
             "package.json"
         ],
+        "extraResources": [],
         "directories": {
             "buildResources": "src/assets/icon",
             "output": "release"
@@ -53,12 +54,9 @@
         "@angular/router": "^19.0.0",
         "@primeng/themes": "^19.0.5",
         "chart.js": "4.4.2",
-        "docx": "^9.4.1",
-        "docxtemplater": "^3.61.1",
         "fast-xml-parser": "^5.2.1",
         "file-saver": "^2.0.5",
         "jszip": "^3.10.1",
-        "mammoth": "^1.9.0",
         "primeclt": "^0.1.5",
         "primeicons": "^7.0.0",
         "primeng": "^19.0.8",
