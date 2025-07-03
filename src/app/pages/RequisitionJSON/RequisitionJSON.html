@@ -11,7 +11,7 @@
   <form [formGroup]="form">
     <ng-container *ngFor="let field of formFields">
       <!-- Champs généraux -->
-      <h2 *ngIf="field.type === 'header2'" class="form-section-header">{{ field.label }}</h2>
+      <h2 *ngIf="field.type === 'header2'" class="form-section-header" style="color: blue;">{{ field.label }}</h2>
       <h3 *ngIf="field.type === 'header3'" class="form-section-header">{{ field.label }}</h3>
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
