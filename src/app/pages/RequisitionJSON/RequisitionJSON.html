@@ -11,7 +11,7 @@
   <form [formGroup]="form">
     <ng-container *ngFor="let field of formFields">
       <!-- Champs généraux -->
-      <h2 *ngIf="field.type === 'header2'" class="form-section-header" style="color: blue;">{{ field.label }}</h2>
+      <h2 *ngIf="field.type === 'header2'" class="form-section-header" style="color: green;">{{ field.label }}</h2>
       <h3 *ngIf="field.type === 'header3'" class="form-section-header">{{ field.label }}</h3>
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
@@ -30,31 +30,29 @@
               {{ col.label }}
             </label> -->
             <p-floatLabel variant="on">
-              <input pInputText [id]="field.key + '-' + col.key" [type]="col.type || 'text'"
-                [formControlName]="col.key" />
               <label [for]="field.key + '-' + col.key">{{ col.label }}</label>
+              <input pInputText [id]="field.key + '-' + col.key" [type]="col.type || 'text'" [formControlName]="col.key" />
             </p-floatLabel>
           </li>
 
           <li>
             <p-floatLabel variant="on">
-              <input pInputText id="total-heures" [value]="totalHeures" readonly style="font-weight: bold;"
-                aria-live="polite" aria-label="Total des heures" />
               <label for="total-heures">Total des heures</label>
+              <input pInputText id="total-heures" [value]="totalHeures" readonly style="font-weight: bold;" aria-live="polite" aria-label="Total des heures" />
             </p-floatLabel>
           </li>
         </ul>
       </div>
 
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
+        <label [for]="field.key">{{ field.label }}</label>
         <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 30%" [autoResize]="true"
           class="p-inputtext"></textarea>
-        <label [for]="field.key">{{ field.label }}</label>
       </p-floatLabel>
 
       <p-floatLabel *ngIf="field.type === 'date'" variant="on">
-        <p-calendar [inputId]="field.key" [formControlName]="field.key" dateFormat="yy-mm-dd"></p-calendar>
         <label [for]="field.key">{{ field.label }}</label>
+        <p-calendar [inputId]="field.key" [formControlName]="field.key" dateFormat="yy-mm-dd"></p-calendar>
       </p-floatLabel>
 
       <div *ngIf="field.type === 'checkbox'" class="p-field-checkbox">
@@ -88,9 +86,9 @@
             <div *ngFor="let col of field.columns"
               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
               <p-floatLabel variant="on">
+                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
                 <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
                   type="text" />
-                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
               </p-floatLabel>
             </div>
 
@@ -113,9 +111,9 @@
             <div *ngFor="let col of field.columns"
               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
               <p-floatLabel variant="on">
+                <label [for]="field.key + '-' + i + '-' + col.key">{{ col.label }}</label>
                 <input pInputText [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key"
                   [type]="col.type || 'text'" (input)="updateFacturationTotal()" />
-                <label [for]="field.key + '-' + i + '-' + col.key">{{ col.label }}</label>
               </p-floatLabel>
             </div>
 
@@ -126,9 +124,9 @@
 
         <div class="facturation-total-row">
           <p-floatLabel variant="on">
+            <label for="facturation-total">Total</label>
             <input pInputText id="facturation-total" [value]="facturationTotal | number : '1.2-2'" readonly
               style="font-weight: bold;" aria-label="Total de la facturation" aria-live="polite" />
-            <label for="facturation-total">Total</label>
           </p-floatLabel>
         </div>
         <br>
@@ -174,16 +172,16 @@
 
                       <!-- Text input -->
                       <p-floatLabel *ngSwitchCase="'text'" variant="on">
+                        <label [for]="field.key">{{ field.label }}</label>
                         <input pInputText [id]="field.key" [formControlName]="field.key" style="width: 30%"
                           ariaLabel="{{field.label2}} - {{ field.label }}" />
-                        <label [for]="field.key">{{ field.label }}</label>
                       </p-floatLabel>
 
                       <!-- Text Area input -->
                       <p-floatLabel *ngSwitchCase="'textarea'" variant="on" class="textarea-label">
+                        <label [for]="field.key">{{ field.label }}</label>
                         <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 30%"
                           [autoResize]="true" class="p-inputtext"></textarea>
-                        <label [for]="field.key">{{ field.label }}</label>
                       </p-floatLabel>
 
                       <!-- Checkbox -->
@@ -215,9 +213,9 @@
                             <div *ngFor="let col of field.columns"
                               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
                               <p-floatLabel variant="on">
+                                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
                                 <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
                                   [formControlName]="col.key" type="text" />
-                                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
                               </p-floatLabel>
                             </div>
                             <p-button label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)"
