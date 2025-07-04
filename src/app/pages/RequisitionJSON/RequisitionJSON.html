@@ -235,7 +235,7 @@
                         </label>
                         <p-dropdown [options]="field.options" [formControlName]="field.key" [filter]="true"
                           [showClear]="true" [style]="{ width: '30%' }" [inputId]="field.key"
-                          ariaLabel="{{ field.label }}"></p-dropdown>
+                          ariaLabel="{{ field.label2 }} - {{ field.label }}"></p-dropdown>
                       </ng-container>
 
                       <!-- Default fallback -->
@@ -284,6 +284,12 @@
 
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"></ng-container>
+            
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQFormFields, title: 'Braille' }"></ng-container>
+            
+              <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'Braille Duo-Média' }"></ng-container>
 
             <!-- Audio Fields -->
 

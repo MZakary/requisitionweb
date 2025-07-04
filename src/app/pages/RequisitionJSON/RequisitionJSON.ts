@@ -32,9 +32,13 @@ import { formulaireFormFields } from '../../../requisition-questions/shared/form
 import { dessinFormFields } from '../../../requisition-questions/shared/dessin-form-definition';
 import { sonoreFormFields } from '../../../requisition-questions/shared/sonore-form-definition';
 import { autreFormFields } from '../../../requisition-questions/shared/autre-form-definition';
+import { brailleBANQFormFields } from '../../../requisition-questions/shared/brailleBANQ-form-definition';
+import { brailleDuoMediaBANQFormFields } from '../../../requisition-questions/shared/brailleDuoMediaBANQ-form-definition';
 
 
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
+import { productionFieldsBANQ } from '../../../requisition-questions/shared/productionFieldsBANQ';
+
 
 enum RequisitionType {
   Externe = 'externe pour adaptation',
@@ -85,6 +89,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   dessinFormFields = dessinFormFields;
   sonoreFormFields = sonoreFormFields;
   autreFormFields = autreFormFields;
+  brailleBANQFormFields = brailleBANQFormFields;
+  brailleDuoMediaBANQFormFields = brailleDuoMediaBANQFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -122,6 +128,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       this.needsPhase = false; // Services requisition does not need phases
     } else if (url.includes('/requisition-json-banq')) {
       this.requisitionType = RequisitionType.BANQ;
+      this.productionTypes = productionFieldsBANQ;
     } else if (url.includes('/requisition-json-hydroqc')) {
       this.requisitionType = RequisitionType.HydroQC;
     } else if (url.includes('/requisition-json-materiel')) {
@@ -359,6 +366,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
       sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
       autre: this.buildProductionGroup(autreFormFields), // Example, add your files
+      brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
+      brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
     });
 
     this.phases.push(phaseGroup);
@@ -469,6 +478,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'dessin': return this.dessinFormFields; // Example, add your files
       case 'sonore': return this.sonoreFormFields; // Example, add your files
       case 'autre': return this.autreFormFields; // Example, add your files
+      case 'brailleBANQ': return this.brailleBANQFormFields; // Example, add your files
+      case 'brailleDuoMedia': return this.brailleDuoMediaBANQFormFields; // Example, add your files
       default: return [];
     }
   }
@@ -526,6 +537,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
               sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
               autre: this.buildProductionGroup(autreFormFields), // Example, add your files
+              brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
+              brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
+
             });
 
             // 🧠 Handle dynamicTable
