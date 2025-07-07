@@ -21,28 +21,35 @@
 
       <!-- TABLEAU HEURE REQ -->
 
-      <div *ngIf="field.type === 'tableHeure'" [formGroupName]="field.key" class="table-heure-wrapper">
+      <div *ngIf="field.type === 'tableHeure'" class="table-heure-wrapper" [formArrayName]="field.key">
         <h3>{{ field.label }}</h3>
 
-        <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: center;">
-          <li *ngFor="let col of field.columns" class="table-heure-col">
-            <!-- <label [for]="field.key + '-' + col.key" class="p-sr-only">
-              {{ col.label }}
-            </label> -->
-            <p-floatLabel variant="on">
-              <label [for]="field.key + '-' + col.key">{{ col.label }}</label>
-              <input pInputText [id]="field.key + '-' + col.key" [type]="col.type || 'text'" [formControlName]="col.key" />
-            </p-floatLabel>
-          </li>
+        <div *ngFor="let row of getTableHeureArray(field.key).controls; let rowIndex = index" [formGroupName]="rowIndex"
+          class="table-heure-row">
+          <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: center;">
+            <li *ngFor="let col of field.columns" class="table-heure-col">
+              <p-floatLabel variant="on">
+                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+                <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key" [type]="col.type || 'text'"
+                  [formControlName]="col.key" (input)="calculateTotalHeures()" />
+              </p-floatLabel>
+            </li>
 
-          <li>
-            <p-floatLabel variant="on">
-              <label for="total-heures">Total des heures</label>
-              <input pInputText id="total-heures" [value]="totalHeures" readonly style="font-weight: bold;" aria-live="polite" aria-label="Total des heures" />
-            </p-floatLabel>
-          </li>
-        </ul>
+            <li>
+              <p-button label="Effacer" (click)="removeTableHeureRow(field.key, rowIndex)"
+                icon="pi pi-trash"></p-button>
+            </li>
+          </ul>
+        </div>
+
+        <p-floatLabel variant="on">
+          <label for="total-heures">Total des heures</label>
+          <input pInputText id="total-heures" [value]="totalHeuresValue" readonly style="font-weight: bold;"
+            aria-live="polite" aria-label="Total des heures" />
+        </p-floatLabel>
+        <p-button label="Ajouter une ligne" (click)="addTableHeureRow(field)" icon="pi pi-plus"></p-button>
       </div>
+
 
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
         <label [for]="field.key">{{ field.label }}</label>
@@ -284,11 +291,11 @@
 
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"></ng-container>
-            
+
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQFormFields, title: 'Braille' }"></ng-container>
-            
-              <ng-container
+
+            <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'Braille Duo-Média' }"></ng-container>
 
             <!-- Audio Fields -->

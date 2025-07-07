@@ -216,12 +216,15 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
 
     dataFields.forEach(field => {
       if (field.type === 'tableHeure') {
-        // Create a FormGroup with the column keys
-        const tableGroup: { [key: string]: FormControl } = {};
-        field.columns.forEach((col: any) => {
-          tableGroup[col.key] = new FormControl('');
-        });
-        group[field.key] = this.fb.group(tableGroup);
+        const rows = this.fb.array([
+          this.fb.group(
+            field.columns.reduce((acc: any, col: any) => {
+              acc[col.key] = new FormControl('');
+              return acc;
+            }, {})
+          )
+        ]);
+        group[field.key] = rows;
       } else if (field.type === 'checkbox-list') {
         // For checkbox lists, create a FormGroup with each option as a FormControl
         const checkboxGroup: { [key: string]: FormControl } = {};
@@ -264,17 +267,58 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   Fonction pour tous ce qui est la table d'heures
   ---------------------------------------------------------------------------
   */
-  get totalHeures(): number {
-    const tableHeureGroup = this.form.get('tableHeure') as FormGroup;
-    if (!tableHeureGroup) return 0;
+
+  totalHeuresValue = 0;
+
+  calculateTotalHeures(): void {
+    const tableHeureArray = this.form.get('tableHeure') as FormArray;
+    if (!tableHeureArray) {
+      console.log('Table d\'heures non trouvée');
+      this.totalHeuresValue = 0;
+      return;
+    }
 
     let total = 0;
-    for (const key of Object.keys(tableHeureGroup.controls)) {
-      const val = parseFloat(tableHeureGroup.get(key)?.value);
-      if (!isNaN(val)) total += val;
+    for (const rowGroup of tableHeureArray.controls) {
+      if (rowGroup instanceof FormGroup) {
+        for (const key of Object.keys(rowGroup.controls)) {
+          // Skip keys containing 'Debut' or 'Fin'
+          if (key.includes('Debut') || key.includes('Fin')) continue;
+
+          const val = parseFloat(rowGroup.get(key)?.value);
+          if (!isNaN(val)) total += val;
+        }
+      }
     }
-    return total;
+
+    this.totalHeuresValue = total;
   }
+
+
+
+
+
+
+  getTableHeureArray(key: string): FormArray {
+    return this.form.get(key) as FormArray;
+  }
+
+  addTableHeureRow(field: any): void {
+    const array = this.getTableHeureArray(field.key);
+    const newRow = this.fb.group(
+      field.columns.reduce((acc: any, col: any) => {
+        acc[col.key] = new FormControl('');
+        return acc;
+      }, {})
+    );
+    array.push(newRow);
+  }
+
+  removeTableHeureRow(key: string, index: number): void {
+    const array = this.getTableHeureArray(key);
+    array.removeAt(index);
+  }
+
 
   /*
   ---------------------------------------------------------------------------
@@ -512,11 +556,27 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         delete patchableData.phases;
         this.form.patchValue(patchableData, { emitEvent: false });
 
-        // Patch dynamicTable fields manually (outside phases)
+        // Handle dynamicTable and tableHeure fields outside phases
         for (const field of this.formFields) {
           if ((field.type === 'dynamicTable' || field.type === 'facturationTable') && Array.isArray(data[field.key])) {
             const formArray = this.form.get(field.key) as FormArray;
-            formArray.clear(); // Remove any default row
+            formArray.clear(); // Clear existing rows
+
+            data[field.key].forEach((row: any) => {
+              const rowGroup = this.fb.group(
+                field.columns.reduce((acc: any, col: any) => {
+                  acc[col.key] = new FormControl(row[col.key] ?? '');
+                  return acc;
+                }, {})
+              );
+              formArray.push(rowGroup);
+            });
+          }
+
+          // Special handling for tableHeure which is a FormArray (not FormGroup)
+          if (field.type === 'tableHeure' && Array.isArray(data[field.key])) {
+            const formArray = this.form.get(field.key) as FormArray;
+            formArray.clear();
 
             data[field.key].forEach((row: any) => {
               const rowGroup = this.fb.group(
@@ -542,19 +602,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               braille: this.buildProductionGroup(brailleFormFields),
               grossi: this.buildProductionGroup(grossiFormFields),
               agrandis: this.buildProductionGroup(agrandisFormFields),
-              num: this.buildProductionGroup(numerisationFormFields), // Example, add your files
-              pdf: this.buildProductionGroup(pdfFormFields), // Example, add your files
-              html: this.buildProductionGroup(htmlFormFields), // Example, add your files
-              form: this.buildProductionGroup(formulaireFormFields), // Example, add your files
-              dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
-              sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
-              autre: this.buildProductionGroup(autreFormFields), // Example, add your files
+              num: this.buildProductionGroup(numerisationFormFields),
+              pdf: this.buildProductionGroup(pdfFormFields),
+              html: this.buildProductionGroup(htmlFormFields),
+              form: this.buildProductionGroup(formulaireFormFields),
+              dessin: this.buildProductionGroup(dessinFormFields),
+              sonore: this.buildProductionGroup(sonoreFormFields),
+              autre: this.buildProductionGroup(autreFormFields),
               brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
               brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
-
             });
 
-            // 🧠 Handle dynamicTable
+            // Load dynamic tables inside phases
             for (const typeKey of Object.keys(phaseData)) {
               const sectionData = phaseData[typeKey];
               const sectionDef = this.getFieldDefByType(typeKey);
@@ -564,7 +623,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
                 for (const field of sectionDef) {
                   if (field.type === 'dynamicTable' && Array.isArray(sectionData[field.key])) {
                     const formArray = sectionGroup.get(field.key) as FormArray;
-                    formArray.clear(); // Remove default row
+                    formArray.clear();
 
                     sectionData[field.key].forEach((row: any) => {
                       const rowGroup = this.fb.group(
@@ -576,23 +635,26 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
                       formArray.push(rowGroup);
                     });
                   }
+
+                  // If you want to handle tableHeure inside phases similarly, add here if needed
                 }
               }
             }
-            // Patch remaining values
+
+            // Patch remaining values on the phaseGroup
             phaseGroup.patchValue(phaseData, { emitEvent: false });
             phasesArray.push(phaseGroup);
           });
         }
-
       } catch (err) {
         console.error('Error loading JSON file:', err);
         alert('Invalid JSON file format');
       }
     };
-    reader.readAsText(file);
 
+    reader.readAsText(file);
   }
+
 
 
   downloadJson() {

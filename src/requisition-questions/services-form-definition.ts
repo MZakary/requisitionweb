@@ -29,8 +29,10 @@ export const servicesFormFields = [
   { key: 'soutService', label: 'Soutien professionnel', type: 'checkbox' },
 
   /*Add table here */
-  { key: 'tableHeureService', label: 'Heures de travail – tableau de production', type: 'tableHeure',
+  { key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
     columns: [
+      { key: 'Debut', label: 'Date Début',type: 'text' },
+      { key: 'Fin', label: 'Date Fin', type: 'text' },
       { key: 'HeureMS', label: 'M/S', type: 'text' },
       { key: 'HeureSP', label: 'S/P', type: 'text' },
       { key: 'HeureZM', label: 'Z/M', type: 'text' },

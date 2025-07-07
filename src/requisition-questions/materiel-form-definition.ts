@@ -28,7 +28,7 @@ export const materielFormFields = [
   { key: 'autreCatMateriel', label: 'Autres ', type: 'checkbox' },
   { key: 'autreCatExplicationMateriel', label: 'Si autres, expliquer', type: 'text' },
 
-  { key: 'tableHeureMateriel', label: 'Heures de travail – tableau de production', type: 'tableHeure',
+  { key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
     columns: [
       { key: 'HeureDB', label: 'D/B', type: 'text' },
       { key: 'HeureMR', label: 'M/R', type: 'text' },
