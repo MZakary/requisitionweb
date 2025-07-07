@@ -34,10 +34,11 @@ import { sonoreFormFields } from '../../../requisition-questions/shared/sonore-f
 import { autreFormFields } from '../../../requisition-questions/shared/autre-form-definition';
 import { brailleBANQFormFields } from '../../../requisition-questions/shared/brailleBANQ-form-definition';
 import { brailleDuoMediaBANQFormFields } from '../../../requisition-questions/shared/brailleDuoMediaBANQ-form-definition';
-
+import { brailleHYDROQCFormFields } from '../../../requisition-questions/shared/brailleHYDROQC-form-definition';
 
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
 import { productionFieldsBANQ } from '../../../requisition-questions/shared/productionFieldsBANQ';
+import { productionFieldsHYDRO } from '../../../requisition-questions/shared/productionFieldsHYDROQC';
 
 
 enum RequisitionType {
@@ -91,6 +92,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   autreFormFields = autreFormFields;
   brailleBANQFormFields = brailleBANQFormFields;
   brailleDuoMediaBANQFormFields = brailleDuoMediaBANQFormFields;
+  brailleHYDROQCFormFields = brailleHYDROQCFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -131,6 +133,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       this.productionTypes = productionFieldsBANQ;
     } else if (url.includes('/requisition-json-hydroqc')) {
       this.requisitionType = RequisitionType.HydroQC;
+      this.productionTypes = productionFieldsHYDRO;
     } else if (url.includes('/requisition-json-materiel')) {
       this.requisitionType = RequisitionType.Materiel;
       this.needsPhase = false; // Materiel requisition does not need phases
@@ -228,9 +231,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       } else if (field.type === 'checkbox-list') {
         // For checkbox lists, create a FormGroup with each option as a FormControl
         const checkboxGroup: { [key: string]: FormControl } = {};
+        const defaults = field.defaultValue || [];
         field.options.forEach((option: any) => {
-          checkboxGroup[option.value] = new FormControl(false);
+          checkboxGroup[option.value] = new FormControl(defaults.includes(option.value));
         });
+
         group[field.key] = this.fb.group(checkboxGroup);
       } else if (field.type === 'dynamicTable' || field.type === 'facturationTable') {
         const rows = this.fb.array([
@@ -418,6 +423,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       autre: this.buildProductionGroup(autreFormFields), // Example, add your files
       brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
       brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
+      brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
     });
 
     this.phases.push(phaseGroup);
@@ -447,9 +453,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       if (field.type === 'checkbox-list') {
         // Create a FormGroup for checkbox lists
         const checkboxGroup: { [key: string]: FormControl } = {};
+        const defaults = field.defaultValue || [];
         field.options.forEach((option: any) => {
-          checkboxGroup[option.value] = new FormControl(false);
+          checkboxGroup[option.value] = new FormControl(defaults.includes(option.value));
         });
+
         group[field.key] = this.fb.group(checkboxGroup);
       }
       else if (field.type === 'tableHeure') {
@@ -536,6 +544,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'autre': return this.autreFormFields; // Example, add your files
       case 'brailleBANQ': return this.brailleBANQFormFields; // Example, add your files
       case 'brailleDuoMedia': return this.brailleDuoMediaBANQFormFields; // Example, add your files
+      case 'brailleHYDROQC': return this.brailleHYDROQCFormFields; // Example, add your files
       default: return [];
     }
   }
@@ -611,6 +620,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               autre: this.buildProductionGroup(autreFormFields),
               brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
               brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
+              brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
             });
 
             // Load dynamic tables inside phases

@@ -30,6 +30,8 @@ export const materielFormFields = [
 
   { key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
     columns: [
+      { key: 'Debut', label: 'Date Début',type: 'text' },
+      { key: 'Fin', label: 'Date Fin', type: 'text' },
       { key: 'HeureDB', label: 'D/B', type: 'text' },
       { key: 'HeureMR', label: 'M/R', type: 'text' },
       { key: 'HeureVR', label: 'V/R', type: 'text' },

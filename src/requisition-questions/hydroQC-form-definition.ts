@@ -12,13 +12,13 @@ export const hydroqcFormFields = [
 
   { key: 'infoGeneralHydro', label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'nomProjetHydro', label: 'Nom du projet', type: 'text' },
-  { key: 'confidentielHydro', type: 'checkbox-list', label: 'Confidentiel',
+  { key: 'confidentielHydro', type: 'checkbox-list', label: 'Confidentiel', defaultValue: ['oui'],
     options: [
-      { label: 'Oui', value: 'recto' },
-      { label: 'Non', value: 'rectoVerso' }
+      { label: 'Oui', value: 'oui' },
+      { label: 'Non', value: 'non' }
     ]
   },
-  { key: 'docSourceHydro', label: 'Document source', type: 'select',
+  { key: 'docSourceHydro', label: 'Document source', type: 'select', defaultValue: 'retourner',
     options: [
       { label: 'À retourner', value: 'retourner' },
       { label: 'À téléchargé', value: 'telecharger' }
@@ -34,6 +34,9 @@ export const hydroqcFormFields = [
     ]
   },
   { key: 'langueAutreHydro', label: 'Si autre, spécifier', type: 'text' },
+
+  { key: 'ReqPreparerPar', label: 'Réquisition préparée par', type: 'text' },
+  
 ];
 
 export const hydroqcFormFieldsAfterPhases = [
@@ -44,7 +47,7 @@ export const hydroqcFormFieldsAfterPhases = [
   { label: 'Livraison', type: 'header2' },
   { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
   { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
-  { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
+  { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' , defaultValue: true },
   { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
@@ -64,12 +67,12 @@ export const hydroqcFormFieldsAfterPhases = [
       { key: 'description', label: 'Description', type: 'text' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number' },
     ]
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
-  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
 
