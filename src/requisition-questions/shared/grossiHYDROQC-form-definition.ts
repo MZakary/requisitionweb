@@ -1,4 +1,4 @@
-export const grossiFormFields = [
+export const grossiHYDROQCFormFields = [
   { label: 'Caractères agrandis - informations générales', type: 'header4' },
   { key: 'noFichierGrossi', label: 'Numéro du fichier', label2:"Informations générales - Caractères agrandis", type: 'text' },
   { key: 'dateRequiseGrossi', label: 'Date requise', type: 'text' },
@@ -33,29 +33,8 @@ export const grossiFormFields = [
   },
 
   { label: 'Caractères agrandis - finition et montage', type: 'header4' },
-  { key: 'typeTeneurGrossi', type: 'checkbox-list',
-    options: [
-      { label: 'Broché', value: 'broche', label2: "Finition et montage" },
-      { label: 'Cerlox', value: 'cerlox' },
-      { label: 'Wire-O', value: 'wireO' },
-    ]
-  },
-  { key: 'typeCouvertureGrossi', type: 'checkbox-list',
-    options: [
-      { label: 'Couverture vinyle', value: 'couvVinyle' },
-      { label: 'Couverture plastifiée couleur', value: 'couvPlasCouleur' },
-      { label: 'Couverture plastifiée monochrome', value: 'couvPlasMonochrome' },
-      { label: 'Couverture personnalisée', value: 'couvPersonnalisee' },
-      { label: 'Page endos du service', value: 'pageEndos' },
-      { label: 'Étiquette braille', value: 'etiqBraille' },
-      { label: 'Étiquette imprimée', value: 'etiqImprimee' },
-      { label: 'Page titre braille', value: 'pageTitreBraille' },
-      { label: 'Page titre imprimée', value: 'pageTitreImprimee' },
-    ]
-  },
-  { key: 'libelleEtiquetteGrossi', label: 'Libellé de l\'étiquette', type: 'text' },
-  { key: 'autreFinitionGrossi', label: 'Autre', type: 'text' },
-
+  { key: 'typeTeneurGrossi', type: 'checkbox', label:"Broché", defaultValue:true},
+  
   { label: 'Caractères agrandis - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceGrossi', label: 'Nom/Description', label2:"nom du fichier source ou description de la production", type: 'text' },
   

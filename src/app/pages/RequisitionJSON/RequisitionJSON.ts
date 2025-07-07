@@ -35,6 +35,7 @@ import { autreFormFields } from '../../../requisition-questions/shared/autre-for
 import { brailleBANQFormFields } from '../../../requisition-questions/shared/brailleBANQ-form-definition';
 import { brailleDuoMediaBANQFormFields } from '../../../requisition-questions/shared/brailleDuoMediaBANQ-form-definition';
 import { brailleHYDROQCFormFields } from '../../../requisition-questions/shared/brailleHYDROQC-form-definition';
+import { grossiHYDROQCFormFields } from '../../../requisition-questions/shared/grossiHYDROQC-form-definition';  
 
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
 import { productionFieldsBANQ } from '../../../requisition-questions/shared/productionFieldsBANQ';
@@ -93,6 +94,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   brailleBANQFormFields = brailleBANQFormFields;
   brailleDuoMediaBANQFormFields = brailleDuoMediaBANQFormFields;
   brailleHYDROQCFormFields = brailleHYDROQCFormFields;
+  grossiHYDROQCFormFields = grossiHYDROQCFormFields;
 
   needsPhase: boolean = true;
   productionTypes = productionFields;
@@ -424,6 +426,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
       brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
       brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
+      grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
     });
 
     this.phases.push(phaseGroup);
@@ -545,6 +548,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'brailleBANQ': return this.brailleBANQFormFields; // Example, add your files
       case 'brailleDuoMedia': return this.brailleDuoMediaBANQFormFields; // Example, add your files
       case 'brailleHYDROQC': return this.brailleHYDROQCFormFields; // Example, add your files
+      case 'grossiHYDROQC': return this.grossiHYDROQCFormFields; // Example, add your files
       default: return [];
     }
   }
@@ -621,6 +625,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
               brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
               brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
+              grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
             });
 
             // Load dynamic tables inside phases
