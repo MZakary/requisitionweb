@@ -24,11 +24,6 @@ export class AppMenu {
             {
                 label: 'Menu Principal',
                 items: [
-                    //{ label: 'Accueil', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
-                    // { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-externe'] },
-                    // { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-interne'] },
-                    // { label: 'Réquisition Scholaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-scholaire'] },
-                    // { label: 'Réquisition Services', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-services'] },
                     { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-externe'] },
                     { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-interne'] },
                     { label: 'Réquisition Scolaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-scolaire'] },

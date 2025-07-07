@@ -241,11 +241,17 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         group[field.key] = rows;
       } else {
         // Handle all other field types with proper default values
-        group[field.key] = new FormControl(
-          field.type === 'checkbox' ? false :
-            field.type === 'select' ? null :
-              ''
-        );
+        const defaultValue =
+          field.defaultValue !== undefined
+            ? field.defaultValue
+            : field.type === 'checkbox'
+              ? false
+              : field.type === 'select'
+                ? null
+                : '';
+
+        group[field.key] = new FormControl(defaultValue);
+
       }
     });
 
@@ -421,11 +427,17 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
         group[field.key] = rows;
       } else {
         // Handle all other field types
-        group[field.key] = new FormControl(
-          field.type === 'checkbox' ? false :
-            field.type === 'select' ? null :
-              ''
-        );
+        const defaultValue =
+          field.defaultValue !== undefined
+            ? field.defaultValue
+            : field.type === 'checkbox'
+              ? false
+              : field.type === 'select'
+                ? null
+                : '';
+
+        group[field.key] = new FormControl(defaultValue);
+
       }
     });
 
