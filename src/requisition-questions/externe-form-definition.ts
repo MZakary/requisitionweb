@@ -3,7 +3,7 @@
 
 export const externeFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionExterne', label: 'Numéro de réquisition', type: 'text' },
+  { key: 'noRequisitionExterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRE' },
   { key: 'noCommandeExterne', label: 'Numéro de commande', type: 'text' },
   { key: 'dateDemandeExterne', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseExterne', label: 'Date requise', type: 'text' },
@@ -93,7 +93,7 @@ export const externeFormFieldsAfterPhases = [
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
-  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
 

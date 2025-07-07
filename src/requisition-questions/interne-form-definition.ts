@@ -1,7 +1,7 @@
 //import { productionFields } from './shared/productionFields';
 export const interneFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionInterne', label: 'Numéro de réquisition', type: 'text' },
+  { key: 'noRequisitionInterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRI' },
   { key: 'dateDemandeInterne', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseInterne', label: 'Date requise', type: 'text' },
   { key: 'nomDirectionInterne', label: 'Nom de la direction', type: 'text' },

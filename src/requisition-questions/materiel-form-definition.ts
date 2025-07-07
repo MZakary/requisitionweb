@@ -1,6 +1,6 @@
 export const materielFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionMateriel', label: 'Numéro de réquisition', type: 'text' },
+  { key: 'noRequisitionMateriel', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRM' },
   { key: 'noCommandeMateriel', label: 'Numéro de commande', type: 'text' },
   { key: 'dateDemandeMateriel', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseMateriel', label: 'Date requise', type: 'text' },
@@ -62,7 +62,7 @@ export const materielFormFieldsAfterPhases = [
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
-  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
 

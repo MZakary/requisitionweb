@@ -92,7 +92,7 @@ export const scolaireFormFieldsAfterPhases = [
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
-  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85833' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
 

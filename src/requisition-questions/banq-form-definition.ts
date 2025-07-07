@@ -1,6 +1,7 @@
 export const banqFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noBonCommandeBANQ', label: 'Numéro bon de commande', type: 'text' },
+  { key: 'noBonCommandeBANQ', label: 'Numéro bon de commande', type: 'text', defaultValue: 'GBQ' },
+  { key: 'noContratBANQ', label: 'Contrat no:', type: 'text', defaultValue: '2023-5213' },
   { key: 'dateDemandeBANQ', label: 'Date de la demande', type: 'text' },
   { key: 'dateReceptionBANQ', label: "Date de la réception de l'ouvrage", type: 'text' },
   { key: 'dateRequiseBANQ', label: 'Date requise', type: 'text' },
@@ -34,11 +35,11 @@ export const banqFormFieldsAfterPhases = [
       { key: 'nbrVol', label: 'Nbr vol.', type: 'number' },
       { key: 'quantite', label: 'Nbr page', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number' },
     ]
   },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
-  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85873' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
    {label: 'SVP envoyer la facture par courriel à acquisitions.gb@banq.qc.ca', type: 'header2' },
