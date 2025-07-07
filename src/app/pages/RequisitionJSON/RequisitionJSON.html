@@ -120,7 +120,7 @@
               <p-floatLabel variant="on">
                 <label [for]="field.key + '-' + i + '-' + col.key">{{ col.label }}</label>
                 <input pInputText [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key"
-                  [type]="col.type || 'text'" (input)="updateFacturationTotal()" />
+                  [type]="col.type || 'text'" />
               </p-floatLabel>
             </div>
 
@@ -132,7 +132,7 @@
         <div class="facturation-total-row">
           <p-floatLabel variant="on">
             <label for="facturation-total">Total</label>
-            <input pInputText id="facturation-total" [value]="facturationTotal | number : '1.2-2'" readonly
+            <input pInputText id="facturation-total"
               style="font-weight: bold;" aria-label="Total de la facturation" aria-live="polite" />
           </p-floatLabel>
         </div>

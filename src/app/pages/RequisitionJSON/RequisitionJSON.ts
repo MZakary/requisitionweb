@@ -333,17 +333,19 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   ---------------------------------------------------------------------------
   */
 
-  facturationTotal: number = 0;
+  // facturationTotal: number = 0;
 
-  updateFacturationTotal(): void {
-    const array = this.form.get('facturation') as FormArray;
-    if (!array) return;
-    this.facturationTotal = array.controls.reduce((sum, group: AbstractControl) => {
-      const q = Number(group.get('quantite')?.value) || 0;
-      const p = Number(group.get('prix')?.value) || 0;
-      return sum + q * p;
-    }, 0);
-  }
+  // updateFacturationTotal(): void {
+  //   const array = this.form.get('facturation') as FormArray;
+  //   if (!array) return;
+  //   this.facturationTotal = array.controls.reduce((sum, group: AbstractControl) => {
+  //     const q = Number(group.get('quantite')?.value) || 0;
+  //     const p = Number(group.get('prix')?.value) || 0;
+  //     return sum + q * p;
+  //   }, 0);
+  // }
+
+  //add updtateFacturationTotal() in html as well if restored
 
   getTopLevelDynamicTableArray(key: string): FormArray {
     return this.form.get(key) as FormArray;
