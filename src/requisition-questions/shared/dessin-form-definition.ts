@@ -69,7 +69,7 @@ export const dessinFormFields = [
   },
   { key: 'autretypeImpressionDessin', label: 'Si autre, spécifier', type: 'text' },
 
-  { key: 'rectoVersoCheckboxDessin', type: 'select',
+  { key: 'rectoVersoCheckboxDessin', type: 'checkbox-list',
     options: [
       { label: 'Recto', value: 'recto' },
       { label: 'Recto/Verso', value: 'rectoVerso' },
@@ -105,12 +105,12 @@ export const dessinFormFields = [
       { label: 'Étiquette imprimée', value: 'etiqImprimee' },
       { label: 'Page titre braille', value: 'pageTitreBraille' },
       { label: 'Page titre imprimée', value: 'pageTitreImprimee' },
-      { label: 'Joint avec le text', value: 'joinAvecText' },
+      { label: 'Joint avec le texte', value: 'joinAvecTexte' },
       { label: 'Autre', value: 'autreTypeCouv' },
     ]
   },
-  { key: 'specificationMontageDessin', label: 'Spécification du montage', type: 'text' },
   { key: 'autreTypeCouvDessin', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'specificationMontageDessin', label: 'Spécification du montage', type: 'text' },
 
 
   { label: 'Dessin - nom du fichier source ou description de la production', type: 'header4' },
@@ -152,7 +152,7 @@ export const dessinFormFields = [
     type: 'dynamicTable',
     columns: [
       { key: 'noFichierEtiqDessin', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'libEtiqDessin', label: 'Libellé de l’étiquette', type: 'text' },
+      { key: 'libEtiqDessin', label: "Libellé de l’étiquette", type: 'text' },
       { key: 'noteEtiqDessin', label: 'Notes Prod.', type: 'text' }
     ]
   },

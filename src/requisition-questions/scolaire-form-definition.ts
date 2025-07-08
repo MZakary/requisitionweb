@@ -26,10 +26,10 @@ export const scolaireFormFields = [
   { key: 'dosTravailScolaire', label: 'Dossier de travail', type: 'text' },
   { key: 'langueScolaire', label: 'Langue', type: 'select',
     options: [
-      { label: 'Français', value: 'retourner' },
-      { label: 'Anglais', value: 'telecharger' },
-      { label: 'Espagnol', value: 'telecharger' },
-      { label: 'Autre', value: 'telecharger' },
+      { label: 'Français', value: 'fra' },
+      { label: 'Anglais', value: 'ang' },
+      { label: 'Espagnol', value: 'esp' },
+      { label: 'Autre', value: 'autre' },
     ]
   },
   { key: 'langueAutreScolaire', label: 'Si autre, spécifier', type: 'text' },
@@ -51,16 +51,23 @@ export const scolaireFormFieldsAfterPhases = [
 
   { label: 'Livraison', type: 'header2' },
   { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
-  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'GLSLivraison', label: 'GLS', type: 'checkbox' },
   { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
   { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
-  { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
+  { key: 'courrierInterneLivraisonText', label: 'Coordonnées interne', type: 'text' },
   { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
 
   { label: 'Retour du document', type: 'header2' },
-  { key: 'retourDocument', label: 'Retour du document', type: 'text' },
+  {
+    key: 'retourDocumentDropDown', label: 'Retour du document', type: 'select',
+    options: [
+      { label: 'N/A', value: 'NA' },
+      { label: 'envoyer le', value: 'envoyer' }
+    ]
+  },
+  { key: 'dateRetourDocumentText', label: 'Date de retour du document', type: 'text' },
   
   { label: 'Livraison - commentaire', type: 'header2' },
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },

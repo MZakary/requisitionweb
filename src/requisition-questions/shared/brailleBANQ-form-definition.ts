@@ -99,15 +99,4 @@ export const brailleBANQFormFields = [
     ]
   },
 
-  { label: 'Braille - tableau des étiquettes', type: 'header4' },
-  {
-    key: 'tableEtiquettesBraille',
-    label: 'Tableau des étiquettes',
-    type: 'dynamicTable',
-    columns: [
-      { key: 'noFichierEtiqBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'libEtiqBraille', label: 'Libellé de l’étiquette', type: 'text' },
-      { key: 'noteEtiqBraille', label: 'Notes Prod.', type: 'text' }
-    ]
-  },
 ];

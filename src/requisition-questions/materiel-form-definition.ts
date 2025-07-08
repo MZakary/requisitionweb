@@ -23,7 +23,7 @@ export const materielFormFields = [
 
   { key: 'categorieMateriel', label: 'Catégorie de la demande', type: 'header3' },
   { key: 'matReadaptMateriel', label: 'Matériel réadaptation', type: 'checkbox' },
-  { key: 'gabElectroMateriel', label: 'Gabarit électroménagers', type: 'checkbox' },
+  { key: 'gabElectroMateriel', label: 'Gabarit électroménager', type: 'checkbox' },
   { key: 'matPromoMateriel', label: 'Matériel promotion ', type: 'checkbox' },
   { key: 'autreCatMateriel', label: 'Autres ', type: 'checkbox' },
   { key: 'autreCatExplicationMateriel', label: 'Si autres, expliquer', type: 'text' },

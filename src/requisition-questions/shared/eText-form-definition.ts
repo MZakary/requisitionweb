@@ -32,15 +32,14 @@ export const eTextFormFields = [
   { key: 'commentaireTechEText', label: 'Commentaire', type: 'textarea' },
 
   { label: 'E-Text - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineEText', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomCDQEText', label: 'Nom', label2: "contrôle de qualité", type: 'text' },
+  { key: 'checkboxCQTermineEText', label: 'Terminé?', label2:"E-Text - Contrôle de qualité", type: 'checkbox' },
+  { key: 'nomCDQEText', label: 'Nom', type: 'text' },
   { key: 'terminerCDQEText', label: 'Terminé le', type: 'text' },
   { key: 'nbsHeureTravailCDQEText', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireCDQEText', label: 'Commentaire', type: 'textarea' },
 
   /* Add tableau */
   { label: 'E-Text - tableau de production', type: 'header4' },
-
   {
     key: 'tableauProductionEText',
     label: 'Tableau de production',

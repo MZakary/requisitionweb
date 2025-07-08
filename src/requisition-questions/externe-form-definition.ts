@@ -3,7 +3,7 @@
 
 export const externeFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionExterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRE' },
+  { key: 'noRequisitionExterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRE', label2: 'Informations générales de la demande' },
   { key: 'noCommandeExterne', label: 'Numéro de commande', type: 'text' },
   { key: 'dateDemandeExterne', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseExterne', label: 'Date requise', type: 'text' },
@@ -15,12 +15,12 @@ export const externeFormFields = [
   { key: 'adresseFacturationExterne', label: 'Adresse de facturation postale et courriel', type: 'text' },
 
   { label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text' },
+  { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document"},
   {
     key: 'confidentielExterne', type: 'checkbox-list', label: 'Confidentiel',
     options: [
-      { label: 'Oui', value: 'recto' },
-      { label: 'Non', value: 'rectoVerso' }
+      { label: 'Oui', value: 'oui' },
+      { label: 'Non', value: 'non' }
     ]
   },
   {
@@ -34,10 +34,10 @@ export const externeFormFields = [
   {
     key: 'langueExterne', label: 'Langue', type: 'select',
     options: [
-      { label: 'Français', value: 'retourner' },
-      { label: 'Anglais', value: 'telecharger' },
-      { label: 'Espagnol', value: 'telecharger' },
-      { label: 'Autre', value: 'telecharger' },
+      { label: 'Français', value: 'fra' },
+      { label: 'Anglais', value: 'ang' },
+      { label: 'Espagnol', value: 'esp' },
+      { label: 'Autre', value: 'autre' },
     ]
   },
   { key: 'langueAutreExterne', label: 'Si autre, spécifier', type: 'text' },
@@ -47,21 +47,28 @@ export const externeFormFields = [
 
 export const externeFormFieldsAfterPhases = [
   { label: 'Archivage', type: 'header2' },
-  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\archivage', type: 'text', label2: 'Archivage' },
   { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
 
   { label: 'Livraison', type: 'header2' },
-  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
-  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text', label2: 'Livraison' },
+  { key: 'GLSLivraison', label: 'GLS', type: 'checkbox' },
   { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
   { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
-  { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
+  { key: 'courrierInterneLivraisonText', label: 'Coordonnées interne', type: 'text' },
   { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
 
   { label: 'Retour du document', type: 'header2' },
-  { key: 'retourDocument', label: 'Retour du document', type: 'text' },
+  {
+    key: 'retourDocumentDropDown', label: 'Retour du document', type: 'select',
+    options: [
+      { label: 'N/A', value: 'NA' },
+      { label: 'envoyer le', value: 'envoyer' }
+    ]
+  },
+  { key: 'dateRetourDocumentText', label: 'Date de retour du document', type: 'text' },
   
   { label: 'Livraison - commentaire', type: 'header2' },
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
@@ -88,7 +95,7 @@ export const externeFormFieldsAfterPhases = [
       { key: 'description', label: 'Description', type: 'text' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number' },
     ]
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },

@@ -1,6 +1,6 @@
 export const grossiFormFields = [
   { label: 'Caractères agrandis - informations générales', type: 'header4' },
-  { key: 'noFichierGrossi', label: 'Numéro du fichier', label2:"Informations générales - Caractères agrandis", type: 'text' },
+  { key: 'noFichierGrossi', label: 'Numéro du fichier', label2:"Caractères agrandis - Informations générales", type: 'text' },
   { key: 'dateRequiseGrossi', label: 'Date requise', type: 'text' },
   { key: 'reimpressionGrossi', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteGrossi', label: 'Quantité', type: 'text' },
@@ -52,9 +52,7 @@ export const grossiFormFields = [
       { label: 'Couverture plastifiée monochrome', value: 'couvPlasMonochrome' },
       { label: 'Couverture personnalisée', value: 'couvPersonnalisee' },
       { label: 'Page endos du service', value: 'pageEndos' },
-      { label: 'Étiquette braille', value: 'etiqBraille' },
       { label: 'Étiquette imprimée', value: 'etiqImprimee' },
-      { label: 'Page titre braille', value: 'pageTitreBraille' },
       { label: 'Page titre imprimée', value: 'pageTitreImprimee' },
     ]
   },
@@ -75,7 +73,7 @@ export const grossiFormFields = [
 
    { label: 'Caractères agrandis - contrôle de qualité', type: 'header4' },
   { key: 'checkboxCQTermineGrossi', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualGrossi', label: 'Nom', label2:"Contrôle de qualité", type: 'text' },
+  { key: 'nomContQualGrossi', label: 'Nom', type: 'text' },
   { key: 'dateTermineContQualGrossi', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualGrossi', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
   { key: 'commentaireContQualGrossi', label: 'Commentaire', type: 'textarea' },

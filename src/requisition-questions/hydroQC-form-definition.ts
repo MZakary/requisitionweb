@@ -1,6 +1,6 @@
 export const hydroqcFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionHydro', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRH' },
+  { key: 'noRequisitionHydro', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRH', label2: 'Informations générales de la demande' },
   { key: 'noDemandeHydro', label: 'Numéro de commande', type: 'text', defaultValue: 'N/D' },
   { key: 'dateDemandeHydro', label: 'Date de la demande', type: 'text' },
   { key: 'nomClientHydro', label: 'Nom du client', type: 'text', defaultValue: 'Hydro-Québec' },
@@ -11,7 +11,7 @@ export const hydroqcFormFields = [
   { key: 'adresseFacturationHydro', label: 'Adresse de facturation postale et courriel', type: 'textarea', defaultValue: 'Hydro-Québec Référence alphanumérique : BV 1414 # de fournisseur : 1035972 140, boul. Crémazie-Ouest, 8e étage Montréal (Québec)  H2P 1C3 (comptes.fournisseurs@hydro.qc.ca)' },
 
   { key: 'infoGeneralHydro', label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetHydro', label: 'Nom du projet', type: 'text' },
+  { key: 'nomProjetHydro', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
   { key: 'confidentielHydro', type: 'checkbox-list', label: 'Confidentiel', defaultValue: ['oui'],
     options: [
       { label: 'Oui', value: 'oui' },
@@ -27,10 +27,10 @@ export const hydroqcFormFields = [
   { key: 'dosTravailHydro', label: 'Dossier de travail', type: 'text' },
   { key: 'langueHydro', label: 'Langue', type: 'select',
     options: [
-      { label: 'Français', value: 'retourner' },
-      { label: 'Anglais', value: 'telecharger' },
-      { label: 'Espagnol', value: 'telecharger' },
-      { label: 'Autre', value: 'telecharger' },
+      { label: 'Français', value: 'fra' },
+      { label: 'Anglais', value: 'ang' },
+      { label: 'Espagnol', value: 'esp' },
+      { label: 'Autre', value: 'autre' },
     ]
   },
   { key: 'langueAutreHydro', label: 'Si autre, spécifier', type: 'text' },
@@ -41,12 +41,11 @@ export const hydroqcFormFields = [
 
 export const hydroqcFormFieldsAfterPhases = [
   { label: 'Archivage', type: 'header2' },
-  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text', label2: 'Archivage' },
   { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
 
   { label: 'Livraison', type: 'header2' },
-  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
-  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text', label2: 'Livraison' },
   { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' , defaultValue: true },
   { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
@@ -64,7 +63,7 @@ export const hydroqcFormFieldsAfterPhases = [
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
-      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'description', label: 'Description', type: 'text'},
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },

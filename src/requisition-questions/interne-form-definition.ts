@@ -1,14 +1,14 @@
 //import { productionFields } from './shared/productionFields';
 export const interneFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionInterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRI' },
+  { key: 'noRequisitionInterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRI', label2: 'Informations générales de la demande' },
   { key: 'dateDemandeInterne', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseInterne', label: 'Date requise', type: 'text' },
   { key: 'nomDirectionInterne', label: 'Nom de la direction', type: 'text' },
-  { key: 'nomProgramServiceInterne', label: 'Nom du program ou du service', type: 'text' },
+  { key: 'nomProgramServiceInterne', label: 'Nom du programme ou du service', type: 'text' },
   { key: 'nomDemandeurInterne', label: 'Nom du demandeur', type: 'text' },
   
-  { label: 'Informations spécifiques du document', type: 'header2' },
+  { label: 'Informations spécifiques du document', type: 'header2', label2: "Informations spécifiques du document" },
   { key: 'nomProjetInterne', label: 'Nom du projet', type: 'text' },
   { key: 'confidentielInterne', type: 'checkbox-list', label: 'Confidentiel',
     options: [
@@ -25,10 +25,10 @@ export const interneFormFields = [
   { key: 'dosTravailInterne', label: 'Dossier de travail', type: 'text' },
   { key: 'langueInterne', label: 'Langue', type: 'select',
     options: [
-      { label: 'Français', value: 'retourner' },
-      { label: 'Anglais', value: 'telecharger' },
-      { label: 'Espagnol', value: 'telecharger' },
-      { label: 'Autre', value: 'telecharger' },
+      { label: 'Français', value: 'fra' },
+      { label: 'Anglais', value: 'ang' },
+      { label: 'Espagnol', value: 'esp' },
+      { label: 'Autre', value: 'autre' },
     ]
   },
   { key: 'langueAutreInterne', label: 'Si autre, spécifier', type: 'text' },
@@ -37,21 +37,28 @@ export const interneFormFields = [
 
 export const interneFormFieldsAfterPhases = [
   { label: 'Archivage', type: 'header2' },
-  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\archivage', type: 'text', label2: 'Archivage' },
   { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
 
   { label: 'Livraison', type: 'header2' },
-  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
-  { key: 'GLCLivraison', label: 'GLC', type: 'checkbox' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text', label2: 'Livraison' },
+  { key: 'GLSLivraison', label: 'GLS', type: 'checkbox' },
   { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
   { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
-  { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
+  { key: 'courrierInterneLivraisonText', label: 'Coordonnées interne', type: 'text' },
   { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
 
   { label: 'Retour du document', type: 'header2' },
-  { key: 'retourDocument', label: 'Retour du document', type: 'text' },
+  {
+    key: 'retourDocumentDropDown', label: 'Retour du document', type: 'select',
+    options: [
+      { label: 'N/A', value: 'NA' },
+      { label: 'envoyer le', value: 'envoyer' }
+    ]
+  },
+  { key: 'dateRetourDocumentText', label: 'Date de retour du document', type: 'text' },
   
   { label: 'Livraison - commentaire', type: 'header2' },
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },

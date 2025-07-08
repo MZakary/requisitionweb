@@ -2,7 +2,8 @@ export const sonoreFormFields = [
   { label: 'Sonore - informations générales', type: 'header4' },
   { key: 'noFichierSonore', label: 'Numéro du fichier', label2:"Informations générales - Sonore", type: 'text' },
   { key: 'dateRequiseSonore', label: 'Date requise', type: 'text' },
-  { key: 'quantiteSonore', label: 'Quantité imprimées', type: 'text' },
+  { key: 'quantiteSonore', label: 'Quantité', type: 'text' },
+  { key: 'nbsDePageImprime', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'typeFichierSonore', type: 'checkbox-list',
     options: [
       { label: 'MP3', value: 'mp3' },

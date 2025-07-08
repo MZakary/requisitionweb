@@ -259,12 +259,13 @@
             </ng-template>
 
             <!-- Then call it twice for eText and Braille -->
+            
+            <ng-container
+            *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"></ng-container>
+            
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text' }"></ng-container>
-
-            <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"></ng-container>
-
+            
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"></ng-container>
 

@@ -1,6 +1,6 @@
 export const banqFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noBonCommandeBANQ', label: 'Numéro bon de commande', type: 'text', defaultValue: 'GBQ' },
+  { key: 'noBonCommandeBANQ', label: 'Numéro bon de commande', type: 'text', defaultValue: 'GBQ', label2: 'Informations générales de la demande' },
   { key: 'noContratBANQ', label: 'Contrat no:', type: 'text', defaultValue: '2023-5213' },
   { key: 'dateDemandeBANQ', label: 'Date de la demande', type: 'text' },
   { key: 'dateReceptionBANQ', label: "Date de la réception de l'ouvrage", type: 'text' },
@@ -9,7 +9,7 @@ export const banqFormFields = [
   { key: 'regulierBANQ', label: 'Régulier', type: 'checkbox' },
   
   { label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'titreProjetBANQ', label: "Titre", type: 'text' },
+  { key: 'titreProjetBANQ', label: "Titre", type: 'text', label2: "Informations spécifiques du document" },
   { key: 'soustitreProjetBANQ', label: "Sous-Titre", type: 'text' },
   { key: 'genreProjectBANQ', label: "Genre", type: 'text' },
   { key: 'auteurBANQ', label: "Auteur", type: 'text' },

@@ -31,8 +31,8 @@ export const servicesFormFields = [
   /*Add table here */
   { key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
     columns: [
-      { key: 'Debut', label: 'Date Début',type: 'text' },
-      { key: 'Fin', label: 'Date Fin', type: 'text' },
+      { key: 'Debut', label: 'Date de début du projet',type: 'text' },
+      { key: 'Fin', label: 'Date de fin du projet', type: 'text' },
       { key: 'HeureMS', label: 'M/S', type: 'text' },
       { key: 'HeureSP', label: 'S/P', type: 'text' },
       { key: 'HeureZM', label: 'Z/M', type: 'text' },

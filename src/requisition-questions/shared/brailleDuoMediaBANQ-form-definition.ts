@@ -1,5 +1,5 @@
 export const brailleDuoMediaBANQFormFields = [
-  { label: 'Braille - Informations générales', type: 'header4' },
+  { label: 'BANQ Duo-Média - Informations générales', type: 'header4' },
   { key: 'noFichierBrailleDuoMediaBANQ', label: 'Numéro du fichier .txt', label2:"Informations Générales - Braille", type: 'text' },
   { key: 'AbregeIntegralBrailleDuoMediaBANQ', type: 'checkbox-list',
     options: [
@@ -90,15 +90,4 @@ export const brailleDuoMediaBANQFormFields = [
     ]
   },
 
-  { label: 'Braille - tableau des étiquettes', type: 'header4' },
-  {
-    key: 'tableEtiquettesBraille',
-    label: 'Tableau des étiquettes',
-    type: 'dynamicTable',
-    columns: [
-      { key: 'noFichierEtiqBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'libEtiqBraille', label: 'Libellé de l’étiquette', type: 'text' },
-      { key: 'noteEtiqBraille', label: 'Notes Prod.', type: 'text' }
-    ]
-  },
 ];
