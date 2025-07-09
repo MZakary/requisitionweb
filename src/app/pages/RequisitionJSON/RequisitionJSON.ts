@@ -32,7 +32,7 @@ import { formulaireFormFields } from '../../../requisition-questions/shared/form
 import { dessinFormFields } from '../../../requisition-questions/shared/dessin-form-definition';
 import { sonoreFormFields } from '../../../requisition-questions/shared/sonore-form-definition';
 import { autreFormFields } from '../../../requisition-questions/shared/autre-form-definition';
-import { brailleBANQFormFields } from '../../../requisition-questions/shared/brailleBANQ-form-definition';
+import { brailleBANQBIBAFormFields } from '../../../requisition-questions/shared/brailleBANQBIBA-form-definition';
 import { brailleDuoMediaBANQFormFields } from '../../../requisition-questions/shared/brailleDuoMediaBANQ-form-definition';
 import { brailleHYDROQCFormFields } from '../../../requisition-questions/shared/brailleHYDROQC-form-definition';
 import { grossiHYDROQCFormFields } from '../../../requisition-questions/shared/grossiHYDROQC-form-definition';  
@@ -91,7 +91,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
   dessinFormFields = dessinFormFields;
   sonoreFormFields = sonoreFormFields;
   autreFormFields = autreFormFields;
-  brailleBANQFormFields = brailleBANQFormFields;
+  brailleBANQBIBAFormFields = brailleBANQBIBAFormFields;
   brailleDuoMediaBANQFormFields = brailleDuoMediaBANQFormFields;
   brailleHYDROQCFormFields = brailleHYDROQCFormFields;
   grossiHYDROQCFormFields = grossiHYDROQCFormFields;
@@ -425,7 +425,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
       sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
       autre: this.buildProductionGroup(autreFormFields), // Example, add your files
-      brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
+      brailleBANQ: this.buildProductionGroup(brailleBANQBIBAFormFields),
       brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
       brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
       grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
@@ -547,7 +547,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
       case 'dessin': return this.dessinFormFields; // Example, add your files
       case 'sonore': return this.sonoreFormFields; // Example, add your files
       case 'autre': return this.autreFormFields; // Example, add your files
-      case 'brailleBANQ': return this.brailleBANQFormFields; // Example, add your files
+      case 'brailleBANQ': return this.brailleBANQBIBAFormFields; // Example, add your files
       case 'brailleDuoMedia': return this.brailleDuoMediaBANQFormFields; // Example, add your files
       case 'brailleHYDROQC': return this.brailleHYDROQCFormFields; // Example, add your files
       case 'grossiHYDROQC': return this.grossiHYDROQCFormFields; // Example, add your files
@@ -624,7 +624,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
               dessin: this.buildProductionGroup(dessinFormFields),
               sonore: this.buildProductionGroup(sonoreFormFields),
               autre: this.buildProductionGroup(autreFormFields),
-              brailleBANQ: this.buildProductionGroup(brailleBANQFormFields),
+              brailleBANQ: this.buildProductionGroup(brailleBANQBIBAFormFields),
               brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
               brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
               grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),

@@ -1,6 +1,6 @@
 export const dessinFormFields = [
   { label: 'Dessin - Informations générales', type: 'header4' },
-  { key: 'noFichierDessin', label: 'Numéro du fichier', label2:"Informations Générales - Dessin", type: 'text' },
+  { key: 'noFichierDessin', label: 'Numéro du fichier', label2:"Dessin - Informations Générales", type: 'text' },
   { key: 'dateRequiseDessin', label: 'Date requise', type: 'text' },
   { key: 'reimpressionDessin', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteDessin', label: 'Quantité', type: 'text' },
@@ -62,7 +62,7 @@ export const dessinFormFields = [
   { label: 'Dessin - impression et/ou embossage', type: 'header4' },
   { key: 'typeImpressionDessin', type: 'checkbox-list',
     options: [
-      { label: 'ViewPlus', value: 'viewplus', label2:"Impression et/ou embossage" },
+      { label: 'ViewPlus', value: 'viewplus', label2:"Dessin - Impression et/ou embossage" },
       { label: 'XEROX', value: 'xerox' },
       { label: 'autre', value: 'autreTypeImpression' },
     ]
@@ -89,7 +89,7 @@ export const dessinFormFields = [
   { label: 'Dessin - finition et montage', type: 'header4' },
   { key: 'typeTeneurDessin', type: 'checkbox-list',
     options: [
-      { label: 'Broché', value: 'broche', label2:"Finition et montage" },
+      { label: 'Broché', value: 'broche', label2:"Dessin - Finition et montage" },
       { label: 'Cerlox', value: 'cerlox' },
       { label: 'Wire-O', value: 'wireO' },
     ]
@@ -114,19 +114,19 @@ export const dessinFormFields = [
 
 
   { label: 'Dessin - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceDessin', label: 'Nom/Description', label2:"Nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceDessin', label: 'Nom/Description', label2:" Dessin - Nom du fichier source ou description de la production", type: 'text' },
   
   { label: 'Dessin - commentaire', type: 'header4' },
-  { key: 'commentaireDessin', label: 'Commentaire', type: 'textarea' },
+  { key: 'commentaireDessin', label: 'Commentaire', type: 'textarea', label2: 'Dessin - Commentaire' },
   
   { label: 'Dessin - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiDessin', label: 'Nom', label2:"Informations tech. multimédia", type: 'text' },
+  { key: 'nomTechMultiDessin', label: 'Nom', label2:"Dessin - Informations tech. multimédia", type: 'text' },
   { key: 'dateTermineMultiDessin', label: 'Terminé le', type: 'text' },
   { key: 'noHeureMultiDessin', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechMultiDessin', label: 'Commentaire', type: 'textarea' },
   
   { label: 'Dessin - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineDessin', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
+  { key: 'checkboxCQTermineDessin', label: 'Terminé?', label2:"Dessin - Contrôle de qualité", type: 'checkbox' },
   { key: 'nomContQualDessin', label: 'Nom', type: 'text' },
   { key: 'dateTermineContQualDessin', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualDessin', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
@@ -135,7 +135,7 @@ export const dessinFormFields = [
   { label: 'Dessin - tableau de production', type: 'header4' },
   {
     key: 'tableProductionDessin',
-    label: 'Tableau de production',
+    label: 'Dessin - Tableau de production',
     type: 'dynamicTable',
     columns: [
       { key: 'noFichProdDessin', label: 'Numéro du fichier', type: 'text' },

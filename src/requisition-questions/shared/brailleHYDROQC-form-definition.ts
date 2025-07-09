@@ -1,6 +1,6 @@
 export const brailleHYDROQCFormFields = [
-  { label: 'Braille - Informations générales', type: 'header4' },
-  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2:"Informations Générales - Braille", type: 'text' },
+  { label: 'BANQ - Informations générales', type: 'header4' },
+  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2:"Braille - Informations Générales", type: 'text' },
   { key: 'dateRequiseBraille', label: 'Date requise', type: 'text' },
   { key: 'quantiteBraille', label: 'Quantité', type: 'text', defaultValue: '1' },
   { key: 'noPageImprimeesBraille', label: 'Nombre de pages imprimées', type: 'text' },
@@ -47,7 +47,7 @@ export const brailleHYDROQCFormFields = [
   { label: 'Braille - finition et montage', type: 'header4' },
   { key: 'typeFeuilleBraille', type: 'checkbox-list', defaultValue: ['rectoVerso'],
     options: [
-      { label: 'Recto', value: 'recto', label2:"Finition et montage" },
+      { label: 'Recto', value: 'recto', label2:"Braille - Finition et montage" },
       { label: 'Recto/Verso', value: 'rectoVerso' }
     ]
   },
@@ -76,25 +76,25 @@ export const brailleHYDROQCFormFields = [
   {key: 'brocheHydroQCBraille', type: 'checkbox', label:"Broché", defaultValue: true},
 
   { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Braille - Nom du fichier source ou description de la production", type: 'text' },
   
   { label: 'Braille - commentaire', type: 'header4' },
-  { key: 'commentaireBraille', label: 'Commentaire', type: 'textarea' },
+  { key: 'commentaireBraille', label: 'Commentaire', type: 'textarea', label2: 'Braille - commentaire' },
   
   { label: 'Braille - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiBraille', label: 'Nom', label2:"Informations tech. multimédia", type: 'text' },
+  { key: 'nomTechMultiBraille', label: 'Nom', label2:"Braille - Informations tech. multimédia", type: 'text' },
   { key: 'dateTermineMultiBraille', label: 'Terminé le', type: 'text' },
   { key: 'noHeureMultiBraille', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechMultiBraille', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Braille - informations tech. tactile', type: 'header4' },
-  { key: 'nomTechTactileBraille', label: 'Nom', label2:"Informations tech. tactile", type: 'text' },
+  { key: 'nomTechTactileBraille', label: 'Nom', label2:"Braille - Informations tech. tactile", type: 'text' },
   { key: 'dateTermineTactileBraille', label: 'Terminé le', type: 'text' },
   { key: 'noHeureTactileBraille', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechTactileBraille', label: 'Commentaire', type: 'textarea' },
   
   { label: 'Braille - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineBraille', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
+  { key: 'checkboxCQTermineBraille', label: 'Terminé?', label2:"Braille - Contrôle de qualité", type: 'checkbox' },
   { key: 'nomContQualBraille', label: 'Nom', type: 'text' },
   { key: 'dateTermineContQualBraille', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualBraille', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
@@ -103,7 +103,7 @@ export const brailleHYDROQCFormFields = [
   { label: 'Braille - tableau de production', type: 'header4' },
   {
     key: 'tableProductionBraille',
-    label: 'Tableau de production',
+    label: 'Braille - Tableau de production',
     type: 'dynamicTable',
     columns: [
       { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'text' },

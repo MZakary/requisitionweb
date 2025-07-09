@@ -54,7 +54,7 @@ export const agrandisFormFields = [
   { key: 'commentaireAgrandissement', label: 'Commentaire', type: 'textarea', label2:"Agrandissement - commentaire" },
   
   { label: 'Agrandissement - informations tech.', type: 'header4' },
-  { key: 'nomTechAgrandissement', label: 'Nom', label2:"Informations tech.", type: 'text' },
+  { key: 'nomTechAgrandissement', label: 'Nom', label2:"Agrandissement - Informations tech.", type: 'text' },
   { key: 'dateTermineTechAgrandissement', label: 'Terminé le', type: 'text' },
   { key: 'noHeureTechAgrandissement', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechAgrandissement', label: 'Commentaire', type: 'textarea' },
@@ -69,7 +69,7 @@ export const agrandisFormFields = [
   { label: 'Agrandissement - tableau de production', type: 'header4' },
   {
     key: 'tableProductionAgrandissement',
-    label: 'Tableau de production',
+    label: 'Agrandissement - Tableau de production',
     type: 'dynamicTable',
     columns: [
       { key: 'nbsPageAgrandissement', label: 'Nombre de pages', type: 'text' },

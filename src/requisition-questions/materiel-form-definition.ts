@@ -37,6 +37,7 @@ export const materielFormFields = [
       { key: 'HeureVR', label: 'V/R', type: 'text' },
       { key: 'HeureZM', label: 'Z/M', type: 'text' },
       { key: 'HeureAutre', label: 'Autre', type: 'text' },
+      { key: 'sousTotal', label: 'Sous-total', type: 'text' },
     ],
   },
 

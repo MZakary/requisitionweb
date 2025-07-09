@@ -1,6 +1,6 @@
 export const eTextFormFields = [
   { label: 'E-Text - informations générales', type: 'header4' },
-  { key: 'noFichierEText', label: 'Numéro du fichier', label2:"Informations générales - E-Text", type: 'text' },
+  { key: 'noFichierEText', label: 'Numéro du fichier', label2:"E-Text - Informations générales", type: 'text' },
   { key: 'dateRequiseEText', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeEText', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'niveauDifficulteEtext', label: 'Niveau de difficulté', type: 'select',
@@ -19,17 +19,17 @@ export const eTextFormFields = [
   { key: 'graphiqueEText', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
   { label: 'E-Text - finition et montage', type: 'header4' },
-  { key: 'courrielEText', label: 'Courriel', label2:"Finition et montage", type: 'checkbox' },
+  { key: 'courrielEText', label: 'Courriel', label2:"E-Text - Finition et montage", type: 'checkbox' },
   { key: 'autreCourrielEText', label: 'Si autre, expliquer', type: 'text' },
 
   { label: 'E-Text - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceEText', label: 'Nom/Description', label2:"nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceEText', label: 'Nom/Description', label2:"E-Text - nom du fichier source ou description de la production", type: 'text' },
   
   { label: 'E-Text - commentaire', type: 'header4' },
   { key: 'commentaireEText', label: 'Commentaire', label2:"E-Text - commentaire", type: 'text' },
   
   { label: 'E-Text - informations tech.', type: 'header4' },
-  { key: 'nomtechEText', label: 'Nom', label2: "informations tech.", type: 'text' },
+  { key: 'nomtechEText', label: 'Nom', label2: "E-Text - informations tech.", type: 'text' },
   { key: 'terminerTechEText', label: 'Terminé le', type: 'text' },
   { key: 'nbsHeureTravailTechEText', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechEText', label: 'Commentaire', type: 'textarea' },
@@ -45,7 +45,7 @@ export const eTextFormFields = [
   { label: 'E-Text - tableau de production', type: 'header4' },
   {
     key: 'tableauProductionEText',
-    label: 'Tableau de production',
+    label: 'E-Text - Tableau de production',
     type: 'dynamicTable',
     columns: [
       { key: 'noFichProdEText', label: 'Numéro du fichier', type: 'text' },

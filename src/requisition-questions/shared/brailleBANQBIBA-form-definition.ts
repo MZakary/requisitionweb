@@ -1,4 +1,4 @@
-export const brailleBANQFormFields = [
+export const brailleBANQBIBAFormFields = [
   { label: 'Braille - Informations générales', type: 'header4' },
   { key: 'noFichierBrailleBANQ', label: 'Numéro du fichier .txt', label2:"Informations Générales - Braille", type: 'text' },
   { key: 'nbsPagesImprimeesBrailleBANQ', label: 'Nombre de pages imprimées', type: 'text' },

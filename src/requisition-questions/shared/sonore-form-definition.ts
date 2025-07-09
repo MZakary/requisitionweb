@@ -1,6 +1,6 @@
 export const sonoreFormFields = [
   { label: 'Sonore - informations générales', type: 'header4' },
-  { key: 'noFichierSonore', label: 'Numéro du fichier', label2:"Informations générales - Sonore", type: 'text' },
+  { key: 'noFichierSonore', label: 'Numéro du fichier', label2:"Sonore - Informations générales", type: 'text' },
   { key: 'dateRequiseSonore', label: 'Date requise', type: 'text' },
   { key: 'quantiteSonore', label: 'Quantité', type: 'text' },
   { key: 'nbsDePageImprime', label: 'Nombre de pages imprimées', type: 'text' },
@@ -17,7 +17,7 @@ export const sonoreFormFields = [
   { label: 'Sonore - finition et montage', type: 'header4' },
   { key: 'livraisonSonore', type: 'checkbox-list',
     options: [
-      { label: 'Courriel', value: 'courriel', label2: "Finition et montage" },
+      { label: 'Courriel', value: 'courriel', label2: "Sonore - Finition et montage" },
       { label: 'CD', value: 'CD' },
     ]
   },
@@ -40,19 +40,19 @@ export const sonoreFormFields = [
   { key: 'autreEtiquetteSonore', label: "Autre", type: 'text' },
   
   { label: 'Sonore - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2:"Nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2:"Sonore - nom du fichier source ou description de la production", type: 'text' },
   
   { label: 'Sonore - commentaire', type: 'header4' },
-  { key: 'commentaireSonore', label: 'Commentaire', type: 'textarea' },
+  { key: 'commentaireSonore', label: 'Commentaire', type: 'textarea', label2:"Sonore - commentaire" },
   
   { label: 'Sonore - informations tech.', type: 'header4' },
-  { key: 'nomTechSonore', label: 'Nom', label2:"Informations tech.", type: 'text' },
+  { key: 'nomTechSonore', label: 'Nom', label2:"Sonore - Informations tech.", type: 'text' },
   { key: 'dateTermineTechSonore', label: 'Terminé le', type: 'text' },
   { key: 'noHeureTechSonore', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechSonore', label: 'Commentaire', type: 'textarea' },
 
   { label: 'Sonore - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineSonore', label: 'Terminé?', label2:"Contrôle de qualité", type: 'checkbox' },
+  { key: 'checkboxCQTermineSonore', label: 'Terminé?', label2:"Sonore - Contrôle de qualité", type: 'checkbox' },
   { key: 'nomContQualSonore', label: 'Nom', type: 'text' },
   { key: 'dateTermineContQualSonore', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualSonore', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
@@ -61,7 +61,7 @@ export const sonoreFormFields = [
   { label: 'Sonore - tableau de production', type: 'header4' },
   {
     key: 'tableProductionSonore',
-    label: 'Tableau de production',
+    label: 'Sonore - Tableau de production',
     type: 'dynamicTable',
     columns: [
       { key: 'noFichProdSonore', label: 'Numéro du fichier', type: 'text' },

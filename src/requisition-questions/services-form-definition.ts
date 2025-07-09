@@ -38,6 +38,7 @@ export const servicesFormFields = [
       { key: 'HeureZM', label: 'Z/M', type: 'text' },
       { key: 'HeureJL', label: 'J/L', type: 'text' },
       { key: 'HeureAutre', label: 'Autre', type: 'text' },
+      { key: 'sousTotal', label: 'Sous-total', type: 'text' },
     ],
   },
 
