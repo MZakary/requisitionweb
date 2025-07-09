@@ -1,6 +1,6 @@
 export const materielFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionMateriel', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRM' },
+  { key: 'noRequisitionMateriel', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRM', label2: 'Informations générales de la demande' },
   { key: 'noCommandeMateriel', label: 'Numéro de commande', type: 'text' },
   { key: 'dateDemandeMateriel', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseMateriel', label: 'Date requise', type: 'text' },
@@ -12,7 +12,7 @@ export const materielFormFields = [
   { key: 'adresseFacturationMateriel', label: 'Adresse de facturation postale et courriel', type: 'text' },
 
   { label: 'Informations spécifiques', type: 'header2' },
-  { key: 'nomProjetMateriel', label: 'Nom du projet', type: 'text' },
+  { key: 'nomProjetMateriel', label: 'Nom du projet', type: 'text', label2: 'Informations spécifiques' },
   { key: 'confidentielMateriel', type: 'checkbox-list', label: 'Confidentiel',
     options: [
       { label: 'Oui', value: 'recto' },
@@ -22,7 +22,7 @@ export const materielFormFields = [
   { key: 'dosTravailMateriel', label: 'Dossier de travail', type: 'text' },
 
   { key: 'categorieMateriel', label: 'Catégorie de la demande', type: 'header3' },
-  { key: 'matReadaptMateriel', label: 'Matériel réadaptation', type: 'checkbox' },
+  { key: 'matReadaptMateriel', label: 'Matériel réadaptation', type: 'checkbox', label2: 'Catégorie de la demande' },
   { key: 'gabElectroMateriel', label: 'Gabarit électroménager', type: 'checkbox' },
   { key: 'matPromoMateriel', label: 'Matériel promotion ', type: 'checkbox' },
   { key: 'autreCatMateriel', label: 'Autres ', type: 'checkbox' },

@@ -1,7 +1,7 @@
 //import { productionFields } from './shared/productionFields';
 export const scolaireFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionScolaire', label: 'Numéro de réquisition', type: 'text' },
+  { key: 'noRequisitionScolaire', label: 'Numéro de réquisition', type: 'text', label2: 'Informations générales de la demande' },
   { key: 'noDemandeScolaire', label: 'Numéro de commande', type: 'text' },
   { key: 'nomClientScolaire', label: 'Nom du client', type: 'text' },
   { key: 'noClientScolaire', label: 'Numéro du client (si connu)', type: 'text' },
@@ -16,7 +16,7 @@ export const scolaireFormFields = [
   { key: 'livrerEtudiantScolaire', label: "Livrer à l'étudiant", type: 'checkbox' },
   
   { label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetScolaire', label: 'Nom du projet', type: 'text' },
+  { key: 'nomProjetScolaire', label: 'Nom du projet', type: 'text', label2: 'Informations spécifiques du document' },
   { key: 'docSourceScolaire', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
@@ -46,11 +46,11 @@ export const scolaireFormFields = [
 
 export const scolaireFormFieldsAfterPhases = [
   { label: 'Archivage', type: 'header2' },
-  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text' },
+  { key: 'nomResponsableArchivage', label: 'Responsable de l\'archivage', type: 'text', label2: 'Archivage' },
   { key: 'finalArchivage', label: 'Archivage final', type: 'checkbox' },
 
   { label: 'Livraison', type: 'header2' },
-  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text' },
+  { key: 'dateDeLivraison', label: 'Date de livraison', type: 'text', label2: 'Livraison' },
   { key: 'GLSLivraison', label: 'GLS', type: 'checkbox' },
   { key: 'posteCanadaLivraison', label: 'Poste Canada', type: 'checkbox' },
   { key: 'courrielLivraison', label: 'Courriel', type: 'checkbox' },
@@ -94,7 +94,7 @@ export const scolaireFormFieldsAfterPhases = [
       { key: 'description', label: 'Description', type: 'text' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number' },
     ]
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },

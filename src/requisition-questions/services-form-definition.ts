@@ -1,7 +1,7 @@
 //import { productionFields } from './shared/productionFields';
 export const servicesFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionService', label: 'Numéro de Réquisition', type: 'text', defaultValue: 'AIRA' },
+  { key: 'noRequisitionService', label: 'Numéro de Réquisition', type: 'text', defaultValue: 'AIRA', label2: 'Informations générales de la demande' },
   { key: 'noCommandeService', label: 'Numéro de commande', type: 'text' },
   { key: 'dateDemandeService', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseService', label: 'Date requise', type: 'text' },
@@ -12,7 +12,7 @@ export const servicesFormFields = [
   { key: 'noTelephoneService', label: 'Numéro de téléphone', type: 'text' },
   { key: 'adresseFacturationService', label: 'Adresse de facturation postale et courriel', type: 'text' },
 
-  { label: 'Informations spécifiques', type: 'header2' },
+  { label: 'Informations spécifiques', type: 'header2', label2: 'Informations spécifiques du document' },
   { key: 'nomProjetService', label: 'Nom du projet', type: 'text' },
   { key: 'confidentielService', type: 'checkbox-list', label: 'Confidentiel',
     options: [
@@ -23,7 +23,7 @@ export const servicesFormFields = [
   { key: 'dosTravailService', label: 'Dossier de travail', type: 'text' },
 
   { label: 'Catégorie de la demande', type: 'header3' },
-  { key: 'devService', label: 'Développement', type: 'checkbox' },
+  { key: 'devService', label: 'Développement', type: 'checkbox', label2: 'Catégorie de la demande' },
   { key: 'evalService', label: 'Évaluation', type: 'checkbox' },
   { key: 'rechService', label: 'Recherche', type: 'checkbox' },
   { key: 'soutService', label: 'Soutien professionnel', type: 'checkbox' },
@@ -42,7 +42,7 @@ export const servicesFormFields = [
   },
 
   { label: 'Informations administratives', type: 'header3' },
-  { key: 'facturableService', label: 'Réquisition facturable', type: 'checkbox' },
+  { key: 'facturableService', label: 'Réquisition facturable', type: 'checkbox', label2: 'Informations administratives' },
   { key: 'createurService', label: 'Réquisition préparée par', type: 'text' },
 ];
 
@@ -58,7 +58,7 @@ export const servicesFormFieldsAfterPhases = [
       { key: 'description', label: 'Description', type: 'text' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number' },
     ]
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
