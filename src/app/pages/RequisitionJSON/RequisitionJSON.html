@@ -294,10 +294,13 @@
               *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQBIBAFormFields, title: 'Braille Intégral et Abrégé' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQBIBAFormFields, title: 'BANQ Intégral et Abrégé' }"></ng-container>
+            
+              <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ2', fields: brailleBANQBIOUBAFormFields, title: 'BANQ Intégral ou Abrégé' }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'Braille Duo-Média' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'BANQ Duo-Média' }"></ng-container>
             
             
             <ng-container
