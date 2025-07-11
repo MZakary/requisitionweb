@@ -699,6 +699,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     a.download = 'requisition.json';
     a.click();
     URL.revokeObjectURL(url);
+
+    this.form.markAsPristine(); // Marks the form as "not dirty"
   }
 
   canDeactivate(): boolean {
