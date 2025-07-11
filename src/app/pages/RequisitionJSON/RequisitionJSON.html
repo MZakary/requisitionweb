@@ -16,7 +16,8 @@
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
         <label [for]="field.key">{{ field.label }}</label>
-        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 30%" />
+        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 45%"
+          autoResize />
       </p-floatLabel>
 
       <!-- TABLEAU HEURE REQ -->
@@ -53,7 +54,7 @@
 
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
         <label [for]="field.key">{{ field.label }}</label>
-        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 30%" [autoResize]="true"
+        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 45%" [autoResize]="true"
           class="p-inputtext"></textarea>
       </p-floatLabel>
 
@@ -81,7 +82,7 @@
       <div *ngIf="field.type === 'select'" class="p-field">
         <label [for]="field.key">{{ field.label }}</label>
         <p-dropdown [options]="field.options" optionLabel="label" optionValue="value" [inputId]="field.key"
-          [filter]="true" [showClear]="true" [formControlName]="field.key" [style]="{ width: '30%' }"
+          [filter]="true" [showClear]="true" [formControlName]="field.key" [style]="{ width: '45%' }"
           ariaLabel="{{ field.label }}"></p-dropdown>
       </div>
 
@@ -132,8 +133,8 @@
         <div class="facturation-total-row">
           <p-floatLabel variant="on">
             <label for="facturation-total">Total</label>
-            <input pInputText id="facturation-total"
-              style="font-weight: bold;" aria-label="Total de la facturation" aria-live="polite" />
+            <input pInputText id="facturation-total" style="font-weight: bold;" aria-label="Total de la facturation"
+              aria-live="polite" />
           </p-floatLabel>
         </div>
         <br>
@@ -173,21 +174,21 @@
                     <ng-container [ngSwitch]="field.type">
 
                       <!-- Horizontal Seperator -->
-                      <hr *ngSwitchCase="'hr'" style="width: 30%" />
+                      <hr *ngSwitchCase="'hr'" style="width: 45%" />
                       <!-- Header 4 -->
                       <h4 *ngSwitchCase="'header4'">{{ field.label }}</h4>
 
                       <!-- Text input -->
                       <p-floatLabel *ngSwitchCase="'text'" variant="on">
                         <label [for]="field.key">{{ field.label }}</label>
-                        <input pInputText [id]="field.key" [formControlName]="field.key" style="width: 30%"
+                        <input pInputText [id]="field.key" [formControlName]="field.key" style="width: 45%"
                           ariaLabel="{{field.label2}} - {{ field.label }}" />
                       </p-floatLabel>
 
                       <!-- Text Area input -->
                       <p-floatLabel *ngSwitchCase="'textarea'" variant="on" class="textarea-label">
                         <label [for]="field.key">{{ field.label }}</label>
-                        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 30%"
+                        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 45%"
                           [autoResize]="true" class="p-inputtext"></textarea>
                       </p-floatLabel>
 
@@ -209,7 +210,7 @@
                           </div>
                         </div>
                       </div>
-                      
+
                       <!-- Dynamic Table -->
                       <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
                         <!-- <label>{{ field.label }}</label> -->
@@ -241,7 +242,7 @@
                           {{ field.label }}
                         </label>
                         <p-dropdown [options]="field.options" [formControlName]="field.key" [filter]="true"
-                          [showClear]="true" [style]="{ width: '30%' }" [inputId]="field.key"
+                          [showClear]="true" [style]="{ width: '45%' }" [inputId]="field.key"
                           ariaLabel="{{ field.label2 }} - {{ field.label }}"></p-dropdown>
                       </ng-container>
 
@@ -259,13 +260,13 @@
             </ng-template>
 
             <!-- Then call it twice for eText and Braille -->
-            
+
             <ng-container
-            *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"></ng-container>
-            
+              *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"></ng-container>
+
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text' }"></ng-container>
-            
+
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"></ng-container>
 
@@ -295,24 +296,41 @@
 
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQBIBAFormFields, title: 'BANQ Intégral et Abrégé' }"></ng-container>
-            
-              <ng-container
+
+            <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ2', fields: brailleBANQBIOUBAFormFields, title: 'BANQ Intégral ou Abrégé' }"></ng-container>
 
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'BANQ Duo-Média' }"></ng-container>
-            
-            
+
+
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'brailleHYDROQC', fields: brailleHYDROQCFormFields, title: 'Braille' }"></ng-container>
-            
+
             <ng-container
               *ngTemplateOutlet="renderFields; context: { type: 'grossiHYDROQC', fields: grossiHYDROQCFormFields, title: 'Caractères agrandis' }"></ng-container>
 
             <!-- Audio Fields -->
 
             <!-- ✅ Move delete button here -->
-            <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="deletePhase(i)" />
+            <!-- <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="deletePhase(i)" /> -->
+
+            <div style="margin-top: 1rem;">
+              <ng-container *ngIf="confirmDeleteIndex !== i; else confirmButtons">
+                <p-button icon="pi pi-trash" label="Supprimer la phase" class="p-button-danger"
+                  (click)="confirmDeleteIndex = i"></p-button>
+              </ng-container>
+
+              <ng-template #confirmButtons>
+                <div style="display: flex; gap: 0.5rem;">
+                  <p-button label="Confirmer" icon="pi pi-check" class="p-button-danger"
+                    (click)="confirmDeletePhase(i)"></p-button>
+                  <p-button label="Annuler" icon="pi pi-times" class="p-button-secondary"
+                    (click)="confirmDeleteIndex = null"></p-button>
+                </div>
+              </ng-template>
+            </div>
+
 
             <hr />
 
@@ -320,6 +338,7 @@
         </div>
 
         <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" (onClick)="addPhase()"></p-button>
+
 
         <hr>
       </ng-container>

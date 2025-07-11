@@ -3,6 +3,7 @@ import { AppLayout } from './app/layout/component/app.layout';
 import { Dashboard } from './app/pages/dashboard/dashboard';
 import { Notfound } from './app/pages/notfound/notfound';
 import { RequisitionJSON } from './app/pages/RequisitionJSON/RequisitionJSON';
+import { ConfirmExitGuard } from './app/pages/Guard/confirm-exit.guard';
 
 export const appRoutes: Routes = [
     {
@@ -10,13 +11,13 @@ export const appRoutes: Routes = [
         component: AppLayout,
         children: [
             { path: '', component: Dashboard },
-            { path: 'requisition-json-externe', component: RequisitionJSON },
-            { path: 'requisition-json-interne', component: RequisitionJSON },
-            { path: 'requisition-json-scolaire', component: RequisitionJSON },
-            { path: 'requisition-json-services', component: RequisitionJSON },
-            { path: 'requisition-json-banq', component: RequisitionJSON },
-            { path: 'requisition-json-hydroqc', component: RequisitionJSON },
-            { path: 'requisition-json-materiel', component: RequisitionJSON },
+            { path: 'requisition-json-externe', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
+            { path: 'requisition-json-interne', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
+            { path: 'requisition-json-scolaire', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
+            { path: 'requisition-json-services', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
+            { path: 'requisition-json-banq', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
+            { path: 'requisition-json-hydroqc', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
+            { path: 'requisition-json-materiel', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ]
     },

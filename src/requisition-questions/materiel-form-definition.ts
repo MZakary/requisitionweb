@@ -43,6 +43,8 @@ export const materielFormFields = [
 
   { key: 'infoAdminMateriel', label: 'Informations administratives', type: 'header3' },
   { key: 'facturableMateriel', label: 'Réquisition facturable', type: 'checkbox' },
+  { key: 'materielCommentaire', label: 'Commentaire', type: 'textarea' },
+
   { key: 'createurMateriel', label: 'Réquisition préparée par', type: 'text' },
 ];
 

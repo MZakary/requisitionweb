@@ -10,6 +10,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
+import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -35,7 +36,7 @@ import { autreFormFields } from '../../../requisition-questions/shared/autre-for
 import { brailleBANQBIBAFormFields, brailleBANQBIOUBAFormFields } from '../../../requisition-questions/shared/brailleBANQBIBA-form-definition';
 import { brailleDuoMediaBANQFormFields } from '../../../requisition-questions/shared/brailleDuoMediaBANQ-form-definition';
 import { brailleHYDROQCFormFields } from '../../../requisition-questions/shared/brailleHYDROQC-form-definition';
-import { grossiHYDROQCFormFields } from '../../../requisition-questions/shared/grossiHYDROQC-form-definition';  
+import { grossiHYDROQCFormFields } from '../../../requisition-questions/shared/grossiHYDROQC-form-definition';
 
 import { productionFields } from '../../../requisition-questions/shared/productionFields';
 import { productionFieldsBANQ } from '../../../requisition-questions/shared/productionFieldsBANQ';
@@ -72,7 +73,7 @@ enum RequisitionType {
     MultiSelectModule,
   ],
 })
-export class RequisitionJSON implements OnInit, AfterViewInit {
+export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeactivate {
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
   //@ViewChild('phaseAnnounce') phaseAnnounce!: ElementRef;
@@ -525,6 +526,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     }
   }
 
+  confirmDeleteIndex: number | null = null;
+
+  confirmDeletePhase(index: number): void {
+    this.deletePhase(index);
+    this.confirmDeleteIndex = null;
+  }
+
+
   deletePhase(index: number): void {
     this.phases.removeAt(index);
   }
@@ -690,5 +699,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit {
     a.download = 'requisition.json';
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  canDeactivate(): boolean {
+    if (this.form?.dirty) {
+      return confirm('Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page?');
+    }
+    return true;
   }
 }

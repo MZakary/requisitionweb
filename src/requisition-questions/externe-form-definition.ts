@@ -12,7 +12,7 @@ export const externeFormFields = [
   { key: 'nomContactExterne', label: 'Nom du contact', type: 'text' },
   { key: 'courrielContactExterne', label: 'Courriel du contact', type: 'text' },
   { key: 'noTelephoneExterne', label: 'Numéro de téléphone', type: 'text' },
-  { key: 'adresseFacturationExterne', label: 'Adresse de facturation postale et courriel', type: 'text' },
+  { key: 'adresseFacturationExterne', label: 'Adresse de facturation postale et courriel', type: 'textarea' },
 
   { label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document"},
@@ -58,7 +58,7 @@ export const externeFormFieldsAfterPhases = [
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
   { key: 'courrierInterneLivraisonText', label: 'Coordonnées interne', type: 'text' },
-  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
+  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'textarea' },
 
   { label: 'Retour du document', type: 'header2' },
   {
