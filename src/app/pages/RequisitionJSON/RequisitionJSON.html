@@ -164,7 +164,7 @@
             </div>
 
 
-            <ng-template #renderFields let-type="type" let-fields="fields" let-i="index" let-title="title">
+            <ng-template #renderFields let-type="type" let-fields="fields" let-title="title" let-index="index">
               <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
                 <hr />
                 <h3>{{ title }}</h3>
@@ -175,8 +175,8 @@
 
                       <!-- Horizontal Seperator -->
                       <hr *ngSwitchCase="'hr'" style="width: 45%" />
-                      <!-- Header 4 -->
-                      <h4 *ngSwitchCase="'header4'">{{ field.label }}</h4>
+                      <!-- Header 4 add phases number next to title-->
+                      <h4 *ngSwitchCase="'header4'">{{ field.label }} - Phase {{ index + 1 }}</h4> 
 
                       <!-- Text input -->
                       <p-floatLabel *ngSwitchCase="'text'" variant="on">
@@ -262,53 +262,52 @@
             <!-- Then call it twice for eText and Braille -->
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'braille', fields: brailleFormFields, title: 'Braille', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'etext', fields: eTextFormFields, title: 'E-Text', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'grossi', fields: grossiFormFields, title: 'Caractères Agrandis', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'agrandis', fields: agrandisFormFields, title: 'Agrandissement' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'agrandis', fields: agrandisFormFields, title: 'Agrandissement', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'num', fields: numerisationFormFields, title: 'Numérisation' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'num', fields: numerisationFormFields, title: 'Numérisation', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'pdf', fields: pdfFormFields, title: 'PDF' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'pdf', fields: pdfFormFields, title: 'PDF', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'html', fields: htmlFormFields, title: 'HTML' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'html', fields: htmlFormFields, title: 'HTML', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'form', fields: formulaireFormFields, title: 'Formulaire' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'form', fields: formulaireFormFields, title: 'Formulaire', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'dessin', fields: dessinFormFields, title: 'Dessin' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'dessin', fields: dessinFormFields, title: 'Dessin', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'sonore', fields: sonoreFormFields, title: 'Sonore' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'sonore', fields: sonoreFormFields, title: 'Sonore', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'autre', fields: autreFormFields, title: 'Autre', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQBIBAFormFields, title: 'BANQ Intégral et Abrégé' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ', fields: brailleBANQBIBAFormFields, title: 'BANQ Intégral et Abrégé', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ2', fields: brailleBANQBIOUBAFormFields, title: 'BANQ Intégral ou Abrégé' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleBANQ2', fields: brailleBANQBIOUBAFormFields, title: 'BANQ Intégral ou Abrégé', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'BANQ Duo-Média' }"></ng-container>
-
-
-            <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'brailleHYDROQC', fields: brailleHYDROQCFormFields, title: 'Braille' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleDuoMedia', fields: brailleDuoMediaBANQFormFields, title: 'BANQ Duo-Média', index: i }"></ng-container>
 
             <ng-container
-              *ngTemplateOutlet="renderFields; context: { type: 'grossiHYDROQC', fields: grossiHYDROQCFormFields, title: 'Caractères agrandis' }"></ng-container>
+              *ngTemplateOutlet="renderFields; context: { type: 'brailleHYDROQC', fields: brailleHYDROQCFormFields, title: 'Braille', index: i }"></ng-container>
+
+            <ng-container
+              *ngTemplateOutlet="renderFields; context: { type: 'grossiHYDROQC', fields: grossiHYDROQCFormFields, title: 'Caractères agrandis', index: i }"></ng-container>
 
             <!-- Audio Fields -->
 
@@ -317,7 +316,7 @@
 
             <div style="margin-top: 1rem;">
               <ng-container *ngIf="confirmDeleteIndex !== i; else confirmButtons">
-                <p-button icon="pi pi-trash" label="Supprimer la phase" class="p-button-danger"
+                <p-button icon="pi pi-trash" label="Supprimer la phase"
                   (click)="confirmDeleteIndex = i"></p-button>
               </ng-container>
 
