@@ -361,8 +361,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     array.removeAt(index);
   }
 
-
-
   addTableRow(phase: AbstractControl, type: string, field: any): void {
     const group = this.getNestedGroup(phase, type);
     const array = group.get(field.key) as FormArray;

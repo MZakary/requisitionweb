@@ -176,7 +176,7 @@
                       <!-- Horizontal Seperator -->
                       <hr *ngSwitchCase="'hr'" style="width: 45%" />
                       <!-- Header 4 add phases number next to title-->
-                      <h4 *ngSwitchCase="'header4'">{{ field.label }} - Phase {{ index + 1 }}</h4> 
+                      <h4 *ngSwitchCase="'header4'">{{ field.label }} - Phase {{ index + 1 }}</h4>
 
                       <!-- Text input -->
                       <p-floatLabel *ngSwitchCase="'text'" variant="on">
@@ -212,9 +212,9 @@
                       </div>
 
                       <!-- Dynamic Table -->
-                      <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
-                        <!-- <label>{{ field.label }}</label> -->
-                        <div formArrayName="{{field.key}}">
+                      <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" [attr.aria-label]="field.label">
+                        <h5>{{ field.label }}</h5>
+                        <div [formArrayName]="field.key">
                           <div
                             *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"
                             [formGroupName]="rowIndex" class="dynamic-table-row">
@@ -222,17 +222,30 @@
                               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
                               <p-floatLabel variant="on">
                                 <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
-                                <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
-                                  [formControlName]="col.key" type="text" />
+
+                                <!-- Conditionally render input or textarea -->
+                                <ng-container [ngSwitch]="col.type">
+                                  <!-- Textarea if column type is textarea -->
+                                  <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
+                                    [id]="field.key + '-' + rowIndex + '-' + col.key"
+                                    [formControlName]="col.key"></textarea>
+
+                                  <!-- Default input -->
+                                  <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                                    [formControlName]="col.key" type="text" class="p-inputtext"/>
+                                </ng-container>
                               </p-floatLabel>
                             </div>
+
                             <p-button label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)"
                               icon="pi pi-trash"></p-button>
                           </div>
                         </div>
+
                         <p-button label="Ajouter une ligne" (click)="addTableRow(phase, type, field)"
                           icon="pi pi-add"></p-button>
                       </div>
+
 
 
 
@@ -316,16 +329,13 @@
 
             <div style="margin-top: 1rem;">
               <ng-container *ngIf="confirmDeleteIndex !== i; else confirmButtons">
-                <p-button icon="pi pi-trash" label="Supprimer la phase"
-                  (click)="confirmDeleteIndex = i"></p-button>
+                <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="confirmDeleteIndex = i"></p-button>
               </ng-container>
 
               <ng-template #confirmButtons>
                 <div style="display: flex; gap: 0.5rem;">
-                  <p-button label="Confirmer" icon="pi pi-check"
-                    (click)="confirmDeletePhase(i)"></p-button>
-                  <p-button label="Annuler" icon="pi pi-times"
-                    (click)="confirmDeleteIndex = null"></p-button>
+                  <p-button label="Confirmer" icon="pi pi-check" (click)="confirmDeletePhase(i)"></p-button>
+                  <p-button label="Annuler" icon="pi pi-times" (click)="confirmDeleteIndex = null"></p-button>
                 </div>
               </ng-template>
             </div>

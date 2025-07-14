@@ -84,11 +84,11 @@ export const externeFormFieldsAfterPhases = [
       { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'text' },
       { key: 'archiveExterne', label: 'Archivé', type: 'text' },
     ],
-    defaultValues: {
-      0: { phasesExterne: 'Phase 1', typeDeProductionExterne: 'PDF', archiveExterne: 'Non' },
-      1: { phasesExterne: 'Phase 2', typeDeProductionExterne: 'Braille', archiveExterne: 'Oui' },
-    },
-    defaultRowCount: 2
+    // defaultValues: {
+    //   0: { phasesExterne: 'Phase 1', typeDeProductionExterne: 'PDF', archiveExterne: 'Non' },
+    //   1: { phasesExterne: 'Phase 2', typeDeProductionExterne: 'Braille', archiveExterne: 'Oui' },
+    // },
+    // defaultRowCount: 2
   },
 
   { label: 'Facturation', type: 'header2' },
