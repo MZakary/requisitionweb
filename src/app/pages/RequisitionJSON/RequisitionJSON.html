@@ -88,6 +88,7 @@
 
       <!-- Dynamic Table (outside phases) -->
       <div *ngIf="field.type === 'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
+        <h4 *ngIf="field.needsTitle">{{ field.label }}</h4>
         <div [formArrayName]="field.key">
           <div *ngFor="let row of getTopLevelDynamicTableArray(field.key).controls; let rowIndex = index"
             [formGroupName]="rowIndex" class="dynamic-table-row">
@@ -213,7 +214,7 @@
 
                       <!-- Dynamic Table -->
                       <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" [attr.aria-label]="field.label">
-                        <h5>{{ field.label }}</h5>
+                        <h5 *ngIf="field.needsTitle">{{ field.label }}</h5>
                         <div [formArrayName]="field.key">
                           <div
                             *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"

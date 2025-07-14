@@ -36,7 +36,19 @@ export const banqFormFieldsAfterPhases = [
       { key: 'quantite', label: 'Nbr page', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },
-    ]
+    ],
+    defaultValues: {
+      0: { typeDeBraille: 'Abrégé', nbrVol: '', quantite: '', prix: '1.95', total: '0' },
+      1: { typeDeBraille: 'Intégral', nbrVol: '', quantite: '', prix: '1.95', total: '0' },
+      2: { typeDeBraille: 'Intégral (ab + in)', nbrVol: '', quantite: '', prix: '0.90', total: '0' },
+      3: { typeDeBraille: 'Duo-médias (-12 pages)', nbrVol: '', quantite: '', prix: '50.00', total: '0' },
+      4: { typeDeBraille: 'Duo-médias', nbrVol: '', quantite: '', prix: '1.95', total: '' },
+      5: { typeDeBraille: 'Trio-médias', nbrVol: '', quantite: '', prix: '1.95', total: '' },
+      6: { typeDeBraille: 'Ré-impression', nbrVol: '', quantite: '', prix: '0.35', total: '' },
+      7: { typeDeBraille: 'Couvertures', nbrVol: '', quantite: '', prix: '6.00', total: '' },
+      8: { typeDeBraille: 'Réparation cartable', nbrVol: '', quantite: '', prix: '15.00', total: '' },
+    },
+    defaultRowCount: 9
   },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85873' },

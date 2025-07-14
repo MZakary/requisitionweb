@@ -96,6 +96,7 @@ export const brailleBANQBIBAFormFields = [
   {
     key: 'tableProductionBrailleBA',
     label: 'BANQ abrégé et intégral - Tableau de production - BA',
+    needsTitle: true,
     type: 'dynamicTable',
     columns: [
       { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
@@ -115,6 +116,7 @@ export const brailleBANQBIBAFormFields = [
   {
     key: 'tableProductionBrailleBI',
     label: 'BANQ abrégé et intégral - Tableau de production - BI',
+    needsTitle: true,
     type: 'dynamicTable',
     columns: [
       { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb (bi)', type: 'text' },
