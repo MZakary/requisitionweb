@@ -133,7 +133,12 @@ export const brailleFormFields = [
       { key: 'detProdBraille', label: 'Détail de la pagination', type: 'text' },
       { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'text' },
       { key: 'noteProdBraille', label: 'Notes Prod.', type: 'text' }
-    ]
+    ],
+    defaultValues: {
+      0: { detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      1: { detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+    },
+    defaultRowCount: 2,
   },
 
   { label: 'Braille - tableau des étiquettes', type: 'header4' },
