@@ -242,14 +242,20 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
         group[field.key] = this.fb.group(checkboxGroup);
       } else if (field.type === 'dynamicTable' || field.type === 'facturationTable') {
-        const rows = this.fb.array([
-          this.fb.group(
-            field.columns.reduce((acc: any, col: any) => {
-              acc[col.key] = new FormControl('');
+        const defaultValues = field.defaultValues || {};
+        const defaultRowCount = field.defaultRowCount || 1;
+
+        const rows = this.fb.array(
+          Array.from({ length: defaultRowCount }).map((_, rowIndex) => {
+            const rowDefaultValues = defaultValues[rowIndex] || {};
+            const groupControls = field.columns.reduce((acc: any, col: any) => {
+              acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
               return acc;
-            }, {})
-          )
-        ]);
+            }, {});
+            return this.fb.group(groupControls);
+          })
+        );
+
         group[field.key] = rows;
       } else {
         // Handle all other field types with proper default values
@@ -303,11 +309,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.totalHeuresValue = total;
   }
 
-
-
-
-
-
   getTableHeureArray(key: string): FormArray {
     return this.form.get(key) as FormArray;
   }
@@ -335,33 +336,24 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   ---------------------------------------------------------------------------
   */
 
-  // facturationTotal: number = 0;
-
-  // updateFacturationTotal(): void {
-  //   const array = this.form.get('facturation') as FormArray;
-  //   if (!array) return;
-  //   this.facturationTotal = array.controls.reduce((sum, group: AbstractControl) => {
-  //     const q = Number(group.get('quantite')?.value) || 0;
-  //     const p = Number(group.get('prix')?.value) || 0;
-  //     return sum + q * p;
-  //   }, 0);
-  // }
-
-  //add updtateFacturationTotal() in html as well if restored
-
   getTopLevelDynamicTableArray(key: string): FormArray {
     return this.form.get(key) as FormArray;
   }
 
   addTopLevelTableRow(field: any): void {
     const array = this.getTopLevelDynamicTableArray(field.key);
+    const defaultValues = field.defaultValues || {};
+    const nextRowIndex = array.length;
+    const rowDefaultValues = defaultValues[nextRowIndex] || defaultValues[0] || {};
+
     const newRow = this.fb.group(
       field.columns.reduce((acc: any, col: any) => {
-        acc[col.key] = new FormControl('');
+        acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
         return acc;
       }, {})
     );
     array.push(newRow);
+
   }
 
   removeTopLevelTableRow(key: string, index: number): void {
@@ -375,14 +367,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const group = this.getNestedGroup(phase, type);
     const array = group.get(field.key) as FormArray;
 
+    const defaultValues = field.defaultValues || {};
+    const nextRowIndex = array.length;
+    const rowDefaultValues = defaultValues[nextRowIndex] || defaultValues[0] || {};
+
     const newRow = this.fb.group(
       field.columns.reduce((acc: any, col: any) => {
-        acc[col.key] = new FormControl('');
+        acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
         return acc;
       }, {})
     );
-
     array.push(newRow);
+
   }
 
   removeTableRow(phase: AbstractControl, type: string, key: string, index: number): void {
@@ -477,14 +473,19 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         });
         group[field.key] = this.fb.group(tableGroup);
       } else if (field.type === 'dynamicTable') {
-        const rows = this.fb.array([
-          this.fb.group(
-            field.columns.reduce((acc: any, col: any) => {
-              acc[col.key] = new FormControl('');
+        const defaultValues = field.defaultValues || {};
+        const defaultRowCount = field.defaultRowCount || 1;
+
+        const rows = this.fb.array(
+          Array.from({ length: defaultRowCount }).map((_, rowIndex) => {
+            const rowDefaultValues = defaultValues[rowIndex] || {};
+            const groupControls = field.columns.reduce((acc: any, col: any) => {
+              acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
               return acc;
-            }, {})
-          )
-        ]);
+            }, {});
+            return this.fb.group(groupControls);
+          })
+        );
         group[field.key] = rows;
       } else {
         // Handle all other field types

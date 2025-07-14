@@ -15,7 +15,7 @@ export const externeFormFields = [
   { key: 'adresseFacturationExterne', label: 'Adresse de facturation postale et courriel', type: 'textarea' },
 
   { label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document"},
+  { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
   {
     key: 'confidentielExterne', type: 'checkbox-list', label: 'Confidentiel',
     options: [
@@ -69,24 +69,30 @@ export const externeFormFieldsAfterPhases = [
     ]
   },
   { key: 'dateRetourDocumentText', label: 'Date de retour du document', type: 'text' },
-  
+
   { label: 'Livraison - commentaire', type: 'header2' },
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
 
 
   { label: 'Tableau de livraisons', type: 'header2' },
-  { key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
+  {
+    key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
     columns: [
       { key: 'phasesExterne', label: 'Phases', type: 'text' },
       { key: 'typeDeProductionExterne', label: 'Type de production', type: 'text' },
       { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'text' },
       { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'text' },
       { key: 'archiveExterne', label: 'Archivé', type: 'text' },
-    ]
+    ],
+    defaultValues: {
+      0: { phasesExterne: 'Phase 1', typeDeProductionExterne: 'PDF', archiveExterne: 'Non' },
+      1: { phasesExterne: 'Phase 2', typeDeProductionExterne: 'Braille', archiveExterne: 'Oui' },
+    },
+    defaultRowCount: 2
   },
 
   { label: 'Facturation', type: 'header2' },
-  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2: "Facturation", type: 'text' },
   {
     key: 'facturation',
     label: 'Tableau de facturation',
