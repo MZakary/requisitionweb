@@ -119,10 +119,10 @@ export const brailleBANQBIBAFormFields = [
     needsTitle: true,
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb (bi)', type: 'text' },
-      { key: 'detProdBraille', label: 'Détail de la pagination (bi)', type: 'text' },
-      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair) (bi)', type: 'text' },
-      { key: 'noteProdBraille', label: 'Notes Prod. (bi)', type: 'text' }
+      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
+      { key: 'detProdBraille', label: 'Détail de la pagination', type: 'textarea' },
+      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'textarea' },
+      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'textarea' }
     ],
     defaultValues: {
       0: { noFichProdBraille: 'xxxxbi01', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
@@ -135,6 +135,10 @@ export const brailleBANQBIBAFormFields = [
   },
 
 ];
+
+
+
+
 
 export const brailleBANQBIOUBAFormFields = [
   { label: 'BANQ abrégé ou intégral - Informations générales', type: 'header4' },
@@ -236,11 +240,22 @@ export const brailleBANQBIOUBAFormFields = [
     label: 'BANQ abrégé ou intégral - Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'detProdBraille', label: 'Détail de la pagination', type: 'text' },
-      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'text' },
-      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'text' }
-    ]
+      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
+      { key: 'detProdBraille', label: 'Détail de la pagination', type: 'textarea' },
+      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'textarea' },
+      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'textarea' }
+    ],
+    defaultValues: {
+      0: { noFichProdBraille: 'xxxx01', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      1: { noFichProdBraille: 'xxxx02', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      2: { noFichProdBraille: 'xxxx03', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      3: { noFichProdBraille: 'xxxx04', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      4: { noFichProdBraille: 'xxxx05', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      5: { noFichProdBraille: 'xxxx06', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      6: { noFichProdBraille: 'xxxx07', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      7: { noFichProdBraille: 'xxxx08', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+    },
+    defaultRowCount: 8,
   },
 
 ];

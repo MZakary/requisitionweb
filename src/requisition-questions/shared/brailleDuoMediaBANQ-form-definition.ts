@@ -84,10 +84,14 @@ export const brailleDuoMediaBANQFormFields = [
     label: 'BANQ Duo-Média - Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'nbsPageProdBraille', label: 'Nombre de pages total', type: 'text' },
-      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'text' }
-    ]
+      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
+      { key: 'nbsPageProdBraille', label: 'Nombre de pages total', type: 'textarea' },
+      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'textarea' }
+    ],
+    defaultValues: {
+      0: { noFichProdBraille: 'xxxxbi(duo)' },
+    },
+    defaultRowCount: 1,
   },
 
 ];
