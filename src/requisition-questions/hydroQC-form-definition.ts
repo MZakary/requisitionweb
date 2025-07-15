@@ -67,7 +67,11 @@ export const hydroqcFormFieldsAfterPhases = [
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },
-    ]
+    ],
+    defaultValues: {
+      0: { prix: '75.00' },
+    },
+    defaultRowCount: 1,
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
