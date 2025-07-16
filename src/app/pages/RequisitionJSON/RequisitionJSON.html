@@ -3,7 +3,8 @@
 
   <div class="p-field">
     <label for="json-upload">Charger un fichier JSON:</label>
-    <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" />
+    <!-- <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" /> -->
+     <p-button label="Importer un fichier JSON" (onClick)="openAndLockFile()"></p-button>
   </div>
 
   <hr />

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-dashboard',
-    //imports: [StatsWidget, RecentSalesWidget, BestSellingWidget, RevenueStreamWidget, NotificationsWidget],
     styleUrls: ['./dashboard.scss'],
     template: `
         <div class="card">
