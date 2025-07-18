@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
-import { Observable } from 'rxjs';
+import { RequisitionJSON } from '../RequisitionJSON/RequisitionJSON'; // Adjust path
 
 export interface CanComponentDeactivate {
-  canDeactivate: () => boolean | Observable<boolean>;
+  canDeactivate: () => boolean | Promise<boolean>;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ConfirmExitGuard implements CanDeactivate<CanComponentDeactivate> {
-  canDeactivate(component: CanComponentDeactivate): boolean | Observable<boolean> {
+  canDeactivate(
+    component: CanComponentDeactivate
+  ): boolean | Promise<boolean> {
     return component.canDeactivate ? component.canDeactivate() : true;
   }
 }

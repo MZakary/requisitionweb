@@ -1,4 +1,25 @@
 <div class="card requisitonJSON">
+
+  <app-confirm-dialog
+  [showRejectButton]="true"
+  [(visible)]="exitDialogVisible"
+  [message]="'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page?'"
+  [header]="'Quitter la page?'"
+  (accept)="onConfirmNavigation()"
+  (reject)="onCancelNavigation()"
+  >
+</app-confirm-dialog>
+
+<app-confirm-dialog
+  [(visible)]="lockDialogVisible"
+  [message]="lockMessage"
+  [header]="'Fichier verrouillé'"
+  [acceptLabel]="'OK'"
+  [rejectLabel]="''"
+  (accept)="onLockDialogClose()"
+  [showRejectButton]="false">
+</app-confirm-dialog>
+
   <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
 
   <div class="p-field">

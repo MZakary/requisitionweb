@@ -2,6 +2,10 @@
     "name": "requisitionweb",
     "version": "19.0.1",
     "main": "main.js",
+    "author": {
+        "name": "Zakary Mitrovic",
+        "email": "mitroviczakary@gmail.com"
+    },
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
@@ -12,8 +16,10 @@
         "electron": "electron ."
     },
     "build": {
-        "appId": "com.yourcompany.requisitionweb",
+        "appId": "com.mitroviczakary.requisitionweb",
         "productName": "RequisitionWeb",
+        "publisherName": "Zakary Mitrovic",
+        "copyright": "Copyright © 2025 Zak",
         "icon": "src/assets/icon/icon.png",
         "files": [
             "dist/",

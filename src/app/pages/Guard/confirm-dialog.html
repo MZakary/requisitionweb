@@ -1,0 +1,12 @@
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false" [style]="{width: '30vw'}" [baseZIndex]="10000" (onShow)="focusDialogTitle()">
+  <ng-template pTemplate="header">
+    <h1 tabindex="0" #dialogTitle>{{ header }}</h1>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <p>{{ message }}</p>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button [hidden]="!showRejectButton" pButton type="button" label="{{ rejectLabel }}" (click)="onReject()" class="p-button-text"></button>
+    <button pButton type="button" label="{{ acceptLabel }}" (click)="onAccept()"></button>
+  </ng-template>
+</p-dialog>

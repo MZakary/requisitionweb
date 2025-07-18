@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
+import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the confirm dialog component
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -71,9 +72,17 @@ enum RequisitionType {
     ButtonModule,
     TextareaModule,
     MultiSelectModule,
+    ConfirmDialogComponent, // Include the confirm dialog component
   ],
 })
 export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeactivate, OnDestroy {
+
+  exitDialogVisible = false;
+  lockDialogVisible = false;
+  lockMessage = '';
+  private navigationAttemptUrl: string | null = null;
+  private confirmationResolver: ((result: boolean) => void) | null = null;
+
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
   //@ViewChild('phaseAnnounce') phaseAnnounce!: ElementRef;
@@ -569,124 +578,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
-  // onFileSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (!input.files?.length) return;
-
-  //   const file = input.files[0];
-  //   const reader = new FileReader();
-
-  //   reader.onload = () => {
-  //     try {
-  //       const data = JSON.parse(reader.result as string);
-
-  //       // Patch base form values (excluding phases)
-  //       const patchableData = { ...data };
-  //       delete patchableData.phases;
-  //       this.form.patchValue(patchableData, { emitEvent: false });
-
-  //       // Handle dynamicTable and tableHeure fields outside phases
-  //       for (const field of this.formFields) {
-  //         if ((field.type === 'dynamicTable' || field.type === 'facturationTable') && Array.isArray(data[field.key])) {
-  //           const formArray = this.form.get(field.key) as FormArray;
-  //           formArray.clear(); // Clear existing rows
-
-  //           data[field.key].forEach((row: any) => {
-  //             const rowGroup = this.fb.group(
-  //               field.columns.reduce((acc: any, col: any) => {
-  //                 acc[col.key] = new FormControl(row[col.key] ?? '');
-  //                 return acc;
-  //               }, {})
-  //             );
-  //             formArray.push(rowGroup);
-  //           });
-  //         }
-
-  //         // Special handling for tableHeure which is a FormArray (not FormGroup)
-  //         if (field.type === 'tableHeure' && Array.isArray(data[field.key])) {
-  //           const formArray = this.form.get(field.key) as FormArray;
-  //           formArray.clear();
-
-  //           data[field.key].forEach((row: any) => {
-  //             const rowGroup = this.fb.group(
-  //               field.columns.reduce((acc: any, col: any) => {
-  //                 acc[col.key] = new FormControl(row[col.key] ?? '');
-  //                 return acc;
-  //               }, {})
-  //             );
-  //             formArray.push(rowGroup);
-  //           });
-  //         }
-  //       }
-
-  //       // Handle dynamic phases
-  //       if (Array.isArray(data.phases)) {
-  //         const phasesArray = this.form.get('phases') as FormArray;
-  //         phasesArray.clear();
-
-  //         data.phases.forEach((phaseData: any) => {
-  //           const phaseGroup = this.fb.group({
-  //             selectedTypes: [[]],
-  //             etext: this.buildProductionGroup(eTextFormFields),
-  //             braille: this.buildProductionGroup(brailleFormFields),
-  //             grossi: this.buildProductionGroup(grossiFormFields),
-  //             agrandis: this.buildProductionGroup(agrandisFormFields),
-  //             num: this.buildProductionGroup(numerisationFormFields),
-  //             pdf: this.buildProductionGroup(pdfFormFields),
-  //             html: this.buildProductionGroup(htmlFormFields),
-  //             form: this.buildProductionGroup(formulaireFormFields),
-  //             dessin: this.buildProductionGroup(dessinFormFields),
-  //             sonore: this.buildProductionGroup(sonoreFormFields),
-  //             autre: this.buildProductionGroup(autreFormFields),
-  //             brailleBANQ: this.buildProductionGroup(brailleBANQBIBAFormFields),
-  //             brailleBANQ2: this.buildProductionGroup(brailleBANQBIOUBAFormFields),
-  //             brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
-  //             brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
-  //             grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
-  //           });
-
-  //           // Load dynamic tables inside phases
-  //           for (const typeKey of Object.keys(phaseData)) {
-  //             const sectionData = phaseData[typeKey];
-  //             const sectionDef = this.getFieldDefByType(typeKey);
-  //             const sectionGroup = phaseGroup.get(typeKey) as FormGroup;
-
-  //             if (sectionData && sectionDef && sectionGroup) {
-  //               for (const field of sectionDef) {
-  //                 if (field.type === 'dynamicTable' && Array.isArray(sectionData[field.key])) {
-  //                   const formArray = sectionGroup.get(field.key) as FormArray;
-  //                   formArray.clear();
-
-  //                   sectionData[field.key].forEach((row: any) => {
-  //                     const rowGroup = this.fb.group(
-  //                       field.columns.reduce((acc: any, col: any) => {
-  //                         acc[col.key] = new FormControl(row[col.key] ?? '');
-  //                         return acc;
-  //                       }, {})
-  //                     );
-  //                     formArray.push(rowGroup);
-  //                   });
-  //                 }
-
-  //                 // If you want to handle tableHeure inside phases similarly, add here if needed
-  //               }
-  //             }
-  //           }
-
-  //           // Patch remaining values on the phaseGroup
-  //           phaseGroup.patchValue(phaseData, { emitEvent: false });
-  //           phasesArray.push(phaseGroup);
-  //         });
-  //       }
-  //     } catch (err) {
-  //       console.error('Error loading JSON file:', err);
-  //       alert('Invalid JSON file format');
-  //     }
-  //   };
-
-  //   reader.readAsText(file);
-  // }
-
   async openAndLockFile(): Promise<void> {
     try {
       const filePath: string = await window.electronAPI.openFileDialog();
@@ -695,14 +586,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       // 🔒 Step 1: Check if locked BEFORE locking
       const checkResult = await window.electronAPI.checkLock(filePath);
       if (checkResult.locked) {
-        alert(`Ce fichier est déjà utilisé par ${checkResult.lockedBy}.`);
+        this.showLockDialog(`Ce fichier est déjà utilisé par ${checkResult.lockedBy}.`);
         return;
       }
 
       // 🔒 Step 2: Lock the file
       const lockResult = await window.electronAPI.lockFile(filePath);
       if (!lockResult.success) {
-        alert(`Impossible de verrouiller le fichier. Il est utilisé par ${lockResult.lockedBy}.`);
+        this.showLockDialog(`Impossible de verrouiller le fichier. Il est utilisé par ${lockResult.lockedBy}.`);
         return;
       }
 
@@ -715,7 +606,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       this.lockedFilePath = filePath;
     } catch (error) {
       console.error('Erreur lors de l’importation du fichier JSON:', error);
-      alert('Erreur lors de la lecture ou du verrouillage du fichier.');
+      this.showLockDialog('Erreur lors de la lecture ou du verrouillage du fichier.');
     }
   }
 
@@ -839,12 +730,51 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       window.electronAPI.unlockFile(this.lockedFilePath);
       this.lockedFilePath = null;
     }
+
   }
 
-  canDeactivate(): boolean {
-    if (this.form?.dirty) {
-      return confirm('Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page?');
+  canDeactivate(): boolean | Promise<boolean> {
+    if (!this.form?.dirty) {
+      return true; // No unsaved changes, allow navigation
     }
-    return true;
+
+    if (this.exitDialogVisible) {
+      // Dialog already shown, block navigation until user responds
+      return false;
+    }
+
+    // Show confirmation dialog and return a promise that resolves with user's choice
+    this.exitDialogVisible = true;
+
+    return new Promise<boolean>((resolve) => {
+      this.confirmationResolver = resolve;
+    });
   }
+
+  onConfirmNavigation() {
+    this.exitDialogVisible = false;
+    if (this.confirmationResolver) {
+      this.confirmationResolver(true);
+      this.confirmationResolver = null;
+    }
+  }
+
+  onCancelNavigation() {
+    this.exitDialogVisible = false;
+    if (this.confirmationResolver) {
+      this.confirmationResolver(false);
+      this.confirmationResolver = null;
+    }
+  }
+
+  showLockDialog(message: string): void {
+    this.lockMessage = message;
+    this.lockDialogVisible = true;
+  }
+
+  onLockDialogClose(): void {
+    this.lockDialogVisible = false;
+  }
+
+
 }
