@@ -7,6 +7,9 @@ declare global {
       lockFile: (filePath: string) => Promise<any>;
       unlockFile: (filePath: string) => Promise<any>;
       checkLock: (filePath: string) => Promise<any>;
+
+      onWindowCloseAttempt: (callback: () => void) => void;
+      sendCloseResponse: (isDirty: boolean) => void;
     };
   }
 }

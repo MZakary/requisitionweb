@@ -15,6 +15,38 @@ function createWindow() {
   });
 
   win.loadFile(path.join(__dirname, 'dist/requisitionweb/browser/index.html'));
+
+   // Intercept the close request
+  let canClose = false;
+
+  win.on('close', async (e) => {
+    if (!canClose) {
+      e.preventDefault(); // Cancel default close behavior
+      const result = await win.webContents.send('check-before-close');
+      // wait for renderer to send back whether form is dirty
+    }
+  });
+
+  ipcMain.handle('confirm-close-response', async (_, isFormDirty) => {
+    if (isFormDirty) {
+      const result = await dialog.showMessageBox({
+        type: 'question',
+        buttons: ['Quitter sans enregistrer', 'Annuler'],
+        defaultId: 1,
+        cancelId: 1,
+        message: 'Des modifications non enregistrées seront perdues. Voulez-vous vraiment quitter ?',
+      });
+
+      if (result.response === 0) {
+        canClose = true;
+        win.close(); // now allow it to close
+      }
+      // else: do nothing
+    } else {
+      canClose = true;
+      win.close();
+    }
+  });
 }
 
 app.whenReady().then(createWindow);

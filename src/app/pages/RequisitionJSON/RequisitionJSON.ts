@@ -118,12 +118,21 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.detectRequisitionType();
     this.buildFormFields();
     this.buildFormGroup();
+    this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.pageTitle.nativeElement.focus();
     }, 0);
+  }
+
+  handleAltF4():void {
+    // ✅ Handle window close
+    window.electronAPI.onWindowCloseAttempt(async () => {
+      const isDirty = this.form.dirty;
+      await window.electronAPI.sendCloseResponse(isDirty);
+    });
   }
 
 
