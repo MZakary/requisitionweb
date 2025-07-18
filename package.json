@@ -18,8 +18,6 @@
     "build": {
         "appId": "com.mitroviczakary.requisitionweb",
         "productName": "RequisitionWeb",
-        "publisherName": "Zakary Mitrovic",
-        "copyright": "Copyright © 2025 Zak",
         "icon": "src/assets/icon/icon.png",
         "files": [
             "dist/",
