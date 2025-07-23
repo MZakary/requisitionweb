@@ -51,7 +51,7 @@ export const hydroqcFormFieldsAfterPhases = [
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
   { key: 'courrierInterneLivraisonText', label: 'Courrier', type: 'text' },
-  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
+  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'textarea' },
   
   { label: 'Livraison - commentaire', type: 'header2' },
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
@@ -63,7 +63,7 @@ export const hydroqcFormFieldsAfterPhases = [
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
-      { key: 'description', label: 'Description', type: 'text'},
+      { key: 'description', label: 'Description', type: 'textarea'},
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },

@@ -128,11 +128,13 @@ export const brailleFormFields = [
     key: 'tableProductionBraille',
     label: 'Braille - Tableau de production',
     type: 'dynamicTable',
+    addTotal: true,
+    totalKey: 'nbsPageProdBraille',
     columns: [
-      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'detProdBraille', label: 'Détail de la pagination', type: 'text' },
-      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'text' },
-      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'text' }
+      { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
+      { key: 'detProdBraille', label: 'Détail de la pagination', type: 'textarea' },
+      { key: 'nbsPageProdBraille', label: 'Nombre de pages total (pair)', type: 'textarea' },
+      { key: 'noteProdBraille', label: 'Notes Prod.', type: 'textarea' }
     ],
     defaultValues: {
       0: { detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
@@ -147,9 +149,9 @@ export const brailleFormFields = [
     label: 'Braille - Tableau des étiquettes',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichierEtiqBraille', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'libEtiqBraille', label: 'Libellé de l’étiquette', type: 'text' },
-      { key: 'noteEtiqBraille', label: 'Notes Prod.', type: 'text' }
+      { key: 'noFichierEtiqBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
+      { key: 'libEtiqBraille', label: 'Libellé de l’étiquette', type: 'textarea' },
+      { key: 'noteEtiqBraille', label: 'Notes Prod.', type: 'textarea' }
     ]
   },
 ];

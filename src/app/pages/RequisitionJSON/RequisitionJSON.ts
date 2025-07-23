@@ -80,12 +80,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   exitDialogVisible = false;
   lockDialogVisible = false;
   lockMessage = '';
-  private navigationAttemptUrl: string | null = null;
   private confirmationResolver: ((result: boolean) => void) | null = null;
+
 
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
-  //@ViewChild('phaseAnnounce') phaseAnnounce!: ElementRef;
 
   requisitionType: RequisitionType = RequisitionType.Unknown;
   form!: FormGroup;
@@ -119,6 +118,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.buildFormFields();
     this.buildFormGroup();
     this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
+
+    window.electronAPI.onTriggerDownload(() => {
+      this.downloadJson();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -127,7 +130,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }, 0);
   }
 
-  handleAltF4():void {
+  handleAltF4(): void {
     // ✅ Handle window close
     window.electronAPI.onWindowCloseAttempt(async () => {
       const isDirty = this.form.dirty;
@@ -166,6 +169,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
+
+  //#region Form Builders
   /*
   ---------------------------------------------------------------------------
   Fonction pour construire les champs du formulaire en fonction du type de réquisition
@@ -297,6 +302,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.form = this.fb.group(group);
   }
 
+  //#endregion
+
+  //#region Table d'heures
   /*
   ---------------------------------------------------------------------------
   Fonction pour tous ce qui est la table d'heures
@@ -348,8 +356,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const array = this.getTableHeureArray(key);
     array.removeAt(index);
   }
+  //#endregion
 
-
+  //#region Dynamic Tables
   /*
   ---------------------------------------------------------------------------
   Fonctions pour tous ce qui est la table dynamique
@@ -415,8 +424,27 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
 
+  getDynamicTableTotal(phase: any, type: any, field: any): number {
+    const formArray = this.getFormArrayFromNestedGroup(phase, type, field.key);
+    const totalKey = field.totalKey;
+
+    if (!formArray || !totalKey) return 0;
+
+    return formArray.controls.reduce((sum, group) => {
+      const value = Number(group.get(totalKey)?.value);
+      return sum + (isNaN(value) ? 0 : value);
+    }, 0);
+  }
+
+  getTotalLabel(field: any): string {
+    const col = field.columns?.find((c: any) => c.key === field.totalKey);
+    return col?.label || '';
+  }
+
+  //#endregion
 
 
+  //#region Phases
   /*
   ---------------------------------------------------------------------------
   Fonctions pour tous ce qui est les types de productions
@@ -556,9 +584,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   deletePhase(index: number): void {
     this.phases.removeAt(index);
   }
+  //#endregion
 
 
-
+  //#region Import & Download
   /*
   ---------------------------------------------------------------------------
   Fonction pour importer et exporter un fichier JSON
@@ -716,13 +745,20 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
-
   downloadJson() {
     const data = this.form.value;
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+
+    // 👇 Use imported file name if available
+    let fileName = 'requisition.json';
+    if (this.lockedFilePath) {
+      const parts = this.lockedFilePath.split(/[/\\]/); // Handles Windows and Unix paths
+      fileName = parts[parts.length - 1];
+    }
+
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'requisition.json';
+    a.download = fileName;
     a.click();
     URL.revokeObjectURL(a.href);
 
@@ -730,8 +766,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       window.electronAPI.unlockFile(this.lockedFilePath);
       this.lockedFilePath = null;
     }
+
     this.form.markAsPristine();
   }
+  //#endregion
+
+
+  //#region Electron events
 
   @HostListener('window:beforeunload', ['$event'])
   ngOnDestroy() {
@@ -784,6 +825,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   onLockDialogClose(): void {
     this.lockDialogVisible = false;
   }
-
+  //#endregion
 
 }

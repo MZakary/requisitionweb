@@ -10,7 +10,7 @@ export const servicesFormFields = [
   { key: 'nomContactService', label: 'Nom du contact', type: 'text' },
   { key: 'courrielContactService', label: 'Courriel du contact', type: 'text' },
   { key: 'noTelephoneService', label: 'Numéro de téléphone', type: 'text' },
-  { key: 'adresseFacturationService', label: 'Adresse de facturation postale et courriel', type: 'text' },
+  { key: 'adresseFacturationService', label: 'Adresse de facturation postale et courriel', type: 'textarea' },
 
   { label: 'Informations spécifiques', type: 'header2', label2: 'Informations spécifiques du document' },
   { key: 'nomProjetService', label: 'Nom du projet', type: 'text' },
@@ -56,13 +56,13 @@ export const servicesFormFieldsAfterPhases = [
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
-      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },
     ]
   },
-  { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },

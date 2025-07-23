@@ -1,31 +1,20 @@
 <div class="card requisitonJSON">
 
-  <app-confirm-dialog
-  [showRejectButton]="true"
-  [(visible)]="exitDialogVisible"
-  [message]="'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page?'"
-  [header]="'Quitter la page?'"
-  (accept)="onConfirmNavigation()"
-  (reject)="onCancelNavigation()"
-  >
-</app-confirm-dialog>
+  <app-confirm-dialog [showRejectButton]="true" [(visible)]="exitDialogVisible"
+    [message]="'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter cette page?'"
+    [header]="'Quitter la page?'" (accept)="onConfirmNavigation()" (reject)="onCancelNavigation()">
+  </app-confirm-dialog>
 
-<app-confirm-dialog
-  [(visible)]="lockDialogVisible"
-  [message]="lockMessage"
-  [header]="'Fichier verrouillé'"
-  [acceptLabel]="'OK'"
-  [rejectLabel]="''"
-  (accept)="onLockDialogClose()"
-  [showRejectButton]="false">
-</app-confirm-dialog>
+  <app-confirm-dialog [(visible)]="lockDialogVisible" [message]="lockMessage" [header]="'Fichier verrouillé'"
+    [acceptLabel]="'OK'" [rejectLabel]="''" (accept)="onLockDialogClose()" [showRejectButton]="false">
+  </app-confirm-dialog>
 
   <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
 
   <div class="p-field">
     <label for="json-upload">Charger un fichier JSON:</label>
     <!-- <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" /> -->
-     <p-button label="Importer un fichier JSON" (onClick)="openAndLockFile()"></p-button>
+    <p-button label="Importer un fichier JSON" (onClick)="openAndLockFile()"></p-button>
   </div>
 
   <hr />
@@ -38,7 +27,7 @@
 
       <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
         <label [for]="field.key">{{ field.label }}</label>
-        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 45%"
+        <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 80%"
           autoResize />
       </p-floatLabel>
 
@@ -76,7 +65,7 @@
 
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
         <label [for]="field.key">{{ field.label }}</label>
-        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 45%" [autoResize]="true"
+        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 80%" [autoResize]="true"
           class="p-inputtext"></textarea>
       </p-floatLabel>
 
@@ -104,32 +93,50 @@
       <div *ngIf="field.type === 'select'" class="p-field">
         <label [for]="field.key">{{ field.label }}</label>
         <p-dropdown [options]="field.options" optionLabel="label" optionValue="value" [inputId]="field.key"
-          [filter]="true" [showClear]="true" [formControlName]="field.key" [style]="{ width: '45%' }"
+          [filter]="true" [showClear]="true" [formControlName]="field.key" [style]="{ width: '80%' }"
           ariaLabel="{{ field.label }}"></p-dropdown>
       </div>
 
       <!-- Dynamic Table (outside phases) -->
-      <div *ngIf="field.type === 'dynamicTable'" class="dynamic-table-section" ariaLabel="{{ field.label }}">
+      <div *ngIf="field.type === 'dynamicTable'" class="dynamic-table-section" [attr.aria-label]="field.label">
         <h4 *ngIf="field.needsTitle">{{ field.label }}</h4>
+
         <div [formArrayName]="field.key">
           <div *ngFor="let row of getTopLevelDynamicTableArray(field.key).controls; let rowIndex = index"
             [formGroupName]="rowIndex" class="dynamic-table-row">
+
+            <!-- Visually hidden heading for screen readers -->
+            <h5 class="sr-only">Ligne {{ rowIndex + 1 }} de {{ field.label }}</h5>
+
             <div *ngFor="let col of field.columns"
               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
               <p-floatLabel variant="on">
                 <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
-                <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
-                  type="text" />
+
+                <!-- Conditionally render input or textarea -->
+                <ng-container [ngSwitch]="col.type">
+                  <!-- Textarea -->
+                  <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
+                    [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key">
+            </textarea>
+
+                  <!-- Default input -->
+                  <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                    [formControlName]="col.key" type="text" />
+                </ng-container>
               </p-floatLabel>
             </div>
 
-            <p-button label="Effacer" (click)="removeTopLevelTableRow(field.key, rowIndex)"
-              icon="pi pi-trash"></p-button>
+            <p-button label="Effacer" (click)="removeTopLevelTableRow(field.key, rowIndex)" icon="pi pi-trash">
+            </p-button>
           </div>
         </div>
 
-        <p-button label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" icon="pi pi-plus"></p-button>
+        <p-button label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" icon="pi pi-plus">
+        </p-button>
       </div>
+
+
 
 
       <!-- INSERT FACTURATION TABLE HERE -->
@@ -139,19 +146,33 @@
         <div [formArrayName]="field.key">
           <div *ngFor="let row of getTopLevelDynamicTableArray(field.key).controls; let i = index" [formGroupName]="i"
             class="dynamic-table-row">
+
+            <!-- Visually hidden heading for screen readers -->
+            <h5 class="sr-only">Ligne {{ i + 1 }} de {{ field.label }}</h5>
+
             <div *ngFor="let col of field.columns"
               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
               <p-floatLabel variant="on">
                 <label [for]="field.key + '-' + i + '-' + col.key">{{ col.label }}</label>
-                <input pInputText [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key"
-                  [type]="col.type || 'text'" />
+
+                <!-- Conditionally render textarea or input -->
+                <ng-container [ngSwitch]="col.type">
+                  <!-- Textarea -->
+                  <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
+                    [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key">
+            </textarea>
+
+                  <!-- Default input -->
+                  <input *ngSwitchDefault pInputText [id]="field.key + '-' + i + '-' + col.key"
+                    [formControlName]="col.key" [type]="col.type || 'text'" />
+                </ng-container>
               </p-floatLabel>
             </div>
 
-            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer"></p-button>
+            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer">
+            </p-button>
           </div>
         </div>
-
 
         <div class="facturation-total-row">
           <p-floatLabel variant="on">
@@ -160,9 +181,14 @@
               aria-live="polite" />
           </p-floatLabel>
         </div>
+
         <br>
-        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)"></p-button>
+
+        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)">
+        </p-button>
       </div>
+
+
 
 
 
@@ -237,10 +263,14 @@
                       <!-- Dynamic Table -->
                       <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" [attr.aria-label]="field.label">
                         <h5 *ngIf="field.needsTitle">{{ field.label }}</h5>
+
                         <div [formArrayName]="field.key">
                           <div
                             *ngFor="let row of getFormArrayFromNestedGroup(phase, type, field.key).controls; let rowIndex = index"
                             [formGroupName]="rowIndex" class="dynamic-table-row">
+                            <!-- Visually hidden heading for screen readers -->
+                            <h5 class="sr-only">Ligne {{ rowIndex + 1 }} de {{ field.label }}</h5>
+
                             <div *ngFor="let col of field.columns"
                               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
                               <p-floatLabel variant="on">
@@ -248,14 +278,12 @@
 
                                 <!-- Conditionally render input or textarea -->
                                 <ng-container [ngSwitch]="col.type">
-                                  <!-- Textarea if column type is textarea -->
                                   <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
                                     [id]="field.key + '-' + rowIndex + '-' + col.key"
                                     [formControlName]="col.key"></textarea>
 
-                                  <!-- Default input -->
                                   <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
-                                    [formControlName]="col.key" type="text" class="p-inputtext"/>
+                                    [formControlName]="col.key" type="text" class="p-inputtext" />
                                 </ng-container>
                               </p-floatLabel>
                             </div>
@@ -267,7 +295,15 @@
 
                         <p-button label="Ajouter une ligne" (click)="addTableRow(phase, type, field)"
                           icon="pi pi-add"></p-button>
+
+                        <!-- Total Row -->
+                        <div *ngIf="field.addTotal && field.totalKey" style="margin-top: 1rem;">
+                          <strong>Total {{ getTotalLabel(field) }} :</strong>
+                          {{ getDynamicTableTotal(phase, type, field) }}
+                        </div>
                       </div>
+
+
 
 
 

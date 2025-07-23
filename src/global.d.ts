@@ -10,6 +10,8 @@ declare global {
 
       onWindowCloseAttempt: (callback: () => void) => void;
       sendCloseResponse: (isDirty: boolean) => void;
+
+      onTriggerDownload: (callback: () => void) => void;
     };
   }
 }

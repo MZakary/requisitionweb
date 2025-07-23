@@ -57,7 +57,7 @@ export const scolaireFormFieldsAfterPhases = [
   { key: 'ramassageParLeClientLivraison', label: 'Ramassage par le client', type: 'checkbox' },
   { key: 'courrierInterneLivraisonCheckbox', label: 'Courrier interne', type: 'checkbox' },
   { key: 'courrierInterneLivraisonText', label: 'Coordonnées interne', type: 'text' },
-  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'text' },
+  { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'textarea' },
 
   { label: 'Retour du document', type: 'header2' },
   {
@@ -70,28 +70,28 @@ export const scolaireFormFieldsAfterPhases = [
   { key: 'dateRetourDocumentText', label: 'Date de retour du document', type: 'text' },
   
   { label: 'Livraison - commentaire', type: 'header2' },
-  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'text' },
+  { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
 
 
   { label: 'Tableau de livraisons', type: 'header2' },
   { key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
     columns: [
-      { key: 'phasesExterne', label: 'Phases', type: 'text' },
-      { key: 'typeDeProductionExterne', label: 'Type de production', type: 'text' },
-      { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'text' },
-      { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'text' },
-      { key: 'archiveExterne', label: 'Archivé', type: 'text' },
+      { key: 'phasesExterne', label: 'Phases', type: 'textarea' },
+      { key: 'typeDeProductionExterne', label: 'Type de production', type: 'textarea' },
+      { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'textarea' },
+      { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'textarea' },
+      { key: 'archiveExterne', label: 'Archivé', type: 'textarea' },
     ]
   },
 
   { label: 'Facturation', type: 'header2' },
-  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'textarea' },
   {
     key: 'facturation',
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
-      { key: 'description', label: 'Type de production demandé', type: 'text' },
+      { key: 'description', label: 'Type de production demandé', type: 'textarea' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },
@@ -119,7 +119,7 @@ export const scolaireFormFieldsAfterPhases = [
     },
     defaultRowCount: 19,
   },
-  { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85833' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },

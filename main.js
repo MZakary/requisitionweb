@@ -28,19 +28,22 @@ function createWindow() {
   });
 
   ipcMain.handle('confirm-close-response', async (_, isFormDirty) => {
-    if (isFormDirty) {
-      const result = await dialog.showMessageBox({
-        type: 'question',
-        buttons: ['Quitter sans enregistrer', 'Annuler'],
-        defaultId: 1,
-        cancelId: 1,
-        message: 'Des modifications non enregistrées seront perdues. Voulez-vous vraiment quitter ?',
-      });
+      if (isFormDirty) {
+        const result = await dialog.showMessageBox({
+          type: 'question',
+          buttons: ['Quitter sans enregistrer', 'Annuler', 'Télécharger'],
+          defaultId: 2,
+          cancelId: 1,
+          message: 'Des modifications non enregistrées seront perdues. Voulez-vous vraiment quitter ?',
+        });
 
-      if (result.response === 0) {
-        canClose = true;
-        win.close(); // now allow it to close
-      }
+        if (result.response === 0) {
+          canClose = true;
+          win.close();
+        } else if (result.response === 2) {
+          // Send IPC to renderer to trigger download
+          win.webContents.send('trigger-download');
+        }
       // else: do nothing
     } else {
       canClose = true;

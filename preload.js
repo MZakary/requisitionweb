@@ -7,5 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // New: Listen for window close attempt
   onWindowCloseAttempt: (callback) => ipcRenderer.on('check-before-close', callback),
   sendCloseResponse: (isDirty) => ipcRenderer.invoke('confirm-close-response', isDirty),
+
+  onTriggerDownload: (callback) => ipcRenderer.on('trigger-download', callback),
 });
 

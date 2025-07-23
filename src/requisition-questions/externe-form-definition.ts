@@ -78,17 +78,12 @@ export const externeFormFieldsAfterPhases = [
   {
     key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
     columns: [
-      { key: 'phasesExterne', label: 'Phases', type: 'text' },
-      { key: 'typeDeProductionExterne', label: 'Type de production', type: 'text' },
-      { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'text' },
-      { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'text' },
-      { key: 'archiveExterne', label: 'Archivé', type: 'text' },
+      { key: 'phasesExterne', label: 'Phases', type: 'textarea' },
+      { key: 'typeDeProductionExterne', label: 'Type de production', type: 'textarea' },
+      { key: 'dateLivraisonFichierExterne', label: 'Date de livraison (fichier)', type: 'textarea' },
+      { key: 'dateLivraisonPostaleExterne', label: 'Date de livraison (postale)', type: 'textarea' },
+      { key: 'archiveExterne', label: 'Archivé', type: 'textarea' },
     ],
-    // defaultValues: {
-    //   0: { phasesExterne: 'Phase 1', typeDeProductionExterne: 'PDF', archiveExterne: 'Non' },
-    //   1: { phasesExterne: 'Phase 2', typeDeProductionExterne: 'Braille', archiveExterne: 'Oui' },
-    // },
-    // defaultRowCount: 2
   },
 
   { label: 'Facturation', type: 'header2' },
@@ -98,7 +93,7 @@ export const externeFormFieldsAfterPhases = [
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
-      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number' },

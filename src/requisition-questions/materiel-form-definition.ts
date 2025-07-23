@@ -9,7 +9,7 @@ export const materielFormFields = [
   { key: 'nomContactMateriel', label: 'Nom du contact', type: 'text' },
   { key: 'courrielContactMateriel', label: 'Courriel du contact', type: 'text' },
   { key: 'noTelephoneMateriel', label: 'Numéro de téléphone', type: 'text' },
-  { key: 'adresseFacturationMateriel', label: 'Adresse de facturation postale et courriel', type: 'text' },
+  { key: 'adresseFacturationMateriel', label: 'Adresse de facturation postale et courriel', type: 'textarea' },
 
   { label: 'Informations spécifiques', type: 'header2' },
   { key: 'nomProjetMateriel', label: 'Nom du projet', type: 'text', label2: 'Informations spécifiques' },
@@ -57,13 +57,13 @@ export const materielFormFieldsAfterPhases = [
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
-      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'quantite', label: 'Quantité', type: 'number' },
       { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
       { key: 'total', label: 'Sous total ($)', type: 'number', disabled: true },
     ]
   },
-  { key: 'facturationCommentaire', label: 'Commentaire', type: 'text' },
+  { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
