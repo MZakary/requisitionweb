@@ -621,6 +621,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       const filePath: string = await window.electronAPI.openFileDialog();
       if (!filePath) return;
 
+      const fileName = filePath.split(/[/\\]/).pop(); // Handles both Windows and UNIX paths
+      if (fileName) {
+        document.title = 'Réquisition Web - '+fileName;
+      }
+
       // 🔒 Step 1: Check if locked BEFORE locking
       const checkResult = await window.electronAPI.checkLock(filePath);
       if (checkResult.locked) {
