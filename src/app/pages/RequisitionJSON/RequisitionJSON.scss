@@ -87,5 +87,11 @@
     border: 0 !important;
   }
 
+  .button-group {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+  }
+
 
 }

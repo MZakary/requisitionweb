@@ -12,6 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
 import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the confirm dialog component
+import { generatePDF } from '../../layout/service/pdf-generator'; // Import the PDF generation service
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -87,6 +88,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
 
   requisitionType: RequisitionType = RequisitionType.Unknown;
+  requisitionTypeString: string = '';
   form!: FormGroup;
   formFields: any[] = [];
   eTextFormFields = eTextFormFields;
@@ -148,22 +150,29 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const url = this.router.url;
     if (url.includes('/requisition-json-externe')) {
       this.requisitionType = RequisitionType.Externe;
+      this.requisitionTypeString = 'externe';
     } else if (url.includes('/requisition-json-interne')) {
       this.requisitionType = RequisitionType.Interne;
+      this.requisitionTypeString = 'interne';
     } else if (url.includes('/requisition-json-scolaire')) {
       this.requisitionType = RequisitionType.Scholaire;
+      this.requisitionTypeString = 'scolaire';
     } else if (url.includes('/requisition-json-services')) {
       this.requisitionType = RequisitionType.Services;
       this.needsPhase = false; // Services requisition does not need phases
+      this.requisitionTypeString = 'services';
     } else if (url.includes('/requisition-json-banq')) {
       this.requisitionType = RequisitionType.BANQ;
       this.productionTypes = productionFieldsBANQ;
+      this.requisitionTypeString = 'banq';
     } else if (url.includes('/requisition-json-hydroqc')) {
       this.requisitionType = RequisitionType.HydroQC;
       this.productionTypes = productionFieldsHYDRO;
+      this.requisitionTypeString = 'hydro';
     } else if (url.includes('/requisition-json-materiel')) {
       this.requisitionType = RequisitionType.Materiel;
       this.needsPhase = false; // Materiel requisition does not need phases
+      this.requisitionTypeString = 'materiel';
     } else {
       this.requisitionType = RequisitionType.Unknown;
     }
@@ -623,7 +632,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
       const fileName = filePath.split(/[/\\]/).pop(); // Handles both Windows and UNIX paths
       if (fileName) {
-        document.title = 'Réquisition Web - '+fileName;
+        document.title = 'Réquisition Web - ' + fileName;
       }
 
       // 🔒 Step 1: Check if locked BEFORE locking
@@ -830,6 +839,16 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   onLockDialogClose(): void {
     this.lockDialogVisible = false;
   }
+  //#endregion
+
+
+  //#region PDF Generation
+
+  testFunction(): void {
+    generatePDF(this.requisitionTypeString, this.form.value);
+  }
+
+
   //#endregion
 
 }

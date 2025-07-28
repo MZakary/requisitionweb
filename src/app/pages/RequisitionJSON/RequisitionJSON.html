@@ -245,7 +245,7 @@
                       <div *ngSwitchCase="'checkbox'" style="display: flex; align-items: center;">
                         <p-checkbox [inputId]="field.key" [formControlName]="field.key" binary="true"
                           ariaLabel="{{ field.label2 }} - {{ field.label }}"></p-checkbox>
-                        <label [for]="field.key" style="margin-left: 0.5rem;">{{ field.label }}</label>
+                        <label [for]="field.key + index" style="margin-left: 0.5rem;">{{ field.label }}</label>
                       </div>
 
                       <!-- Add this case to your ngSwitch in the template -->
@@ -255,7 +255,7 @@
                           <div *ngFor="let option of field.options" class="p-field-checkbox">
                             <p-checkbox [inputId]="field.key + '-' + option.value" formControlName="{{option.value}}"
                               [binary]="true" ariaLabel="{{ option.label2 }} - {{ option.label }}"></p-checkbox>
-                            <label [for]="field.key + '-' + option.value">{{ option.label }}</label>
+                            <label [for]="field.key + '-' + option.value + index">{{ option.label }}</label>
                           </div>
                         </div>
                       </div>
@@ -415,5 +415,9 @@
   </form>
 
   <hr />
-  <p-button label="Download JSON" (onClick)="downloadJson()"></p-button>
+  <div class="button-group">
+    <p-button label="Télécharger JSON" (onClick)="downloadJson()"></p-button>
+    <p-button label="Télécharger PDF" (onClick)="testFunction()"></p-button>
+  </div>
+
 </div>
