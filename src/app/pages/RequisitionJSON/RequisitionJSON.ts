@@ -657,6 +657,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       console.error('Erreur lors de l’importation du fichier JSON:', error);
       this.showLockDialog('Erreur lors de la lecture ou du verrouillage du fichier.');
     }
+
+    this.form.markAsPristine(); //make form clean after loading data
   }
 
 
@@ -873,11 +875,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   //#region Clone Info
   readonly persistentFieldsPerType: { [key: string]: string[] } = {
-    etext: ['noFichierEtext', 'quantiteEtext'],
-    braille: ['noFichierBraille', 'quantiteBraille', 'niveauDifficulteBraille'],
+    etext: ['noFichierEtext', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText' ],
+    braille: ['noFichierBraille', 'quantiteBraille', 'niveauDifficulteBraille',
+      'typeBrailleCheckboxBraille', 'codeBrailleCheckboxBraille', 'autreCodeBraille', 'formatBraille',
+      'typeFeuilleBraille', 'embossageBraille', 'autreEmbossageBraille', 'materielBraille',
+      'autreMaterielBraille', 'typeTeneurBraille', 'typeCouvertureBraille', 'autreTypeCouvBraille'],
     dessin: ['noFichierDessin', 'quantiteDessin'],
     grossi: ['noFichierGrossi'],
     html: ['noFichierHTML'],
+    pdf: ['noFichierPDF', 'quantitePDF', 'langueNotesProdPDF'],
+    numerisation: ['noFichierNumerisation', 'quantiteNumerisation', 'langueNotesProdNumerisation'],
+    formulaire: ['noFichierFormulaire', 'quantiteFormulaire', 'langueNotesProdFormulaire'],
+    agrandis: ['noFichierAgrandis', 'quantiteAgrandis', 'langueNotesProdAgrandis'],
     // ➕ Add other production types and fields here
   };
 
