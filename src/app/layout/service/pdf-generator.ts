@@ -32,11 +32,6 @@ const requisitionConfigs: Record<string, {
       { label: 'Courriel du contact', key: 'courrielContactExterne' },
       { label: 'Numéro de téléphone', key: 'noTelephoneExterne' },
       { label: 'Adresse de facturation postale et courriel', key: 'adresseFacturationExterne' },
-      { label: 'Description du projet', key: 'descriptionProjetFacturation' },
-      { label: 'Commentaire', key: 'facturationCommentaire' },
-      { label: 'Date de livraison', key: 'dateLivraisonFacturation' },
-      { label: 'Code budgétaire', key: 'codeBudgetaireFacturation' },
-      { label: 'Autorisation', key: 'autorisationFacturation' },
     ],
     table: {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -59,9 +54,6 @@ const requisitionConfigs: Record<string, {
       { key: 'dateRequiseBANQ', label: 'Date requise' },
       { key: 'prioritaireBANQ', label: 'Prioritaire' },
       { key: 'regulierBANQ', label: 'Régulier' },
-      { key: 'dateLivraisonFacturation', label: 'Date de livraison'},
-      { key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
-      { key: 'autorisationFacturation', label: 'Autorisation' },
     ],
     table: {
       headers: ['Type de braille', 'Nbr vol.', 'Nbr page', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -86,10 +78,6 @@ const requisitionConfigs: Record<string, {
       { key: 'courrielContactHydro', label: 'Courriel du contact' },
       { key: 'noTelephoneHydro', label: 'Numéro de téléphone' },
       { key: 'adresseFacturationHydro', label: 'Adresse de facturation postale et courriel' },
-      { key: 'facturationCommentaire', label: 'Commentaire' },
-      { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
-      { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
     ],
     table: {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
