@@ -9,6 +9,29 @@
     [acceptLabel]="'OK'" [rejectLabel]="''" (accept)="onLockDialogClose()" [showRejectButton]="false">
   </app-confirm-dialog>
 
+  <button type="button" pButton icon="pi pi-pencil" label="Ouvrir le remplacement" (click)="showFindReplaceDialog = true" class="findReplaceButton"></button>
+
+  <p-dialog [(visible)]="showFindReplaceDialog" header="Trouver et Remplacer" [modal]="true" [closable]="true"
+    [style]="{ width: '450px' }" [breakpoints]="{ '960px': '90vw' }" [dismissableMask]="true">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="findText">Trouver</label>
+        <input id="findText" type="text" pInputText [(ngModel)]="findText" />
+      </div>
+
+      <div class="p-field">
+        <label for="replaceText">Remplacer par</label>
+        <input id="replaceText" type="text" pInputText [(ngModel)]="replaceText" />
+      </div>
+
+      <div class="p-field">
+        <button pButton type="button" label="Remplacer" icon="pi pi-check"
+          (click)="replaceInForm()"></button>
+      </div>
+    </div>
+  </p-dialog>
+
+
   <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
 
   <div class="p-field">

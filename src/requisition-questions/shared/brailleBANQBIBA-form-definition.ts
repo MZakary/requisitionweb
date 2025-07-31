@@ -1,6 +1,6 @@
 export const brailleBANQBIBAFormFields = [
   { label: 'BANQ abrégé et intégral - Informations générales', type: 'header4' },
-  { key: 'noFichierBrailleBANQ', label: 'Numéro du fichier .txt', label2: "BANQ abrégé et intégral - Informations Générales", type: 'text', defaultValue: 'xxxxba-bi' },
+  { key: 'noFichierBrailleBANQ', label: 'Numéro du fichier .txt', label2: "BANQ abrégé et intégral - Informations Générales", type: 'text', defaultValue: 'xxxxba-bi', needsSync: true, targetKey: 'noFichProdBraille' },
   { key: 'nbsPagesImprimeesBrailleBANQ', label: 'Nombre de pages imprimées', type: 'text' },
   {
     key: 'AbregeIntegralBrailleBANQ', type: 'checkbox-list', defaultValue: ['BAbrege', 'BIntegral'],

@@ -13,6 +13,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
 import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the confirm dialog component
 import { generatePDF } from '../../layout/service/pdf-generator'; // Import the PDF generation service
+import { DialogModule } from 'primeng/dialog';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -74,9 +75,14 @@ enum RequisitionType {
     TextareaModule,
     MultiSelectModule,
     ConfirmDialogComponent, // Include the confirm dialog component
+    DialogModule
   ],
 })
 export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeactivate, OnDestroy {
+
+  findText = '';
+  replaceText = '';
+  showFindReplaceDialog = false;
 
   exitDialogVisible = false;
   lockDialogVisible = false;
@@ -140,12 +146,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     });
   }
 
-
-  /*
-  ---------------------------------------------------------------------------
-  Fonction pour détecter le type de réquisition en fonction de l'URL
-  ---------------------------------------------------------------------------
-  */
   private detectRequisitionType(): void {
     const url = this.router.url;
     if (url.includes('/requisition-json-externe')) {
@@ -180,11 +180,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   //#region Form Builders
-  /*
-  ---------------------------------------------------------------------------
-  Fonction pour construire les champs du formulaire en fonction du type de réquisition
-  ---------------------------------------------------------------------------
-  */
 
   private buildFormFields(): void {
     switch (this.requisitionType) {
@@ -314,11 +309,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#endregion
 
   //#region Table d'heures
-  /*
-  ---------------------------------------------------------------------------
-  Fonction pour tous ce qui est la table d'heures
-  ---------------------------------------------------------------------------
-  */
 
   totalHeuresValue = 0;
 
@@ -368,11 +358,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#endregion
 
   //#region Dynamic Tables
-  /*
-  ---------------------------------------------------------------------------
-  Fonctions pour tous ce qui est la table dynamique
-  ---------------------------------------------------------------------------
-  */
 
   getTopLevelDynamicTableArray(key: string): FormArray {
     return this.form.get(key) as FormArray;
@@ -454,50 +439,67 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   //#region Phases
-  /*
-  ---------------------------------------------------------------------------
-  Fonctions pour tous ce qui est les types de productions
-  ---------------------------------------------------------------------------
-  */
 
   get phases(): FormArray {
     return this.form.get('phases') as FormArray;
   }
   /* ADD PRODUCTIONS HERE */
   addPhase(): void {
-    const phaseGroup = this.fb.group({
-      selectedTypes: this.fb.control([]), // selected production types
+    const newPhase = this.fb.group({
+      selectedTypes: this.fb.control<string[]>([]),
       etext: this.buildProductionGroup(eTextFormFields),
       braille: this.buildProductionGroup(brailleFormFields),
       grossi: this.buildProductionGroup(grossiFormFields),
-      agrandis: this.buildProductionGroup(agrandisFormFields), // Example, add your files
-      num: this.buildProductionGroup(numerisationFormFields), // Example, add your files
-      pdf: this.buildProductionGroup(pdfFormFields), // Example, add your files
-      html: this.buildProductionGroup(htmlFormFields), // Example, add your files
-      form: this.buildProductionGroup(formulaireFormFields), // Example, add your files
-      dessin: this.buildProductionGroup(dessinFormFields), // Example, add your files
-      sonore: this.buildProductionGroup(sonoreFormFields), // Example, add your files
-      autre: this.buildProductionGroup(autreFormFields), // Example, add your files
+      agrandis: this.buildProductionGroup(agrandisFormFields),
+      num: this.buildProductionGroup(numerisationFormFields),
+      pdf: this.buildProductionGroup(pdfFormFields),
+      html: this.buildProductionGroup(htmlFormFields),
+      form: this.buildProductionGroup(formulaireFormFields),
+      dessin: this.buildProductionGroup(dessinFormFields),
+      sonore: this.buildProductionGroup(sonoreFormFields),
+      autre: this.buildProductionGroup(autreFormFields),
       brailleBANQ: this.buildProductionGroup(brailleBANQBIBAFormFields),
       brailleBANQ2: this.buildProductionGroup(brailleBANQBIOUBAFormFields),
       brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
       brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
       grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
-
     });
 
-    this.phases.push(phaseGroup);
+    const phasesArray = this.phases;
 
-    // ⚠️ Donne le temps à Angular de rendre la nouvelle phase avant d’y mettre le focus
-    setTimeout(() => {
-      const lastTitle = this.phaseTitles.last;
-      if (lastTitle) {
-        lastTitle.nativeElement.focus();
-        //lastTitle.nativeElement.setAttribute('aria-label', `Phase ${this.phases.length}`);
+    if (phasesArray.length > 0) {
+      const lastPhase = phasesArray.at(phasesArray.length - 1) as FormGroup;
+      const lastSelectedTypes = lastPhase.get('selectedTypes')?.value as string[];
+
+      for (const type of lastSelectedTypes) {
+        const fields = this.persistentFieldsPerType[type];
+        if (!fields) continue;
+
+        const lastGroup = lastPhase.get(type) as FormGroup;
+        const newGroup = newPhase.get(type) as FormGroup;
+
+        if (lastGroup && newGroup) {
+          for (const field of fields) {
+            const value = lastGroup.get(field)?.value;
+            if (newGroup.contains(field)) {
+              newGroup.get(field)?.setValue(value);
+            }
+          }
+        }
       }
 
-    }, 300); // petite pause pour garantir le rendu
+      // Copy selected production types into the new phase
+      newPhase.get('selectedTypes')?.setValue([...lastSelectedTypes]);
+    }
+
+    phasesArray.push(newPhase);
+
+    setTimeout(() => {
+      const lastTitle = this.phaseTitles.last;
+      if (lastTitle) lastTitle.nativeElement.focus();
+    }, 300);
   }
+
 
   private buildProductionGroup(fields: any[]): FormGroup {
     const group: { [key: string]: any } = {};
@@ -597,11 +599,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   //#region Import & Download
-  /*
-  ---------------------------------------------------------------------------
-  Fonction pour importer et exporter un fichier JSON
-  ---------------------------------------------------------------------------
-  */
 
   private getFieldDefByType(type: string): any[] {
     switch (type) {
@@ -664,7 +661,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   patchFormFromData(data: any): void {
-    // Remove phases to patch manually
     const patchableData = { ...data };
     delete patchableData.phases;
 
@@ -702,7 +698,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       }
     }
 
-    // Now handle phases if present
     if (Array.isArray(data.phases)) {
       const phasesArray = this.form.get('phases') as FormArray;
       phasesArray.clear();
@@ -762,11 +757,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   downloadJson() {
     const data = this.form.value;
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-
-    // 👇 Use imported file name if available
     let fileName = 'requisition.json';
     if (this.lockedFilePath) {
-      const parts = this.lockedFilePath.split(/[/\\]/); // Handles Windows and Unix paths
+      const parts = this.lockedFilePath.split(/[/\\]/);
       fileName = parts[parts.length - 1];
     }
 
@@ -799,17 +792,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   canDeactivate(): boolean | Promise<boolean> {
     if (!this.form?.dirty) {
-      return true; // No unsaved changes, allow navigation
+      return true;
     }
 
     if (this.exitDialogVisible) {
-      // Dialog already shown, block navigation until user responds
       return false;
     }
-
-    // Show confirmation dialog and return a promise that resolves with user's choice
     this.exitDialogVisible = true;
-
     return new Promise<boolean>((resolve) => {
       this.confirmationResolver = resolve;
     });
@@ -848,6 +837,49 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     generatePDF(this.requisitionTypeString, this.form.value);
   }
 
+
+  //#endregion
+
+  //#region Find and Replace
+  replaceInForm() {
+    if (!this.findText) return;
+
+    const find = this.findText.trim();
+    const replace = this.replaceText || '';
+
+    this.traverseControls(this.form, find, replace);
+
+    this.showFindReplaceDialog = false; // Close dialog after replacing
+  }
+
+
+  traverseControls(control: AbstractControl, find: string, replace: string) {
+    if (control instanceof FormGroup) {
+      Object.values(control.controls).forEach(child => {
+        this.traverseControls(child, find, replace);
+      });
+    } else if (control instanceof FormArray) {
+      control.controls.forEach(child => {
+        this.traverseControls(child, find, replace);
+      });
+    } else if (control instanceof FormControl) {
+      const value = control.value;
+      if (typeof value === 'string' && value.includes(find)) {
+        control.setValue(value.split(find).join(replace));
+      }
+    }
+  }
+  //#endregion
+
+  //#region Clone Info
+  readonly persistentFieldsPerType: { [key: string]: string[] } = {
+    etext: ['noFichierEtext', 'quantiteEtext'],
+    braille: ['noFichierBraille', 'quantiteBraille', 'niveauDifficulteBraille'],
+    dessin: ['noFichierDessin', 'quantiteDessin'],
+    grossi: ['noFichierGrossi'],
+    html: ['noFichierHTML'],
+    // ➕ Add other production types and fields here
+  };
 
   //#endregion
 
