@@ -10,6 +10,7 @@ interface FieldDefinition {
 interface TableConfig {
   headers: string[];
   rowsKey: string;
+  isLivraisonTable?: boolean; // Optional, used for specific table types
   rowFields: string[];
 }
 
@@ -17,6 +18,7 @@ interface TableConfig {
 const requisitionConfigs: Record<string, {
   fields: FieldDefinition[];
   table?: TableConfig | null;
+  fieldsAfterTable: FieldDefinition[];
 }> = {
   externe: {
     fields: [
@@ -40,7 +42,13 @@ const requisitionConfigs: Record<string, {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
       rowsKey: 'facturation',
       rowFields: ['description', 'quantite', 'prix', 'total'],
-    }
+    },
+    fieldsAfterTable: [
+      {key: 'facturationCommentaire', label: 'Commentaire' },
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
   },
   banq: {
     fields: [
@@ -59,7 +67,13 @@ const requisitionConfigs: Record<string, {
       headers: ['Type de braille', 'Nbr vol.', 'Nbr page', 'Prix unitaire ($)', 'Sous total ($)'],
       rowsKey: 'facturation',
       rowFields: ['typeDeBraille', 'nbrVol', 'quantite', 'prix', 'total'],
-    }
+    },
+    fieldsAfterTable:[
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
+
   },
   hydro: {
     fields: [
@@ -81,7 +95,14 @@ const requisitionConfigs: Record<string, {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
       rowsKey: 'facturation',
       rowFields: ['description', 'quantite', 'prix', 'total'],
-    }
+    },
+    fieldsAfterTable:[
+      {key: 'facturationCommentaire', label: 'Commentaire' },
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
+
   },
   interne:{
     fields: [
@@ -92,7 +113,19 @@ const requisitionConfigs: Record<string, {
       { key: 'nomProgramServiceInterne', label: 'Nom du programme ou du service' },
       { key: 'nomDemandeurInterne', label: 'Nom du demandeur' },
     ],
-    table: null
+    table: {
+      headers: ['Phases', 'Type de production', 'Date de livraison (fichier)', 'Date de livraison (postale)', 'Archivé'],
+      rowsKey: 'tableauLivraisonsExterne',
+      isLivraisonTable: true,
+      rowFields: ['phasesExterne', 'typeDeProductionExterne', 'dateLivraisonFichierExterne', 'dateLivraisonPostaleExterne', 'archiveExterne'],
+    },
+    fieldsAfterTable:[
+      {key: 'facturationCommentaire', label: 'Commentaire' },
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
+
   },
   scolaire: {
     fields: [
@@ -114,8 +147,64 @@ const requisitionConfigs: Record<string, {
       headers: ['Type de production demandé', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
       rowsKey: 'facturation',
       rowFields: ['description', 'quantite', 'prix', 'total'],
-    }
+    },
+    fieldsAfterTable:[
+      {key: 'facturationCommentaire', label: 'Commentaire' },
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
   },
+  materiel:{
+    fields: [
+      { key: 'noRequisitionMateriel', label: 'Numéro de réquisition' },
+      { key: 'noCommandeMateriel', label: 'Numéro de commande' },
+      { key: 'dateDemandeMateriel', label: 'Date de la demande' },
+      { key: 'dateRequiseMateriel', label: 'Date requise' },
+      { key: 'nomClientMateriel', label: 'Nom du client' },
+      { key: 'noClientMateriel', label: 'Numéro du client (si connu)' },
+      { key: 'nomContactMateriel', label: 'Nom du contact' },
+      { key: 'courrielContactMateriel', label: 'Courriel du contact' },
+      { key: 'noTelephoneMateriel', label: 'Numéro de téléphone' },
+      { key: 'adresseFacturationMateriel', label: 'Adresse de facturation postale et courriel' },
+    ],
+    table: {
+      headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
+      rowsKey: 'facturation',
+      rowFields: ['description', 'quantite', 'prix', 'total'],
+    },
+    fieldsAfterTable:[
+      {key: 'facturationCommentaire', label: 'Commentaire' },
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
+  },
+  services:{
+    fields: [
+      { key: 'noRequisitionService', label: 'Numéro de réquisition' },
+      { key: 'noCommandeService', label: 'Numéro de commande' },
+      { key: 'dateDemandeService', label: 'Date de la demande' },
+      { key: 'dateRequiseService', label: 'Date requise' },
+      { key: 'nomClientService', label: 'Nom du client' },
+      { key: 'noClientService', label: 'Numéro du client (si connu)' },
+      { key: 'nomContactService', label: 'Nom du contact' },
+      { key: 'courrielContactService', label: 'Courriel du contact' },
+      { key: 'noTelephoneService', label: 'Numéro de téléphone' },
+      { key: 'adresseFacturationService', label: 'Adresse de facturation postale et courriel' },
+    ],
+    table: {
+      headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
+      rowsKey: 'facturation',
+      rowFields: ['description', 'quantite', 'prix', 'total'],
+    },
+    fieldsAfterTable:[
+      {key: 'facturationCommentaire', label: 'Commentaire' },
+      {key: 'dateLivraisonFacturation', label: 'Date de livraison'},
+      {key: 'codeBudgetaireFacturation', label: 'Code budgétaire'},
+      {key: 'autorisationFacturation', label: 'Autorisation' },
+    ]
+  }
 };
 
 export function generatePDF(type: string, formValue: any): void {
@@ -159,35 +248,79 @@ export function generatePDF(type: string, formValue: any): void {
 
   // Render billing table if it exists
   if (config.table && Array.isArray(formValue[config.table.rowsKey])) {
-    const { headers, rowsKey, rowFields } = config.table;
-    const tableRows = formValue[rowsKey] as any[];
+  const { headers, rowsKey, rowFields } = config.table;
+  const tableRows = formValue[rowsKey] as any[];
 
-    y += 10;
-    doc.setFont('helvetica', 'bold');
-    doc.text('Tableau de facturation', 20, y);
-    y += 6;
-    drawLine(doc, y);
-    y += 6;
+  y += 10;
+  doc.setFont('helvetica', 'bold');
+  if( config.table.isLivraisonTable) {
+  doc.text('Tableau de livraisons', 20, y);} else {
+  doc.text('Tableau de facturation', 20, y);}
+  y += 6;
+  drawLine(doc, y);
+  y += 6;
 
-    // Headers
-    doc.setFontSize(10);
-    headers.forEach((header, i) => {
-      doc.text(header, 20 + i * 40, y);
-    });
-    y += 6;
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
 
-    doc.setFont('helvetica', 'normal');
+  // Step 1: Determine dynamic column widths
+  const columnWidths: number[] = headers.map((header, i) => {
+    let maxWidth = doc.getTextWidth(header);
     tableRows.forEach(row => {
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
-      rowFields.forEach((key, i) => {
-        doc.text(String(row[key] || ''), 20 + i * 40, y);
-      });
-      y += 6;
+      const text = String(row[rowFields[i]] || '');
+      const textWidth = doc.getTextWidth(text);
+      if (textWidth > maxWidth) maxWidth = textWidth;
     });
-  }
+    return Math.max(maxWidth + 6, 30); // Add padding and enforce a minimum width
+  });
+
+  // Step 2: Draw headers with dynamic x positioning
+  let x = 20;
+  headers.forEach((header, i) => {
+    doc.text(header, x, y);
+    x += columnWidths[i];
+  });
+  y += 6;
+
+  // Step 3: Draw rows
+  doc.setFont('helvetica', 'normal');
+  tableRows.forEach(row => {
+    if (y > 270) {
+      doc.addPage();
+      y = 20;
+    }
+
+    let x = 20;
+    rowFields.forEach((key, i) => {
+      doc.text(String(row[key] || ''), x, y);
+      x += columnWidths[i];
+    });
+    y += 6;
+  });
+}
+
+
+  y += 20;
+
+  config.fieldsAfterTable.forEach(field => {
+    const label = `${field.label}:`;
+    const value = formValue[field.key] || '_________________';
+
+    doc.setFontSize(12);
+
+    // Draw label in bold
+    doc.setFont('helvetica', 'bold');
+    doc.text(label, 20, y);
+
+    // Compute label width
+    const labelWidth = doc.getTextWidth(label);
+
+    // Draw value just after label
+    doc.setFont('helvetica', 'normal');
+    doc.text(String(value), 20 + labelWidth + 2, y);
+
+    y += 8;
+  });
 
   doc.save(`requisition-${type}.pdf`);
 }
