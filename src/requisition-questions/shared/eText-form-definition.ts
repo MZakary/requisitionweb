@@ -48,8 +48,8 @@ export const eTextFormFields = [
     label: 'E-Text - Tableau de production',
     type: 'dynamicTable',
     columns: [
-      { key: 'noFichProdEText', label: 'Numéro du fichier', type: 'text' },
-      { key: 'nbsCaracteresProdEText', label: 'Nombre de caractères', type: 'text' },
+      { key: 'noFichProdEText', label: 'Numéro du fichier', type: 'textarea' },
+      { key: 'nbsCaracteresProdEText', label: 'Nombre de caractères', type: 'textarea' },
     ]
   },
 ];

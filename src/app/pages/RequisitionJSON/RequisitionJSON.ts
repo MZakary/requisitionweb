@@ -376,7 +376,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       }, {})
     );
     array.push(newRow);
-
+    
   }
 
   removeTopLevelTableRow(key: string, index: number): void {
@@ -875,19 +875,33 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   //#region Clone Info
   readonly persistentFieldsPerType: { [key: string]: string[] } = {
-    etext: ['noFichierEtext', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText' ],
+    //Etext
+    etext: ['noFichierEtext', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText'],
+    //Braille
     braille: ['noFichierBraille', 'quantiteBraille', 'niveauDifficulteBraille',
-      'typeBrailleCheckboxBraille', 'codeBrailleCheckboxBraille', 'autreCodeBraille', 'formatBraille',
+      'typeBrailleCheckboxBraille', 'codeBrailleCheckboxBraille', 'autreCodeBraille', 'formatBraille', 'autreFormatBraille',
       'typeFeuilleBraille', 'embossageBraille', 'autreEmbossageBraille', 'materielBraille',
       'autreMaterielBraille', 'typeTeneurBraille', 'typeCouvertureBraille', 'autreTypeCouvBraille'],
-    dessin: ['noFichierDessin', 'quantiteDessin'],
-    grossi: ['noFichierGrossi'],
-    html: ['noFichierHTML'],
-    pdf: ['noFichierPDF', 'quantitePDF', 'langueNotesProdPDF'],
-    numerisation: ['noFichierNumerisation', 'quantiteNumerisation', 'langueNotesProdNumerisation'],
-    formulaire: ['noFichierFormulaire', 'quantiteFormulaire', 'langueNotesProdFormulaire'],
-    agrandis: ['noFichierAgrandis', 'quantiteAgrandis', 'langueNotesProdAgrandis'],
-    // ➕ Add other production types and fields here
+    //Dessin
+    dessin: ['noFichierDessin', 'quantiteDessin', 'niveauDifficulteDessin', 'typeCheckboxDessin', 'typeBrailleCheckboxDessin',
+      'codeBrailleBaseDessin', 'autreCodeBrailleDessin', 'typePoliceCaracteresDessin', 'taillePoliceCaracteresDessin',
+      'formatDessin', 'autreFormatDessin', 'typeCouleurAChoisirDessin', 'typeImpressionDessin', 'autretypeImpressionDessin',
+      'rectoVersoCheckboxDessin', 'materielDessin', 'autreMaterielDessin'],
+    //Grossi
+    grossi: ['noFichierGrossi', 'quantiteGrossi', 'niveauDifficulteGrossi', 'typePoliceGrossi',
+      'taillePoliceGrossi', 'FormatGrossi', 'autreFormatGrossi', 'monochromeGrossi', 'couleurGrossi',
+      'envoiCourrielSeulGrossi', 'impressionGrossi', 'typeTeneurGrossi', 'typeCouvertureGrossi',
+      'libelleEtiquetteGrossi', 'autreFinitionGrossi'],
+    //HTML
+    html: ['noFichierHTML', 'niveauDifficulteHTML', 'courrielCheckboxHTML', 'autreExpliquationHTML',],
+    //PDF
+    pdf: ['noFichierPDF', 'pdfAccessiblePDF', 'pdfNavigablePDF', 'niveauDifficultePDF', 'courrielCheckboxPDF', 'autreExpliquationPDF'],
+    //Formulaire
+    formulaire: ['noFichierFormulaire', 'typeFormFormulaire', 'niveauDifficulteFormulaire', 'courrielCheckboxFormulaire', 'autreExpliquationFormulaire'],
+    //Agrandis
+    agrandis: ['numFichierAgrandissement', 'quantiteAgrandissement', 'PourcentageAgrandissement', 'taillePoliceAgrandissement', 'FormatGrossi', 'autreFormatAgrandissement',
+      'monochromeAgrandissement', 'couleurAgrandissement', 'impressionAgrandissement', 'typeTeneurAgrandissement', 'typeCouvertureAgrandissement',
+      'autreCouvAgrandissement'],
   };
 
   //#endregion
