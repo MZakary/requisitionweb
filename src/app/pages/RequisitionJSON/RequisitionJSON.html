@@ -9,7 +9,8 @@
     [acceptLabel]="'OK'" [rejectLabel]="''" (accept)="onLockDialogClose()" [showRejectButton]="false">
   </app-confirm-dialog>
 
-  <button type="button" pButton icon="pi pi-pencil" label="Ouvrir le remplacement" (click)="showFindReplaceDialog = true" class="findReplaceButton"></button>
+  <button type="button" pButton icon="pi pi-pencil" label="Ouvrir le remplacement"
+    (click)="showFindReplaceDialog = true" class="findReplaceButton"></button>
 
   <p-dialog [(visible)]="showFindReplaceDialog" header="Trouver et Remplacer" [modal]="true" [closable]="true"
     [style]="{ width: '450px' }" [breakpoints]="{ '960px': '90vw' }" [dismissableMask]="true">
@@ -25,8 +26,7 @@
       </div>
 
       <div class="p-field">
-        <button pButton type="button" label="Remplacer" icon="pi pi-check"
-          (click)="replaceInForm()"></button>
+        <button pButton type="button" label="Remplacer" icon="pi pi-check" (click)="replaceInForm()"></button>
       </div>
     </div>
   </p-dialog>
@@ -199,9 +199,9 @@
 
         <div class="facturation-total-row">
           <p-floatLabel variant="on">
-            <label for="facturation-total">Total</label>
-            <input pInputText id="facturation-total" style="font-weight: bold;" aria-label="Total de la facturation"
-              aria-live="polite" />
+            <label [for]="field.key + '-total'">Total</label>
+            <input pInputText [id]="field.key + '-total'" style="font-weight: bold;"
+              aria-label="Total de la facturation" aria-live="polite" readonly />
           </p-floatLabel>
         </div>
 

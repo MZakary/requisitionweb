@@ -14,7 +14,8 @@ export const servicesFormFields = [
 
   { label: 'Informations spécifiques', type: 'header2', label2: 'Informations spécifiques du document' },
   { key: 'nomProjetService', label: 'Nom du projet', type: 'text' },
-  { key: 'confidentielService', type: 'checkbox-list', label: 'Confidentiel',
+  {
+    key: 'confidentielService', type: 'checkbox-list', label: 'Confidentiel',
     options: [
       { label: 'Oui', value: 'recto' },
       { label: 'Non', value: 'rectoVerso' }
@@ -29,9 +30,10 @@ export const servicesFormFields = [
   { key: 'soutService', label: 'Soutien professionnel', type: 'checkbox' },
 
   /*Add table here */
-  { key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
+  {
+    key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
     columns: [
-      { key: 'Debut', label: 'Date de début du projet',type: 'text' },
+      { key: 'Debut', label: 'Date de début du projet', type: 'text' },
       { key: 'Fin', label: 'Date de fin du projet', type: 'text' },
       { key: 'HeureMS', label: 'M/S', type: 'text' },
       { key: 'HeureSP', label: 'S/P', type: 'text' },
@@ -50,17 +52,18 @@ export const servicesFormFields = [
 export const servicesFormFieldsAfterPhases = [
 
   { label: 'Facturation', type: 'header2' },
-  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'text' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2: "Facturation", type: 'text' },
   {
     key: 'facturation',
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
       { key: 'description', label: 'Description', type: 'textarea' },
-      { key: 'quantite', label: 'Quantité', type: 'number' },
-      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number' },
-    ]
+      { key: 'quantite', label: 'Quantité', type: 'number', calculate: true },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number', calculate: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number', calculated: true }
+    ],
+    calculateTotal: true
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },

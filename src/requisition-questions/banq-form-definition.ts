@@ -7,7 +7,7 @@ export const banqFormFields = [
   { key: 'dateRequiseBANQ', label: 'Date requise', type: 'text' },
   { key: 'prioritaireBANQ', label: 'Prioritaire', type: 'checkbox' },
   { key: 'regulierBANQ', label: 'Régulier', type: 'checkbox' },
-  
+
   { label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'titreProjetBANQ', label: "Titre", type: 'text', label2: "Informations spécifiques du document" },
   { key: 'soustitreProjetBANQ', label: "Sous-Titre", type: 'text' },
@@ -33,10 +33,11 @@ export const banqFormFieldsAfterPhases = [
     columns: [
       { key: 'typeDeBraille', label: 'Type de braille', type: 'text' },
       { key: 'nbrVol', label: 'Nbr vol.', type: 'number' },
-      { key: 'quantite', label: 'Nbr page', type: 'number' },
-      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number' },
+      { key: 'quantite', label: 'Nbr page', type: 'number', calculate: true },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number', calculate: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number', calculated: true },
     ],
+    calculateTotal: true, // Add this to enable grand total calculation
     defaultValues: {
       0: { typeDeBraille: 'Abrégé', nbrVol: '', quantite: '', prix: '1.95', total: '0' },
       1: { typeDeBraille: 'Intégral', nbrVol: '', quantite: '', prix: '1.95', total: '0' },
@@ -54,7 +55,6 @@ export const banqFormFieldsAfterPhases = [
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85873' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
-   {label: 'SVP envoyer la facture par courriel à acquisitions.gb@banq.qc.ca', type: 'header2' },
+  { label: 'SVP envoyer la facture par courriel à acquisitions.gb@banq.qc.ca', type: 'header2' },
 
 ];
-  

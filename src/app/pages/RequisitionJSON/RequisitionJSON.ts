@@ -125,6 +125,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.detectRequisitionType();
     this.buildFormFields();
     this.buildFormGroup();
+    this.setupCalculations();
     this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
 
     window.electronAPI.onTriggerDownload(() => {
@@ -376,7 +377,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       }, {})
     );
     array.push(newRow);
-    
+
   }
 
   removeTopLevelTableRow(key: string, index: number): void {
@@ -905,5 +906,80 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   };
 
   //#endregion
+
+
+  // Add this to your component class
+  private setupCalculations() {
+    // Listen for form changes to trigger calculations
+    this.form.valueChanges.subscribe(() => {
+      this.calculateAllTables();
+    });
+  }
+
+  private calculateAllTables() {
+    // Find all facturation tables in formFields
+    this.formFields.forEach(field => {
+      if (field.type === 'facturationTable') {
+        this.calculateTable(field);
+      }
+    });
+  }
+
+  private calculateTable(field: any) {
+    const formArray = this.getTopLevelDynamicTableArray(field.key);
+    if (!formArray) return;
+
+    let grandTotal = 0;
+
+    formArray.controls.forEach((control: AbstractControl, index: number) => {
+      const rowGroup = control as FormGroup;
+
+      // Calculate row subtotal if needed
+      if (field.columns.some((col: any) => col.calculated)) {
+        this.calculateRow(rowGroup, field.columns);
+      }
+
+      // Add to grand total if configured
+      if (field.calculateTotal) {
+        const totalControl = rowGroup.get('total');
+        if (totalControl) {
+          const value = parseFloat(totalControl.value) || 0;
+          grandTotal += value;
+        }
+      }
+    });
+
+    // Update the total display
+    if (field.calculateTotal) {
+      this.updateTotalDisplay(field.key, grandTotal);
+    }
+  }
+
+  private calculateRow(rowGroup: FormGroup, columns: any[]) {
+    // Find which columns are involved in calculations
+    const calculateColumns = columns.filter(col => col.calculate);
+    const calculatedColumn = columns.find(col => col.calculated);
+
+    if (!calculatedColumn) return;
+
+    // Perform calculation (simple multiplication of quantity * price)
+    if (calculateColumns.length === 2 &&
+      calculateColumns[0].key === 'quantite' &&
+      calculateColumns[1].key === 'prix') {
+      const quantity = parseFloat(rowGroup.get('quantite')?.value) || 0;
+      const price = parseFloat(rowGroup.get('prix')?.value) || 0;
+      const total = quantity * price;
+
+      rowGroup.get(calculatedColumn.key)?.setValue(total.toFixed(2), { emitEvent: false });
+    }
+  }
+
+  private updateTotalDisplay(tableKey: string, total: number) {
+    // Find the total input element and update its value
+    const totalInput = document.getElementById(`${tableKey}-total`);
+    if (totalInput) {
+      (totalInput as HTMLInputElement).value = total.toFixed(2);
+    }
+  }
 
 }

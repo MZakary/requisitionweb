@@ -14,17 +14,19 @@ export const scolaireFormFields = [
   { key: 'nomRepondantScolaire', label: "Nom du répondant", type: 'text' },
   { key: 'courrielRepondantScolaire', label: "Courriel du répondant", type: 'text' },
   { key: 'livrerEtudiantScolaire', label: "Livrer à l'étudiant", type: 'checkbox' },
-  
+
   { label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'nomProjetScolaire', label: 'Nom du projet', type: 'text', label2: 'Informations spécifiques du document' },
-  { key: 'docSourceScolaire', label: 'Document source', type: 'select',
+  {
+    key: 'docSourceScolaire', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
       { label: 'À téléchargé', value: 'telecharger' }
     ]
   },
   { key: 'dosTravailScolaire', label: 'Dossier de travail', type: 'text' },
-  { key: 'langueScolaire', label: 'Langue', type: 'select',
+  {
+    key: 'langueScolaire', label: 'Langue', type: 'select',
     options: [
       { label: 'Français', value: 'fra' },
       { label: 'Anglais', value: 'ang' },
@@ -40,7 +42,7 @@ export const scolaireFormFields = [
   { key: 'lieuEditionScolaire', label: "Lieu d'édition", type: 'text' },
   { key: 'dateEditionScolaire', label: "Date d'édition", type: 'text' },
   { key: 'isbnScolaire', label: "ISBN", type: 'text' },
-  
+
   { key: 'createurScolaire', label: 'Réquisition préparée par', type: 'text' },
 ];
 
@@ -68,13 +70,14 @@ export const scolaireFormFieldsAfterPhases = [
     ]
   },
   { key: 'dateRetourDocumentText', label: 'Date de retour du document', type: 'text' },
-  
+
   { label: 'Livraison - commentaire', type: 'header2' },
   { key: 'livraisonCommentaire', label: 'Livraison - Commentaire', type: 'textarea' },
 
 
   { label: 'Tableau de livraisons', type: 'header2' },
-  { key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
+  {
+    key: 'tableauLivraisonsExterne', label: 'Tableau de livraisons', type: 'dynamicTable',
     columns: [
       { key: 'phasesExterne', label: 'Phases', type: 'textarea' },
       { key: 'typeDeProductionExterne', label: 'Type de production', type: 'textarea' },
@@ -85,37 +88,38 @@ export const scolaireFormFieldsAfterPhases = [
   },
 
   { label: 'Facturation', type: 'header2' },
-  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2:"Facturation", type: 'textarea' },
+  { key: 'descriptionProjetFacturation', label: 'Description du projet', label2: "Facturation", type: 'textarea' },
   {
     key: 'facturation',
     label: 'Tableau de facturation',
     type: 'facturationTable',
     columns: [
       { key: 'description', label: 'Type de production demandé', type: 'textarea' },
-      { key: 'quantite', label: 'Quantité', type: 'number' },
-      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number' },
+      { key: 'quantite', label: 'Quantité', type: 'number', calculate: true },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number', calculate: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number', calculated: true },
     ],
+    calculateTotal: true, // This enables the grand total
     defaultValues: {
-      0: { description: 'E-Text standard (coût par 1000 caractères)',  prix: '2.85' },
-      1: { description: 'E-Text complexe (coût par 1000 caractères)',  prix: '4.65' },
-      2: { description: 'Braille standard (coût par page)',  prix: '2.60' },
-      3: { description: 'Braille complexe (coût par page)',  prix: '8.50' },
-      4: { description: 'Braille réimpression (coût par page)',  prix: '0.35' },
-      5: { description: 'Caractères agrandis standard (coût par 1000 caractères)',  prix: '2.85' },
-      6: { description: 'Caractères agrandis complexe (coût par 1000 caractères)',  prix: '4.65' },
-      7: { description: 'Dessin standard (coût par dessin)',  prix: '30.00' },
-      8: { description: 'Dessin complexe (coût par dessin)',  prix: '60.00' },
-      9: { description: 'Dessin réimpression (coût par dessin)',  prix: '0.70' },
-      10: { description: 'PDF et formulaire accessible standard (coût par page)',  prix: '4.90' },
-      11: { description: 'PDF et formulaire accessible complexe (coût par page)',  prix: '13.60' },
-      12: { description: 'PDF sans balise avec signet (coût par page)',  prix: '3.60' },
-      13: { description: 'Numérisation (coût par page)',  prix: '2.05' },
-      14: { description: 'Agrandissement (coût par page)',  prix: '2.05' },
-      15: { description: 'Sonore standard (Audio DAISY ou MP3) (coût par minute d\'enregistrement)',  prix: '0.95' },
-      16: { description: 'Numérisation de livre que l\'on ne peut brisé (coût la page source)',  prix: '0.30' },
-      17: { description: 'Copies sur CD (coût par copie)',  prix: '5.25' },
-      18: { description: 'Expédition (coût par envoi)',  prix: '12.00' },
+      0: { description: 'E-Text standard (coût par 1000 caractères)', prix: '2.85', total: '0.00' },
+      1: { description: 'E-Text complexe (coût par 1000 caractères)', prix: '4.65', total: '0.00' },
+      2: { description: 'Braille standard (coût par page)', prix: '2.60', total: '0.00' },
+      3: { description: 'Braille complexe (coût par page)', prix: '8.50', total: '0.00' },
+      4: { description: 'Braille réimpression (coût par page)', prix: '0.35', total: '0.00' },
+      5: { description: 'Caractères agrandis standard (coût par 1000 caractères)', prix: '2.85', total: '0.00' },
+      6: { description: 'Caractères agrandis complexe (coût par 1000 caractères)', prix: '4.65', total: '0.00' },
+      7: { description: 'Dessin standard (coût par dessin)', prix: '30.00', total: '0.00' },
+      8: { description: 'Dessin complexe (coût par dessin)', prix: '60.00', total: '0.00' },
+      9: { description: 'Dessin réimpression (coût par dessin)', prix: '0.70', total: '0.00' },
+      10: { description: 'PDF et formulaire accessible standard (coût par page)', prix: '4.90', total: '0.00' },
+      11: { description: 'PDF et formulaire accessible complexe (coût par page)', prix: '13.60', total: '0.00' },
+      12: { description: 'PDF sans balage avec signet (coût par page)', prix: '3.60', total: '0.00' },
+      13: { description: 'Numérisation (coût par page)', prix: '2.05', total: '0.00' },
+      14: { description: 'Agrandissement (coût par page)', prix: '2.05', total: '0.00' },
+      15: { description: 'Sonore standard (Audio DAISY ou MP3) (coût par minute d\'enregistrement)', prix: '0.95', total: '0.00' },
+      16: { description: 'Numérisation de livre que l\'on ne peut brisé (coût la page source)', prix: '0.30', total: '0.00' },
+      17: { description: 'Copies sur CD (coût par copie)', prix: '5.25', total: '0.00' },
+      18: { description: 'Expédition (coût par envoi)', prix: '12.00', total: '0.00' },
     },
     defaultRowCount: 19,
   },
@@ -127,4 +131,3 @@ export const scolaireFormFieldsAfterPhases = [
 
 
 ];
-  

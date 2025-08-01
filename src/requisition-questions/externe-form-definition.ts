@@ -1,6 +1,3 @@
-
-// import { productionFields } from './shared/productionFields';
-
 export const externeFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
   { key: 'noRequisitionExterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRE', label2: 'Informations générales de la demande' },
@@ -94,10 +91,11 @@ export const externeFormFieldsAfterPhases = [
     type: 'facturationTable',
     columns: [
       { key: 'description', label: 'Description', type: 'textarea' },
-      { key: 'quantite', label: 'Quantité', type: 'number' },
-      { key: 'prix', label: 'Prix unitaire ($)', type: 'number' },
-      { key: 'total', label: 'Sous total ($)', type: 'number' },
-    ]
+      { key: 'quantite', label: 'Quantité', type: 'number', calculate: true },
+      { key: 'prix', label: 'Prix unitaire ($)', type: 'number', calculate: true },
+      { key: 'total', label: 'Sous total ($)', type: 'number', calculated: true },
+    ],
+    calculateTotal: true 
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
