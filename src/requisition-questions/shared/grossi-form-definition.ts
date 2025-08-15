@@ -60,7 +60,7 @@ export const grossiFormFields = [
   { key: 'autreFinitionGrossi', label: 'Autre', type: 'text' },
 
   { label: 'Caractères agrandis - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceGrossi', label: 'Nom/Description', label2:"Caractères agrandis - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceGrossi', label: 'Nom/Description', label2:"Caractères agrandis - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Caractères agrandis - commentaire', type: 'header4' },
   { key: 'grossiCommentaire', label: 'Commentaire', type: 'textarea', label2: 'Caractères agrandis - commentaire' },

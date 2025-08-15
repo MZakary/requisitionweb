@@ -40,7 +40,7 @@ export const sonoreFormFields = [
   { key: 'autreEtiquetteSonore', label: "Autre", type: 'text' },
   
   { label: 'Sonore - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2:"Sonore - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2:"Sonore - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Sonore - commentaire', type: 'header4' },
   { key: 'commentaireSonore', label: 'Commentaire', type: 'textarea', label2:"Sonore - commentaire" },

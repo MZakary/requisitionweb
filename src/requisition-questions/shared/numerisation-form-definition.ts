@@ -20,7 +20,7 @@ export const numerisationFormFields = [
   { key:"autreExpliquationNum", label: 'Courriel', type: 'text' },
 
   { label: 'Numérisation - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceNum', label: 'Nom/Description', label2:"Numérisation - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceNum', label: 'Nom/Description', label2:"Numérisation - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Numérisation - commentaire', type: 'header4' },
   { key: 'commentaireNum', label: 'Commentaire', type: 'textarea', label2:"Numérisation - commentaire" },

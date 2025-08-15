@@ -16,7 +16,7 @@ export const htmlFormFields = [
   { key:"autreExpliquationHTML", label: 'Courriel', type: 'text' },
 
   { label: 'HTML - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceHTML', label: 'Nom/Description', label2:"HTML - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceHTML', label: 'Nom/Description', label2:"HTML - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'HTML - commentaire', type: 'header4' },
   { key: 'commentaireHTML', label: 'Commentaire', type: 'textarea', label2:"HTML - commentaire" },

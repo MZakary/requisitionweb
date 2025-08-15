@@ -36,7 +36,7 @@ export const grossiHYDROQCFormFields = [
   { key: 'typeTeneurGrossi', type: 'checkbox', label:"Broché", defaultValue:true, label2: "Caractères agrandis - Finition et montage" },
   
   { label: 'Caractères agrandis - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceGrossi', label: 'Nom/Description', label2:"Caractères agrandis - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceGrossi', label: 'Nom/Description', label2:"Caractères agrandis - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Caractères agrandis - commentaire', type: 'header4' },
   { key: 'grossiCommentaire', label: 'Commentaire', type: 'textarea', label2: 'Caractères agrandis - commentaire' },

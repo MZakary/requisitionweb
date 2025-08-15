@@ -76,7 +76,7 @@ export const brailleHYDROQCFormFields = [
   {key: 'brocheHydroQCBraille', type: 'checkbox', label:"Broché", defaultValue: true},
 
   { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Braille - Nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Braille - Nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Braille - commentaire', type: 'header4' },
   { key: 'commentaireBraille', label: 'Commentaire', type: 'textarea', label2: 'Braille - commentaire' },

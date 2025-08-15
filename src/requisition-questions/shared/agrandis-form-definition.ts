@@ -48,7 +48,7 @@ export const agrandisFormFields = [
   { key: 'autreCouvAgrandissement', label: 'Si autre, spécifier', type: 'text' },
 
   { label: 'Agrandissement - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceAgrandissement', label: 'Nom/Description', label2:"Agrandissement - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceAgrandissement', label: 'Nom/Description', label2:"Agrandissement - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Agrandissement - commentaire', type: 'header4' },
   { key: 'commentaireAgrandissement', label: 'Commentaire', type: 'textarea', label2:"Agrandissement - commentaire" },

@@ -23,7 +23,7 @@ export const eTextFormFields = [
   { key: 'autreCourrielEText', label: 'Si autre, expliquer', type: 'text' },
 
   { label: 'E-Text - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceEText', label: 'Nom/Description', label2:"E-Text - nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceEText', label: 'Nom/Description', label2:"E-Text - nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'E-Text - commentaire', type: 'header4' },
   { key: 'commentaireEText', label: 'Commentaire', label2:"E-Text - commentaire", type: 'text' },

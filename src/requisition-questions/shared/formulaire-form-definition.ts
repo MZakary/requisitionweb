@@ -22,7 +22,7 @@ export const formulaireFormFields = [
   { key:"autreExpliquationFormulaire", label: 'Courriel', type: 'text' },
 
   { label: 'Formulaire - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceFormulaire', label: 'Nom/Description', label2:"Formulaire - Nom du fichier source ou description de la production", type: 'text' },
+  { key: 'nomFichierSourceFormulaire', label: 'Nom/Description', label2:"Formulaire - Nom du fichier source ou description de la production", type: 'textarea' },
   
   { label: 'Formulaire - commentaire', type: 'header4' },
   { key: 'commentaireFormulaire', label: 'Commentaire', type: 'textarea', label2:"Formulaire - Commentaire" },

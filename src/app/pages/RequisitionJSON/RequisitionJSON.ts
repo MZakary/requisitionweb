@@ -89,6 +89,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   lockMessage = '';
   private confirmationResolver: ((result: boolean) => void) | null = null;
 
+  totalFromFacturation = 0;
+
 
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
@@ -837,7 +839,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#region PDF Generation
 
   testFunction(): void {
-    generatePDF(this.requisitionTypeString, this.form.value);
+    generatePDF(this.requisitionTypeString, this.form.value, this.totalFromFacturation);
+    console.log(this.form.value);
   }
 
 
@@ -907,6 +910,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   //#endregion
 
+  //#region Calculations
 
   // Add this to your component class
   private setupCalculations() {
@@ -979,7 +983,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const totalInput = document.getElementById(`${tableKey}-total`);
     if (totalInput) {
       (totalInput as HTMLInputElement).value = total.toFixed(2);
+      this.totalFromFacturation = total; // Update the global totalFromFacturation variable
     }
   }
 
+  //#endregion
 }
