@@ -12,5 +12,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setDashboardState: (state) => ipcRenderer.send('set-dashboard-state', state),
   
   saveJson: (filePath, jsonData) => ipcRenderer.invoke('save-json', filePath, jsonData),
+
+// New layout config APIs
+  saveLayoutConfig: (config) => ipcRenderer.invoke('save-layout-config', config),
+  loadLayoutConfig: () => ipcRenderer.invoke('load-layout-config'),
+
 });
 
