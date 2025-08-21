@@ -775,6 +775,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       this.lockedFilePath = null;
       console.log('Fichier sauvegardé et déverrouillé avec succès.');
       this.showPopUpDialog('Fichier sauvegardé avec succès.', 'Succès de sauvegarde');
+    } else {
+      // Fallback: browser download
+      const blob = new Blob([jsonData], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'requisition.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
     }
 
     this.form.markAsPristine();

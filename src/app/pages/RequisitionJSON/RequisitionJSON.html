@@ -442,7 +442,8 @@
 
   <hr />
   <div class="button-group">
-    <p-button label="Sauvegarder JSON" (onClick)="downloadJson()"></p-button>
+    <p-button [label]="lockedFilePath ? 'Déverrouiller et sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()">
+    </p-button>
     <p-button label="Télécharger PDF" (onClick)="testFunction()"></p-button>
   </div>
 
