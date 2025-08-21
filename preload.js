@@ -9,5 +9,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendCloseResponse: (isDirty) => ipcRenderer.invoke('confirm-close-response', isDirty),
 
   onTriggerDownload: (callback) => ipcRenderer.on('trigger-download', callback),
+  setDashboardState: (state) => ipcRenderer.send('set-dashboard-state', state),
 });
 

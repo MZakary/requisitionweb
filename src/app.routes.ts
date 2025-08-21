@@ -10,7 +10,7 @@ export const appRoutes: Routes = [
         path: '',
         component: AppLayout,
         children: [
-            { path: '', component: Dashboard },
+            { path: '', component: Dashboard, canDeactivate: [ConfirmExitGuard] },
             { path: 'requisition-json-externe', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
             { path: 'requisition-json-interne', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
             { path: 'requisition-json-scolaire', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },

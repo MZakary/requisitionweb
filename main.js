@@ -18,8 +18,15 @@ function createWindow() {
 
    // Intercept the close request
   let canClose = false;
+  let isOnDashboard = false;
 
   win.on('close', async (e) => {
+
+    if (isOnDashboard) {
+      // if on dashboard, always allow close
+      return;
+    }
+
     if (!canClose) {
       e.preventDefault(); // Cancel default close behavior
       const result = await win.webContents.send('check-before-close');
@@ -49,6 +56,10 @@ function createWindow() {
       canClose = true;
       win.close();
     }
+  });
+
+  ipcMain.on('set-dashboard-state', (_, isDashboard) => {
+    isOnDashboard = isDashboard;
   });
 }
 
