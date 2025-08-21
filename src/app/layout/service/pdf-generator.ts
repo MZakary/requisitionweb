@@ -52,9 +52,9 @@ const requisitionConfigs: Record<string, {
       { key: 'titreProjetBANQ', label: "Titre" },
     ],
     table: {
-      headers: ['Type de braille', 'Nbr vol.', 'Nbr page', 'Prix unitaire ($)', 'Sous total ($)'],
+      headers: ['Type de braille', 'Nbr page/vol.', 'Prix unitaire ($)', 'Sous total ($)'],
       rowsKey: 'facturation',
-      rowFields: ['typeDeBraille', 'nbrVol', 'quantite', 'prix', 'total'],
+      rowFields: ['typeDeBraille', 'quantite', 'prix', 'total'],
     },
     fieldsAfterTable: [
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },

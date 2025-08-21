@@ -87,6 +87,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   exitDialogVisible = false;
   lockDialogVisible = false;
   lockMessage = '';
+  confirmTitle = '';
   private confirmationResolver: ((result: boolean) => void) | null = null;
 
   totalFromFacturation = 0;
@@ -638,14 +639,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       // 🔒 Step 1: Check if locked BEFORE locking
       const checkResult = await window.electronAPI.checkLock(filePath);
       if (checkResult.locked) {
-        this.showLockDialog(`Ce fichier est déjà utilisé par ${checkResult.lockedBy}.`);
+        this.showPopUpDialog(`Ce fichier est déjà utilisé par ${checkResult.lockedBy}.`, 'Fichier déjà verrouillé');
         return;
       }
 
       // 🔒 Step 2: Lock the file
       const lockResult = await window.electronAPI.lockFile(filePath);
       if (!lockResult.success) {
-        this.showLockDialog(`Impossible de verrouiller le fichier. Il est utilisé par ${lockResult.lockedBy}.`);
+        this.showPopUpDialog(`Impossible de verrouiller le fichier. Il est utilisé par ${lockResult.lockedBy}.`, 'Fichier déjà verrouillé');
         return;
       }
 
@@ -658,7 +659,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       this.lockedFilePath = filePath;
     } catch (error) {
       console.error('Erreur lors de l’importation du fichier JSON:', error);
-      this.showLockDialog('Erreur lors de la lecture ou du verrouillage du fichier.');
+      this.showPopUpDialog('Erreur lors de la lecture ou du verrouillage du fichier.', 'Fichier invalide');
     }
 
     this.form.markAsPristine(); //make form clean after loading data
@@ -759,28 +760,26 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
-  downloadJson() {
+  async downloadJson() {
     const data = this.form.value;
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    let fileName = 'requisition.json';
+    const jsonData = JSON.stringify(data, null, 2);
+    console.log('Téléchargement des données JSON:', jsonData);
     if (this.lockedFilePath) {
-      const parts = this.lockedFilePath.split(/[/\\]/);
-      fileName = parts[parts.length - 1];
-    }
-
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(a.href);
-
-    if (this.lockedFilePath) {
-      window.electronAPI.unlockFile(this.lockedFilePath);
+      // Save back to original file
+      const result = await window.electronAPI.saveJson(this.lockedFilePath, jsonData);
+      if (!result.success) {
+        console.error('Erreur lors de la sauvegarde du fichier:', result.error);
+        this.showPopUpDialog('Impossible d\'enregistrer le fichier.', 'Erreur de sauvegarde');
+      }
+      await window.electronAPI.unlockFile(this.lockedFilePath);
       this.lockedFilePath = null;
+      console.log('Fichier sauvegardé et déverrouillé avec succès.');
+      this.showPopUpDialog('Fichier sauvegardé avec succès.', 'Succès de sauvegarde');
     }
 
     this.form.markAsPristine();
   }
+
   //#endregion
 
 
@@ -825,8 +824,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
-  showLockDialog(message: string): void {
+  showPopUpDialog(message: string, title: string): void {
     this.lockMessage = message;
+    this.confirmTitle = title || 'Fichier verrouillé';
     this.lockDialogVisible = true;
   }
 

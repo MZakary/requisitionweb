@@ -10,5 +10,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   onTriggerDownload: (callback) => ipcRenderer.on('trigger-download', callback),
   setDashboardState: (state) => ipcRenderer.send('set-dashboard-state', state),
+  
+  saveJson: (filePath, jsonData) => ipcRenderer.invoke('save-json', filePath, jsonData),
 });
 

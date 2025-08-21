@@ -5,7 +5,7 @@
     [header]="'Quitter la page?'" (accept)="onConfirmNavigation()" (reject)="onCancelNavigation()">
   </app-confirm-dialog>
 
-  <app-confirm-dialog [(visible)]="lockDialogVisible" [message]="lockMessage" [header]="'Fichier verrouillé'"
+  <app-confirm-dialog [(visible)]="lockDialogVisible" [message]="lockMessage" [header]="confirmTitle"
     [acceptLabel]="'OK'" [rejectLabel]="''" (accept)="onLockDialogClose()" [showRejectButton]="false">
   </app-confirm-dialog>
 
@@ -48,7 +48,8 @@
       <h2 *ngIf="field.type === 'header2'" class="form-section-header">{{ field.label }}</h2>
       <h3 *ngIf="field.type === 'header3'" class="form-section-header">{{ field.label }}</h3>
 
-      <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on">
+      <p-floatLabel *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'" variant="on"
+        class="p-field">
         <label [for]="field.key">{{ field.label }}</label>
         <input pInputText [type]="field.type" [id]="field.key" [formControlName]="field.key" style="width: 80%"
           autoResize />
@@ -176,14 +177,17 @@
             <div *ngFor="let col of field.columns"
               style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
               <p-floatLabel variant="on">
-                <label [for]="field.key + '-' + i + '-' + col.key">{{ col.label }}</label>
+                <label [for]="field.key + '-' + i + '-' + col.key">
+                  {{ col.key === 'quantite' && row.get('typeDeBraille')?.value === 'Couvertures'
+                  ? 'Nbr vol.'
+                  : col.label }}
+                </label>
 
                 <!-- Conditionally render textarea or input -->
                 <ng-container [ngSwitch]="col.type">
                   <!-- Textarea -->
                   <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
-                    [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key">
-            </textarea>
+                    [id]="field.key + '-' + i + '-' + col.key" [formControlName]="col.key"></textarea>
 
                   <!-- Default input -->
                   <input *ngSwitchDefault pInputText [id]="field.key + '-' + i + '-' + col.key"
@@ -192,8 +196,7 @@
               </p-floatLabel>
             </div>
 
-            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer">
-            </p-button>
+            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer"></p-button>
           </div>
         </div>
 
@@ -439,7 +442,7 @@
 
   <hr />
   <div class="button-group">
-    <p-button label="Télécharger JSON" (onClick)="downloadJson()"></p-button>
+    <p-button label="Sauvegarder JSON" (onClick)="downloadJson()"></p-button>
     <p-button label="Télécharger PDF" (onClick)="testFunction()"></p-button>
   </div>
 

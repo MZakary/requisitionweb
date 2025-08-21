@@ -130,3 +130,12 @@ ipcMain.handle('check-lock', async (_, filePath) => {
   return { locked: false };
 });
 
+ipcMain.handle('save-json', async (_, filePath, jsonData) => {
+  try {
+    await fs.promises.writeFile(filePath, jsonData, 'utf-8');
+    return { success: true };
+  } catch (err) {
+    console.error('Error saving file:', err);
+    return { success: false, error: err.message };
+  }
+});

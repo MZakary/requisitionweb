@@ -8,6 +8,8 @@ declare global {
       unlockFile: (filePath: string) => Promise<any>;
       checkLock: (filePath: string) => Promise<any>;
 
+      saveJson: (filePath: string, jsonData: string) => Promise<{ success: boolean; error?: string }>;
+
       onWindowCloseAttempt: (callback: () => void) => void;
       sendCloseResponse: (isDirty: boolean) => void;
 
