@@ -38,7 +38,7 @@ function createWindow() {
       if (isFormDirty) {
         const result = await dialog.showMessageBox({
           type: 'question',
-          buttons: ['Quitter sans enregistrer', 'Annuler', 'Télécharger'],
+          buttons: ['Quitter sans enregistrer', 'Annuler', 'Sauvegarder et quitter'],
           defaultId: 2,
           cancelId: 1,
           message: 'Des modifications non enregistrées seront perdues. Voulez-vous vraiment quitter ?',
