@@ -129,6 +129,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.buildFormFields();
     this.buildFormGroup();
     this.setupCalculations();
+    this.FunctionsForRequisitionTypes();
     this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
 
     window.electronAPI.onTriggerDownload(() => {
@@ -995,5 +996,40 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
+  //#endregion
+
+
+
+  //#region Fonctions spécifiques par type de réquisition
+
+  private FunctionsForRequisitionTypes(): void {
+    if (this.requisitionType === RequisitionType.Scholaire) {
+      this.setupCheckboxLogic();
+    }
+  }
+
+  //#region Scolaire
+  private setupCheckboxLogic(): void {
+    const typeEcoleGroup = this.form.get('typeEcole') as FormGroup;
+    const nomClientControl = this.form.get('nomClientScolaire');
+    const noClientScolaire = this.form.get('noClientScolaire');
+
+    if (!typeEcoleGroup || !nomClientControl) return;
+
+    typeEcoleGroup.valueChanges.subscribe(value => {
+      // value looks like: { ccsi: true/false, universite: true/false }
+      if (value.ccsi) {
+        nomClientControl.setValue('Cégep du Vieux Montréal', { emitEvent: false });
+        noClientScolaire?.setValue('3000003', { emitEvent: false });
+      } else {
+        // Optionally clear when unchecked
+        nomClientControl.setValue('', { emitEvent: false });
+        noClientScolaire?.setValue('', { emitEvent: false });
+      }
+    });
+  }
+
+
+  //#endregion
   //#endregion
 }

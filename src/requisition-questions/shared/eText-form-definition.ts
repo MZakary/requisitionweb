@@ -19,7 +19,7 @@ export const eTextFormFields = [
   { key: 'graphiqueEText', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
   { label: 'E-Text - finition et montage', type: 'header4' },
-  { key: 'courrielEText', label: 'Courriel', label2:"E-Text - Finition et montage", type: 'checkbox' },
+  { key: 'courrielEText', label: 'Courriel', label2:"E-Text - Finition et montage", type: 'checkbox', defaultValue:true },
   { key: 'autreCourrielEText', label: 'Si autre, expliquer', type: 'text' },
 
   { label: 'E-Text - nom du fichier source ou description de la production', type: 'header4' },

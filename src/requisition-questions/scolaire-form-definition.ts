@@ -3,6 +3,12 @@ export const scolaireFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
   { key: 'noRequisitionScolaire', label: 'Numéro de réquisition', type: 'text', label2: 'Informations générales de la demande' },
   { key: 'noDemandeScolaire', label: 'Numéro de commande', type: 'text' },
+  { key: 'typeEcole', type: 'checkbox-list',
+    options: [
+      { label: 'CCSI', value: 'ccsi'},
+      { label: 'Université', value: 'universite' }
+    ]
+  },
   { key: 'nomClientScolaire', label: 'Nom du client', type: 'text' },
   { key: 'noClientScolaire', label: 'Numéro du client (si connu)', type: 'text' },
   { key: 'dateDemandeScolaire', label: 'Date de la demande', type: 'text' },
