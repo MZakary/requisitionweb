@@ -101,6 +101,7 @@ import { LayoutService } from '../service/layout.service';
             </a>
         </div>
 
+        
         <div class="layout-topbar-actions">
             <div class="layout-config-menu">
                 <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()" aria-label="Basculer le mode sombre">
@@ -108,25 +109,28 @@ import { LayoutService } from '../service/layout.service';
                 </button>
                 <div class="relative">
                     <button
-                        class="layout-topbar-action layout-topbar-action-highlight"
-                        pStyleClass="@next"
-                        enterFromClass="hidden"
+                    class="layout-topbar-action layout-topbar-action-highlight"
+                    pStyleClass="@next"
+                    enterFromClass="hidden"
                         enterActiveClass="animate-scalein"
                         leaveToClass="hidden"
                         leaveActiveClass="animate-fadeout"
                         [hideOnOutsideClick]="true"
                         aria-label="Activer le menu des options de couleur"
-                    >
+                        >
                         <i class="pi pi-palette"></i>
                     </button>
                     <app-configurator />
                 </div>
             </div>
-
+            
             <button class="layout-topbar-menu-button layout-topbar-action" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
                 <i class="pi pi-ellipsis-v"></i>
             </button>
-
+            
+            <div>
+                <p>V1.5.1</p>
+            </div>
             <!-- <div class="layout-topbar-menu hidden lg:block">
                 <div class="layout-topbar-menu-content">
                     <button type="button" class="layout-topbar-action">

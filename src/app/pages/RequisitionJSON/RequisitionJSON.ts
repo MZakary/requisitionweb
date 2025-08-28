@@ -713,6 +713,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
           );
           formArray.push(rowGroup);
         });
+
+        this.calculateTotalHeures(); // Recalculate total after patching
       }
     }
 
@@ -783,8 +785,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         console.error('Erreur lors de la sauvegarde du fichier:', result.error);
         this.showPopUpDialog('Impossible d\'enregistrer le fichier.', 'Erreur de sauvegarde');
       }
-      await window.electronAPI.unlockFile(this.lockedFilePath);
-      this.lockedFilePath = null;
+      // await window.electronAPI.unlockFile(this.lockedFilePath);
+      // this.lockedFilePath = null;
       console.log('Fichier sauvegardé et déverrouillé avec succès.');
       this.showPopUpDialog('Fichier sauvegardé avec succès.', 'Succès de sauvegarde');
     } else {
@@ -994,7 +996,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       const price = parseFloat(rowGroup.get('prix')?.value) || 0;
       const total = quantity * price;
 
-      rowGroup.get(calculatedColumn.key)?.setValue(total.toFixed(2), { emitEvent: false });
+      if (!rowGroup.get(calculatedColumn.key)?.dirty) {
+        rowGroup.get(calculatedColumn.key)?.setValue(total.toFixed(2), { emitEvent: false });
+      }
     }
   }
 
