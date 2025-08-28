@@ -134,6 +134,4 @@ export const scolaireFormFieldsAfterPhases = [
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85833' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
-
-
 ];

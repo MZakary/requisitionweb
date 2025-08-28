@@ -31,6 +31,7 @@ export const materielFormFields = [
 
   {
     key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
+    needsTotal: true,
     columns: [
       { key: 'Debut', label: 'Date Début', type: 'text' },
       { key: 'Fin', label: 'Date Fin', type: 'text' },
@@ -76,6 +77,13 @@ export const materielFormFieldsAfterPhases = [
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
-
+  {
+    key: 'tableNote', label: 'Notes', type: 'tableHeure',
+    needsTotal: false,
+    columns: [
+      { key: 'Date', label: 'Date', type: 'text' },
+      { key: 'Note', label: 'Note', type: 'textarea' },
+    ],
+  },
 
 ];

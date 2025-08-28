@@ -62,12 +62,15 @@
 
         <div *ngFor="let row of getTableHeureArray(field.key).controls; let rowIndex = index" [formGroupName]="rowIndex"
           class="table-heure-row">
-          <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: center;">
+
+          <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: start;">
             <li *ngFor="let col of field.columns" class="table-heure-col">
               <p-floatLabel variant="on">
                 <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
-                <input pInputText [id]="field.key + '-' + rowIndex + '-' + col.key" [type]="col.type || 'text'"
-                  [formControlName]="col.key" (input)="calculateTotalHeures()" />
+                <input *ngIf="col.type !== 'textarea'" pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                  [type]="col.type || 'text'" [formControlName]="col.key" (input)="calculateTotalHeures()" />
+                <textarea *ngIf="col.type === 'textarea'" pTextarea [id]="field.key + '-' + rowIndex + '-' + col.key"
+                  [formControlName]="col.key" cols="225" (input)="calculateTotalHeures()"></textarea>
               </p-floatLabel>
             </li>
 
@@ -75,21 +78,25 @@
               <p-button label="Effacer" (click)="removeTableHeureRow(field.key, rowIndex)"
                 icon="pi pi-trash"></p-button>
             </li>
+
+            <!-- Subtotal for this row -->
           </ul>
         </div>
 
-        <p-floatLabel variant="on">
+        <!-- Grand total -->
+        <p-floatLabel variant="on" *ngIf="field.needsTotal" style="margin-bottom: 20px;">
           <label for="total-heures">Total des heures</label>
-          <input pInputText id="total-heures" [value]="totalHeuresValue" readonly style="font-weight: bold;"
+          <input pInputText id="total-heures" [value]="totalHeuresValue" readonly style="font-weight: bold; width: 80%;"
             aria-live="polite" aria-label="Total des heures" />
         </p-floatLabel>
+
         <p-button label="Ajouter une ligne" (click)="addTableHeureRow(field)" icon="pi pi-plus"></p-button>
       </div>
 
 
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
         <label [for]="field.key">{{ field.label }}</label>
-        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 80%" [autoResize]="true"
+        <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 100%" [autoResize]="true"
           class="p-inputtext"></textarea>
       </p-floatLabel>
 

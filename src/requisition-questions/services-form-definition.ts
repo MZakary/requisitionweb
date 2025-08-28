@@ -32,6 +32,7 @@ export const servicesFormFields = [
   /*Add table here */
   {
     key: 'tableHeure', label: 'Heures de travail – tableau de production', type: 'tableHeure',
+    needsTotal: true,
     columns: [
       { key: 'Debut', label: 'Date de début du projet', type: 'text' },
       { key: 'Fin', label: 'Date de fin du projet', type: 'text' },
@@ -70,6 +71,13 @@ export const servicesFormFieldsAfterPhases = [
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
-
+  {
+    key: 'tableNote', label: 'Notes', type: 'tableHeure',
+    needsTotal: false,
+    columns: [
+      { key: 'Date', label: 'Date', type: 'text' },
+      { key: 'Note', label: 'Note', type: 'textarea' },
+    ],
+  },
 
 ];

@@ -316,6 +316,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#region Table d'heures
 
   totalHeuresValue = 0;
+  rowSubtotals: number[] = []; // store subtotal for each row
 
   calculateTotalHeures(): void {
     const tableHeureArray = this.form.get('tableHeure') as FormArray;
@@ -325,21 +326,31 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       return;
     }
 
-    let total = 0;
-    for (const rowGroup of tableHeureArray.controls) {
+    let grandTotal = 0;
+
+    tableHeureArray.controls.forEach((rowGroup: AbstractControl) => {
       if (rowGroup instanceof FormGroup) {
-        for (const key of Object.keys(rowGroup.controls)) {
-          // Skip keys containing 'Debut' or 'Fin'
-          if (key.includes('Debut') || key.includes('Fin')) continue;
+        let rowTotal = 0;
+
+        Object.keys(rowGroup.controls).forEach(key => {
+          // Skip 'Debut', 'Fin', and 'sousTotal'
+          if (key.includes('Debut') || key.includes('Fin') || key === 'sousTotal') return;
 
           const val = parseFloat(rowGroup.get(key)?.value);
-          if (!isNaN(val)) total += val;
-        }
-      }
-    }
+          if (!isNaN(val)) rowTotal += val;
+        });
 
-    this.totalHeuresValue = total;
+        // Store subtotal in the sousTotal column
+        rowGroup.get('sousTotal')?.setValue(rowTotal, { emitEvent: false });
+
+        grandTotal += rowTotal;
+      }
+    });
+
+    this.totalHeuresValue = grandTotal;
   }
+
+
 
   getTableHeureArray(key: string): FormArray {
     return this.form.get(key) as FormArray;
