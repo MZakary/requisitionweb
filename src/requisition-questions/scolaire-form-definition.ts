@@ -68,10 +68,9 @@ export const scolaireFormFieldsAfterPhases = [
   { key: 'adressesDestinatairesLivraison', label: 'Adresses du destinataire', type: 'textarea' },
 
   { label: 'Retour du document', type: 'header2' },
-  {
-    key: 'retourDocumentDropDown', label: 'Retour du document', type: 'select',
+  { key: 'retourDocumentDropDown', type: 'checkbox-list',
     options: [
-      { label: 'N/A', value: 'NA' },
+      { label: 'N/A', value: 'NA', label2: 'Retour du document' },
       { label: 'envoyer le', value: 'envoyer' }
     ]
   },

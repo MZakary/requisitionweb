@@ -802,6 +802,22 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.form.markAsPristine();
   }
 
+  async downloadJsonNew() {
+    const data = this.form.value;
+    const jsonData = JSON.stringify(data, null, 2);
+    console.log('Téléchargement des données JSON:', jsonData);
+
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'requisition.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+
+    this.form.markAsPristine();
+  }
+
   //#endregion
 
 

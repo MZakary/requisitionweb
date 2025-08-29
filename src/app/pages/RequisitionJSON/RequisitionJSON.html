@@ -321,12 +321,12 @@
                               </p-floatLabel>
                             </div>
 
-                            <p-button label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)"
+                            <p-button *ngIf="!field.removeAddButton" label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)"
                               icon="pi pi-trash"></p-button>
                           </div>
                         </div>
 
-                        <p-button label="Ajouter une ligne" (click)="addTableRow(phase, type, field)"
+                        <p-button *ngIf="!field.removeAddButton" label="Ajouter une ligne" (click)="addTableRow(phase, type, field)"
                           icon="pi pi-add"></p-button>
 
                         <!-- Total Row -->
@@ -449,8 +449,8 @@
 
   <hr />
   <div class="button-group">
-    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()">
-    </p-button>
+    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()"></p-button>
+    <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()"></p-button>
     <p-button label="Télécharger PDF" (onClick)="testFunction()"></p-button>
   </div>
 
