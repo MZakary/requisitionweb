@@ -14,6 +14,7 @@ import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
 import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the confirm dialog component
 import { generatePDF } from '../../layout/service/pdf-generator'; // Import the PDF generation service
 import { DialogModule } from 'primeng/dialog';
+import { TocService } from '../../layout/service/toc.service';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -122,7 +123,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   lockedFilePath: string | null = null;
 
-  constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef) { }
+  constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService) { }
 
   ngOnInit(): void {
     this.detectRequisitionType();
@@ -140,6 +141,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.pageTitle.nativeElement.focus();
+      this.tocService.requestUpdate();
     }, 0);
   }
 
@@ -513,6 +515,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     setTimeout(() => {
       const lastTitle = this.phaseTitles.last;
       if (lastTitle) lastTitle.nativeElement.focus();
+      this.tocService.requestUpdate();
     }, 300);
   }
 
@@ -675,6 +678,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
 
     this.form.markAsPristine(); //make form clean after loading data
+    this.tocService.requestUpdate();
   }
 
 
