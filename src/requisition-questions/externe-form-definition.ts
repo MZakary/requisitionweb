@@ -24,7 +24,7 @@ export const externeFormFields = [
     key: 'docSourceExterne', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
-      { label: 'À téléchargé', value: 'telecharger' }
+      { label: 'À télécharger', value: 'telecharger' }
     ]
   },
   { key: 'dosTravailExterne', label: 'Dossier de travail', type: 'text' },

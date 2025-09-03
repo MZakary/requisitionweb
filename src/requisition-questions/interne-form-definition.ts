@@ -19,7 +19,7 @@ export const interneFormFields = [
   { key: 'docSourceInterne', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
-      { label: 'À téléchargé', value: 'telecharger' }
+      { label: 'À télécharger', value: 'telecharger' }
     ]
   },
   { key: 'dosTravailInterne', label: 'Dossier de travail', type: 'text' },

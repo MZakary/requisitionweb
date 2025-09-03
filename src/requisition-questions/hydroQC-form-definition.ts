@@ -23,7 +23,7 @@ export const hydroqcFormFields = [
     key: 'docSourceHydro', label: 'Document source', type: 'select', defaultValue: 'retourner',
     options: [
       { label: 'À retourner', value: 'retourner' },
-      { label: 'À téléchargé', value: 'telecharger' }
+      { label: 'À télécharger', value: 'telecharger' }
     ]
   },
   { key: 'dosTravailHydro', label: 'Dossier de travail', type: 'text' },

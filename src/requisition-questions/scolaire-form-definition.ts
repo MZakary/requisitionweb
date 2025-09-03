@@ -27,7 +27,7 @@ export const scolaireFormFields = [
     key: 'docSourceScolaire', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
-      { label: 'À téléchargé', value: 'telecharger' }
+      { label: 'À télécharger', value: 'telecharger' }
     ]
   },
   { key: 'dosTravailScolaire', label: 'Dossier de travail', type: 'text' },
