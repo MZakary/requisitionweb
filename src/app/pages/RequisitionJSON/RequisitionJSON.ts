@@ -860,6 +860,17 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.form.markAsPristine();
   }
 
+  async unlockAndOpenNew() {
+    if(this.lockedFilePath){
+      await window.electronAPI.unlockFile(this.lockedFilePath);
+      this.lockedFilePath = null;
+  
+      this.openAndLockFile();
+    }else{
+      return;
+    }
+  }
+
   //#endregion
 
 
