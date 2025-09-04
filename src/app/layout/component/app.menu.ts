@@ -21,11 +21,12 @@ export class AppMenu implements OnInit, OnDestroy {
   model: MenuItem[] = [];
   private sub!: Subscription;
 
-  constructor(private tocService: TocService) {}
+  constructor(private tocService: TocService) { }
 
   ngOnInit() {
     this.model = [
-      { label: 'Menu Principal', items: [
+      {
+        label: 'Menu Principal', items: [
           { label: 'Réquisition Externe', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-externe'] },
           { label: 'Réquisition Interne', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-interne'] },
           { label: 'Réquisition Scolaire', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-scolaire'] },
@@ -34,7 +35,7 @@ export class AppMenu implements OnInit, OnDestroy {
           { label: 'Réquisition BANQ', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-banq'] },
           { label: 'Réquisition Hydro-Québec', icon: 'pi pi-fw pi-file-edit', routerLink: ['/requisition-json-hydroqc'] },
           // ... other items
-        ] 
+        ]
       },
       { separator: true },
       { label: 'Table des matières', items: [] }
@@ -49,51 +50,70 @@ export class AppMenu implements OnInit, OnDestroy {
   }
 
   UpdateTableMatiere() {
-  const headings = document.querySelectorAll('h1, h2, h3');
-  const tocItems: MenuItem[] = [];
-  let currentH1: MenuItem | null = null;
-  let currentH2: MenuItem | null = null;
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const tocItems: MenuItem[] = [];
+    const levelStack: (MenuItem | null)[] = [null, null, null, null, null, null];
 
-  headings.forEach(h => {
-    const id = h.id || h.textContent?.trim().replace(/\s+/g, '-').toLowerCase() || '';
-    if (!h.id) h.id = id;
+    // class name that excludes from TOC
+    const excludedClass = 'sr-only';
 
-    const menuItem: MenuItem = {
-      label: h.textContent || '',
-      command: () => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      },
-      icon: h.tagName === 'H1' ? 'pi pi-book' : h.tagName === 'H2' ? 'pi pi-angle-right' : 'pi pi-circle'
-    };
-
-    if (h.tagName === 'H1') {
-      // top-level
-      tocItems.push(menuItem);
-      currentH1 = menuItem;
-      currentH2 = null;
-    } else if (h.tagName === 'H2') {
-      if (currentH1) {
-        currentH1.items = currentH1.items || [];
-        currentH1.items.push(menuItem);
-        currentH2 = menuItem;
-      } else {
-        tocItems.push(menuItem); // fallback if no H1 yet
+    headings.forEach(h => {
+      // ❌ skip headings with the excluded class
+      if (h.classList.contains(excludedClass)) {
+        return;
       }
-    } else if (h.tagName === 'H3') {
-      if (currentH2) {
-        currentH2.items = currentH2.items || [];
-        currentH2.items.push(menuItem);
-      } else if (currentH1) {
-        currentH1.items = currentH1.items || [];
-        currentH1.items.push(menuItem); // attach under H1 if no H2
-      } else {
-        tocItems.push(menuItem); // fallback
-      }
-    }
-  });
 
-  const tocSection = this.model.find(m => m.label === 'Table des matières');
-  if (tocSection) tocSection.items = tocItems;
-}
+      const id =
+        h.id ||
+        h.textContent?.trim().replace(/\s+/g, '-').toLowerCase() ||
+        '';
+      if (!h.id) h.id = id;
+
+      const level = parseInt(h.tagName.substring(1), 10);
+
+      const menuItem: MenuItem = {
+        label: h.textContent || '',
+        command: () => {
+          document
+            .getElementById(id)
+            ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        },
+        icon:
+          level === 1
+            ? 'pi pi-book'
+            : level === 2
+              ? 'pi pi-angle-right'
+              : 'pi pi-circle',
+      };
+
+      if (level === 1) {
+        tocItems.push(menuItem);
+      } else {
+        let parent: MenuItem | null = null;
+        for (let i = level - 1; i > 0; i--) {
+          if (levelStack[i - 1]) {
+            parent = levelStack[i - 1];
+            break;
+          }
+        }
+        if (parent) {
+          parent.items = parent.items || [];
+          parent.items.push(menuItem);
+        } else {
+          tocItems.push(menuItem);
+        }
+      }
+
+      levelStack[level - 1] = menuItem;
+      for (let i = level; i < 6; i++) {
+        levelStack[i] = null;
+      }
+    });
+
+    const tocSection = this.model.find(m => m.label === 'Table des matières');
+    if (tocSection) tocSection.items = tocItems;
+  }
+
+
 
 }

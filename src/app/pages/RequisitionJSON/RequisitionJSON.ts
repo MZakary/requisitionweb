@@ -15,6 +15,8 @@ import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the 
 import { generatePDF } from '../../layout/service/pdf-generator'; // Import the PDF generation service
 import { DialogModule } from 'primeng/dialog';
 import { TocService } from '../../layout/service/toc.service';
+import { take } from 'rxjs/operators';
+import { NgZone } from '@angular/core';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -123,7 +125,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   lockedFilePath: string | null = null;
 
-  constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService) { }
+  constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService,
+    private ngZone: NgZone
+  ) { }
 
   ngOnInit(): void {
     this.detectRequisitionType();
@@ -144,6 +148,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       this.tocService.requestUpdate();
     }, 0);
   }
+
+
+  private queueTocUpdate() {
+    this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+      this.tocService.requestUpdate();
+    });
+  }
+
 
   handleAltF4(): void {
     // ✅ Handle window close
@@ -517,6 +529,14 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       if (lastTitle) lastTitle.nativeElement.focus();
       this.tocService.requestUpdate();
     }, 300);
+
+    const selectedTypesControl = newPhase.get('selectedTypes');
+    if (selectedTypesControl) {
+      selectedTypesControl.valueChanges.subscribe(() => {
+        this.queueTocUpdate();
+        this.tocService.requestUpdate();
+      });
+    }
   }
 
 
@@ -578,7 +598,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
       }
     });
-
     return this.fb.group(group);
   }
 
@@ -601,6 +620,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     } else {
       selectedTypesControl.setValue([...selectedTypes, value]);
     }
+
+    this.ngZone.run(() => {
+      this.queueTocUpdate();
+    });
   }
 
   confirmDeleteIndex: number | null = null;
@@ -613,6 +636,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   deletePhase(index: number): void {
     this.phases.removeAt(index);
+
+    this.queueTocUpdate();
+    this.tocService.requestUpdate();
   }
   //#endregion
 
@@ -672,6 +698,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
       this.patchFormFromData(data);
       this.lockedFilePath = filePath;
+
+      this.cd.detectChanges();
+      setTimeout(() => {
+        this.tocService.requestUpdate();
+      }, 0);
     } catch (error) {
       console.error('Erreur lors de l’importation du fichier JSON:', error);
       this.showPopUpDialog('Erreur lors de la lecture ou du verrouillage du fichier.', 'Fichier invalide');
@@ -774,8 +805,15 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
         phaseGroup.patchValue(phaseData, { emitEvent: false });
         phasesArray.push(phaseGroup);
+        const selectedTypesControl = phaseGroup.get('selectedTypes');
+        if (selectedTypesControl) {
+          selectedTypesControl.valueChanges.subscribe(() => {
+            this.queueTocUpdate();
+          });
+        }
       });
     }
+
   }
 
   async downloadJson() {

@@ -249,7 +249,7 @@
             <ng-template #renderFields let-type="type" let-fields="fields" let-title="title" let-index="index">
               <div *ngIf="getPhaseGroup(phase).get('selectedTypes')?.value.includes(type)">
                 <hr />
-                <h3>{{ title }}</h3>
+                <h4 [id]="'fields-' + i + '-' + index">{{ title }}</h4>
 
                 <div [formGroup]="getNestedGroup(phase, type)">
                   <div *ngFor="let field of fields" style="margin-bottom: 1rem;">
@@ -258,7 +258,7 @@
                       <!-- Horizontal Seperator -->
                       <hr *ngSwitchCase="'hr'" style="width: 45%" />
                       <!-- Header 4 add phases number next to title-->
-                      <h4 *ngSwitchCase="'header4'">{{ field.label }} - Phase {{ index + 1 }}</h4>
+                      <h5 *ngSwitchCase="'header4'">{{ field.label }} - Phase {{ index + 1 }}</h5>
 
                       <!-- Text input -->
                       <p-floatLabel *ngSwitchCase="'text'" variant="on">
@@ -295,7 +295,7 @@
 
                       <!-- Dynamic Table -->
                       <div *ngSwitchCase="'dynamicTable'" class="dynamic-table-section" [attr.aria-label]="field.label">
-                        <h5 *ngIf="field.needsTitle">{{ field.label }}</h5>
+                        <h6 *ngIf="field.needsTitle">{{ field.label }}</h6>
 
                         <div [formArrayName]="field.key">
                           <div
@@ -426,8 +426,8 @@
 
               <ng-template #confirmButtons>
                 <div style="display: flex; gap: 0.5rem;">
-                  <p-button label="Confirmer" icon="pi pi-check" (click)="confirmDeletePhase(i)"></p-button>
-                  <p-button label="Annuler" icon="pi pi-times" (click)="confirmDeleteIndex = null"></p-button>
+                  <p-button label="Confirmer" icon="pi pi-check" [style]="{ 'background-color': 'var(--primary-color)' }" (click)="confirmDeletePhase(i)"></p-button>
+                  <p-button label="Annuler" icon="pi pi-times" [style]="{ 'background-color': 'var(--primary-color)' }" (click)="confirmDeleteIndex = null"></p-button>
                 </div>
               </ng-template>
             </div>
@@ -438,7 +438,7 @@
           </div>
         </div>
 
-        <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" (onClick)="addPhase()"></p-button>
+        <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" [style]="{ 'background-color': 'var(--primary-color)' }" (onClick)="addPhase()"></p-button>
 
 
         <hr>
@@ -448,10 +448,13 @@
   </form>
 
   <hr />
+
+  <h2>Gestion des enregistrements</h2>
+  
   <div class="button-group">
-    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()"></p-button>
-    <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()"></p-button>
-    <p-button label="Télécharger PDF" (onClick)="testFunction()"></p-button>
+    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()" [style]="{ 'background-color': 'var(--primary-color)' }"></p-button>
+    <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()" [style]="{ 'background-color': 'var(--primary-color)' }"></p-button>
+    <p-button label="Télécharger PDF" (onClick)="testFunction()" [style]="{ 'background-color': 'var(--primary-color)' }"></p-button>
   </div>
 
 </div>
