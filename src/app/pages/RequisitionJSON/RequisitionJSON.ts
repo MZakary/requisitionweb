@@ -146,6 +146,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     setTimeout(() => {
       this.pageTitle.nativeElement.focus();
       this.tocService.requestUpdate();
+      this.cd.detectChanges()
     }, 0);
   }
 
@@ -473,26 +474,27 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   get phases(): FormArray {
     return this.form.get('phases') as FormArray;
   }
+
   /* ADD PRODUCTIONS HERE */
   addPhase(): void {
     const newPhase = this.fb.group({
       selectedTypes: this.fb.control<string[]>([]),
-      etext: this.buildProductionGroup(eTextFormFields),
-      braille: this.buildProductionGroup(brailleFormFields),
-      grossi: this.buildProductionGroup(grossiFormFields),
-      agrandis: this.buildProductionGroup(agrandisFormFields),
-      num: this.buildProductionGroup(numerisationFormFields),
-      pdf: this.buildProductionGroup(pdfFormFields),
-      html: this.buildProductionGroup(htmlFormFields),
-      form: this.buildProductionGroup(formulaireFormFields),
-      dessin: this.buildProductionGroup(dessinFormFields),
-      sonore: this.buildProductionGroup(sonoreFormFields),
-      autre: this.buildProductionGroup(autreFormFields),
-      brailleBANQ: this.buildProductionGroup(brailleBANQBIBAFormFields),
-      brailleBANQ2: this.buildProductionGroup(brailleBANQBIOUBAFormFields),
-      brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
-      brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
-      grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
+      etext: this.buildProductionGroup(this.eTextFormFields),
+      braille: this.buildProductionGroup(this.brailleFormFields),
+      grossi: this.buildProductionGroup(this.grossiFormFields),
+      agrandis: this.buildProductionGroup(this.agrandisFormFields),
+      num: this.buildProductionGroup(this.numerisationFormFields),
+      pdf: this.buildProductionGroup(this.pdfFormFields),
+      html: this.buildProductionGroup(this.htmlFormFields),
+      form: this.buildProductionGroup(this.formulaireFormFields),
+      dessin: this.buildProductionGroup(this.dessinFormFields),
+      sonore: this.buildProductionGroup(this.sonoreFormFields),
+      autre: this.buildProductionGroup(this.autreFormFields),
+      brailleBANQ: this.buildProductionGroup(this.brailleBANQBIBAFormFields),
+      brailleBANQ2: this.buildProductionGroup(this.brailleBANQBIOUBAFormFields),
+      brailleDuoMedia: this.buildProductionGroup(this.brailleDuoMediaBANQFormFields),
+      brailleHYDROQC: this.buildProductionGroup(this.brailleHYDROQCFormFields),
+      grossiHYDROQC: this.buildProductionGroup(this.grossiHYDROQCFormFields),
     });
 
     const phasesArray = this.phases;
@@ -512,14 +514,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
           for (const field of fields) {
             const value = lastGroup.get(field)?.value;
             if (newGroup.contains(field)) {
-              newGroup.get(field)?.setValue(value);
+              newGroup.get(field)?.setValue(value, { emitEvent: false });
             }
           }
         }
       }
 
-      // Copy selected production types into the new phase
-      newPhase.get('selectedTypes')?.setValue([...lastSelectedTypes]);
+      newPhase.get('selectedTypes')?.setValue([...lastSelectedTypes], { emitEvent: false });
     }
 
     phasesArray.push(newPhase);
@@ -528,15 +529,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       const lastTitle = this.phaseTitles.last;
       if (lastTitle) lastTitle.nativeElement.focus();
       this.tocService.requestUpdate();
-    }, 300);
-
-    const selectedTypesControl = newPhase.get('selectedTypes');
-    if (selectedTypesControl) {
-      selectedTypesControl.valueChanges.subscribe(() => {
-        this.queueTocUpdate();
-        this.tocService.requestUpdate();
-      });
-    }
+      this.cd.detectChanges();
+    }, 0);
   }
 
 
@@ -699,8 +693,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       this.patchFormFromData(data);
       this.lockedFilePath = filePath;
 
-      this.cd.detectChanges();
       setTimeout(() => {
+        this.cd.detectChanges();
         this.tocService.requestUpdate();
       }, 0);
     } catch (error) {
@@ -713,113 +707,124 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
 
-  patchFormFromData(data: any): void {
-    const patchableData = { ...data };
-    delete patchableData.phases;
-
-    this.form.patchValue(patchableData, { emitEvent: false });
-
-    for (const field of this.formFields) {
-      if ((field.type === 'dynamicTable' || field.type === 'facturationTable') && Array.isArray(data[field.key])) {
-        const formArray = this.form.get(field.key) as FormArray;
-        formArray.clear();
-
-        data[field.key].forEach((row: any) => {
-          const rowGroup = this.fb.group(
-            field.columns.reduce((acc: any, col: any) => {
-              acc[col.key] = new FormControl(row[col.key] ?? '');
-              return acc;
-            }, {})
-          );
-          formArray.push(rowGroup);
-        });
-      }
-
-      if (field.type === 'tableHeure' && Array.isArray(data[field.key])) {
-        const formArray = this.form.get(field.key) as FormArray;
-        formArray.clear();
-
-        data[field.key].forEach((row: any) => {
-          const rowGroup = this.fb.group(
-            field.columns.reduce((acc: any, col: any) => {
-              acc[col.key] = new FormControl(row[col.key] ?? '');
-              return acc;
-            }, {})
-          );
-          formArray.push(rowGroup);
-        });
-
-        this.calculateTotalHeures(); // Recalculate total after patching
-      }
-    }
-
-    if (Array.isArray(data.phases)) {
+  private patchFormFromData(data: any): void {
+    try {
       const phasesArray = this.form.get('phases') as FormArray;
       phasesArray.clear();
 
-      data.phases.forEach((phaseData: any) => {
-        const phaseGroup = this.fb.group({
-          selectedTypes: [[]],
-          etext: this.buildProductionGroup(eTextFormFields),
-          braille: this.buildProductionGroup(brailleFormFields),
-          grossi: this.buildProductionGroup(grossiFormFields),
-          agrandis: this.buildProductionGroup(agrandisFormFields),
-          num: this.buildProductionGroup(numerisationFormFields),
-          pdf: this.buildProductionGroup(pdfFormFields),
-          html: this.buildProductionGroup(htmlFormFields),
-          form: this.buildProductionGroup(formulaireFormFields),
-          dessin: this.buildProductionGroup(dessinFormFields),
-          sonore: this.buildProductionGroup(sonoreFormFields),
-          autre: this.buildProductionGroup(autreFormFields),
-          brailleBANQ: this.buildProductionGroup(brailleBANQBIBAFormFields),
-          brailleBANQ2: this.buildProductionGroup(brailleBANQBIOUBAFormFields),
-          brailleDuoMedia: this.buildProductionGroup(brailleDuoMediaBANQFormFields),
-          brailleHYDROQC: this.buildProductionGroup(brailleHYDROQCFormFields),
-          grossiHYDROQC: this.buildProductionGroup(grossiHYDROQCFormFields),
+      // ✅ Only patch top-level fields, NOT phases
+      const { phases, ...topLevelData } = data;
+      this.form.patchValue(topLevelData, { emitEvent: false });
+
+      this.processSpecialFields(data);
+
+      // ✅ Handle phases manually
+      if (Array.isArray(phases)) {
+        phases.forEach((phaseData: any) => {
+          this.addPhaseFromData(phaseData);
         });
+      }
 
-        for (const typeKey of Object.keys(phaseData)) {
-          const sectionData = phaseData[typeKey];
-          const sectionDef = this.getFieldDefByType(typeKey);
-          const sectionGroup = phaseGroup.get(typeKey) as FormGroup;
+      // Delay change detection to avoid recursion
+      setTimeout(() => {
+        // this.cd.detectChanges();
+        this.tocService.requestUpdate();
+      }, 0);
 
-          if (sectionData && sectionDef && sectionGroup) {
-            for (const field of sectionDef) {
-              if (field.type === 'dynamicTable' && Array.isArray(sectionData[field.key])) {
-                const formArray = sectionGroup.get(field.key) as FormArray;
-                formArray.clear();
-
-                sectionData[field.key].forEach((row: any) => {
-                  const rowGroup = this.fb.group(
-                    field.columns.reduce((acc: any, col: any) => {
-                      acc[col.key] = new FormControl(row[col.key] ?? '');
-                      return acc;
-                    }, {})
-                  );
-                  formArray.push(rowGroup);
-                });
-              }
-            }
-          }
-        }
-
-        phaseGroup.patchValue(phaseData, { emitEvent: false });
-        phasesArray.push(phaseGroup);
-        const selectedTypesControl = phaseGroup.get('selectedTypes');
-        if (selectedTypesControl) {
-          selectedTypesControl.valueChanges.subscribe(() => {
-            this.queueTocUpdate();
-          });
-        }
-      });
+    } catch (error) {
+      console.error('Error patching form data:', error);
+      throw error;
     }
-
   }
 
+
+  private addPhaseFromData(phaseData: any): void {
+    const phaseGroup = this.fb.group({
+      selectedTypes: [phaseData.selectedTypes || []],
+    }) as FormGroup; // 👈 allows dynamic controls
+
+    const selectedTypes: string[] = phaseData.selectedTypes || [];
+
+    selectedTypes.forEach((type: string) => {
+      const fieldDefs = this.getFieldDefByType(type);
+      const group = this.buildProductionGroup(fieldDefs);
+
+      if (phaseData[type]) {
+        group.patchValue(phaseData[type], { emitEvent: false });
+      }
+
+      phaseGroup.addControl(type, group); // ✅ no TS error now
+    });
+
+    this.phases.push(phaseGroup);
+
+    setTimeout(() => {
+      this.cd.detectChanges();
+      this.tocService.requestUpdate();
+    }, 0);
+  }
+
+
+
+  private processSpecialFields(data: any): void {
+    // Process tableHeure fields
+    this.formFields.forEach(field => {
+      if ((field.type === 'dynamicTable' || field.type === 'facturationTable' || field.type === 'tableHeure') &&
+        Array.isArray(data[field.key])) {
+        this.processTableField(field, data[field.key]);
+      }
+    });
+  }
+
+  private processTableField(field: any, tableData: any[]): void {
+    const formArray = this.form.get(field.key) as FormArray;
+    formArray.clear();
+
+    tableData.forEach((row: any) => {
+      const rowGroup = this.fb.group(
+        field.columns.reduce((acc: any, col: any) => {
+          acc[col.key] = new FormControl(row[col.key] ?? '');
+          return acc;
+        }, {})
+      );
+      formArray.push(rowGroup);
+    });
+
+    if (field.type === 'tableHeure') {
+      this.calculateTotalHeures();
+    }
+  }
+
+  private buildJson(): any {
+    const raw = this.form.getRawValue();
+
+    const result: any = { ...raw };
+
+    result.phases = raw.phases.map((phase: any) => {
+      const selected: string[] = phase.selectedTypes || [];
+      const optimized: any = { selectedTypes: selected };
+
+      for (const type of selected) {
+        const value = phase[type];
+
+        // 🛡️ only keep if it’s a plain object with something inside
+        if (value && typeof value === 'object' && Object.keys(value).length > 0) {
+          optimized[type] = value;
+        }
+      }
+
+      return optimized;
+    });
+
+    return result;
+  }
+
+
+
   async downloadJson() {
-    const data = this.form.value;
+    const data = this.buildJson();
     const jsonData = JSON.stringify(data, null, 2);
-    console.log('Téléchargement des données JSON:', jsonData);
+    //console.log('Téléchargement des données JSON:', jsonData);
     if (this.lockedFilePath) {
       // Save back to original file
       const result = await window.electronAPI.saveJson(this.lockedFilePath, jsonData);
@@ -829,7 +834,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       }
       // await window.electronAPI.unlockFile(this.lockedFilePath);
       // this.lockedFilePath = null;
-      console.log('Fichier sauvegardé et déverrouillé avec succès.');
+      //console.log('Fichier sauvegardé et déverrouillé avec succès.');
       this.showPopUpDialog('Fichier sauvegardé avec succès.', 'Succès de sauvegarde');
     } else {
       // Fallback: browser download
@@ -845,9 +850,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
   async downloadJsonNew() {
-    const data = this.form.value;
+    const data = this.buildJson();
     const jsonData = JSON.stringify(data, null, 2);
-    console.log('Téléchargement des données JSON:', jsonData);
+    //console.log('Téléchargement des données JSON:', jsonData);
 
     const blob = new Blob([jsonData], { type: 'application/json' });
     const a = document.createElement('a');
@@ -861,12 +866,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
   async unlockAndOpenNew() {
-    if(this.lockedFilePath){
+    if (this.lockedFilePath) {
       await window.electronAPI.unlockFile(this.lockedFilePath);
       this.lockedFilePath = null;
-  
+
       this.openAndLockFile();
-    }else{
+    } else {
       return;
     }
   }
@@ -931,7 +936,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   testFunction(): void {
     generatePDF(this.requisitionTypeString, this.form.value, this.totalFromFacturation);
-    console.log(this.form.value);
+    //console.log(this.form.value);
   }
 
 
@@ -971,7 +976,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#region Clone Info
   readonly persistentFieldsPerType: { [key: string]: string[] } = {
     //Etext
-    etext: ['noFichierEtext', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText'],
+    etext: ['noFichierEText', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText'],
     //Braille
     braille: ['noFichierBraille', 'quantiteBraille', 'niveauDifficulteBraille',
       'typeBrailleCheckboxBraille', 'codeBrailleCheckboxBraille', 'autreCodeBraille', 'formatBraille', 'autreFormatBraille',
@@ -1117,3 +1122,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#endregion
   //#endregion
 }
+
+
+

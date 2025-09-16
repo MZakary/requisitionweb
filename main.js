@@ -156,45 +156,45 @@ function ensureConfigDir() {
 // Add these IPC handlers in your main.js, preferably near the other IPC handlers
 ipcMain.handle('save-layout-config', async (_, config) => {
   try {
-    console.log('💾 SAVE LAYOUT CONFIG CALLED');
-    console.log('Config received:', config);
+    // console.log('💾 SAVE LAYOUT CONFIG CALLED');
+    // console.log('Config received:', config);
     
     ensureConfigDir();
     const configData = JSON.stringify(config, null, 2);
-    console.log('Writing to file:', CONFIG_FILE);
+    // console.log('Writing to file:', CONFIG_FILE);
     
     await fs.promises.writeFile(CONFIG_FILE, configData, 'utf-8');
-    console.log('✅ Config saved successfully');
+    // console.log('✅ Config saved successfully');
     
     // Verify the file was written
     const stats = fs.existsSync(CONFIG_FILE);
-    console.log('File exists after save:', stats);
+    // console.log('File exists after save:', stats);
     
     if (stats) {
       const content = fs.readFileSync(CONFIG_FILE, 'utf-8');
-      console.log('File content:', content);
+      // console.log('File content:', content);
     }
     
     return { success: true };
   } catch (err) {
-    console.error('❌ Error saving layout config:', err);
+    //console.error('❌ Error saving layout config:', err);
     return { success: false, error: err.message };
   }
 });
 
 ipcMain.handle('load-layout-config', async () => {
   try {
-    console.log('📖 LOAD LAYOUT CONFIG CALLED');
+    //console.log('📖 LOAD LAYOUT CONFIG CALLED');
     ensureConfigDir();
     
     if (fs.existsSync(CONFIG_FILE)) {
       const configData = await fs.promises.readFile(CONFIG_FILE, 'utf-8');
       const config = JSON.parse(configData);
-      console.log('✅ Config loaded from file:', config);
+      //console.log('✅ Config loaded from file:', config);
       return { success: true, config: config };
     }
     
-    console.log('ℹ️ No config file found at:', CONFIG_FILE);
+    // console.log('ℹ️ No config file found at:', CONFIG_FILE);
     return { success: true, config: null };
     
   } catch (err) {
