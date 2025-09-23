@@ -9,10 +9,10 @@
     [acceptLabel]="'OK'" [rejectLabel]="''" (accept)="onLockDialogClose()" [showRejectButton]="false">
   </app-confirm-dialog>
 
-  <button type="button" pButton icon="pi pi-pencil" label="Ouvrir le remplacement" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"
-    (click)="showFindReplaceDialog = true" class="findReplaceButton"></button>
+  <!-- <button type="button" pButton icon="pi pi-pencil" label="Ouvrir le remplacement" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"
+    (click)="showFindReplaceDialog = true" class="findReplaceButton"></button> -->
 
-  <p-dialog [(visible)]="showFindReplaceDialog" header="Trouver et Remplacer" [modal]="true" [closable]="true"
+  <!-- <p-dialog [(visible)]="showFindReplaceDialog" header="Trouver et Remplacer" [modal]="true" [closable]="true"
     [style]="{ width: '450px' }" [breakpoints]="{ '960px': '90vw' }" [dismissableMask]="true">
     <div class="p-fluid">
       <div class="p-field">
@@ -29,7 +29,13 @@
         <button pButton type="button" label="Remplacer" icon="pi pi-check" (click)="replaceInForm()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></button>
       </div>
     </div>
-  </p-dialog>
+  </p-dialog> -->
+
+  <div class="button-group-absolute" aria-hidden="true">
+    <p>Menu Boutons</p>
+    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <p-button label="Télécharger PDF" (onClick)="testFunction()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+  </div>
 
 
   <h1 tabindex="-1" #pageTitle>Réquisition {{ requisitionType }}</h1>
@@ -217,7 +223,7 @@
 
         <br>
 
-        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
+        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" [style]="{'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
         </p-button>
       </div>
 
@@ -453,7 +459,7 @@
 
   <div class="button-group">
     <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
-    <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <!-- <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button> -->
     <p-button label="Télécharger PDF" (onClick)="testFunction()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
   </div>
 

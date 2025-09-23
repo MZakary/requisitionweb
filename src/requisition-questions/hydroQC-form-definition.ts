@@ -79,7 +79,7 @@ export const hydroqcFormFieldsAfterPhases = [
   },
   { key: 'facturationCommentaire', label: 'Commentaire', type: 'textarea' },
   { key: 'dateLivraisonFacturation', label: 'Date de livraison', type: 'text' },
-  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-' },
+  { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85883 (Externe - Gouvernemental)' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
 

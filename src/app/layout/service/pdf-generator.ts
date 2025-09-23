@@ -62,7 +62,7 @@ const requisitionConfigs: Record<string, {
       { key: 'autorisationFacturation', label: 'Autorisation' },
     ],
     noClient: '3000032',
-    adresse: 'BANQ - BIBLIOTHÈQUE ET ARCHIVES NATIONALES DU QUÉBEC\n475 BOUL. DE MAISONNEUVE EST\nMONTRÉAL (QUÉBEC) H2L 5C4',
+    adresse: 'acquisitions.gb@banq.qc.ca\nBANQ - BIBLIOTHÈQUE ET ARCHIVES NATIONALES DU QUÉBEC\n475 BOUL. DE MAISONNEUVE EST\nMONTRÉAL (QUÉBEC) H2L 5C4',
 
   },
   hydro: {

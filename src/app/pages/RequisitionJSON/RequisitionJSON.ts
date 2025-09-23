@@ -17,6 +17,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TocService } from '../../layout/service/toc.service';
 import { take } from 'rxjs/operators';
 import { NgZone } from '@angular/core';
+import { Textarea } from 'primeng/textarea';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -78,7 +79,8 @@ enum RequisitionType {
     TextareaModule,
     MultiSelectModule,
     ConfirmDialogComponent, // Include the confirm dialog component
-    DialogModule
+    DialogModule,
+    Textarea
   ],
 })
 export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeactivate, OnDestroy {
@@ -98,6 +100,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
+  @ViewChildren(Textarea) textareas!: QueryList<Textarea>;
 
   requisitionType: RequisitionType = RequisitionType.Unknown;
   requisitionTypeString: string = '';
@@ -134,7 +137,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.buildFormFields();
     this.buildFormGroup();
     this.setupCalculations();
-    this.FunctionsForRequisitionTypes();
+    //this.FunctionsForRequisitionTypes();
     this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
 
     window.electronAPI.onTriggerDownload(() => {
@@ -696,6 +699,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       setTimeout(() => {
         this.cd.detectChanges();
         this.tocService.requestUpdate();
+        
+        const elements = document.querySelectorAll('textarea');
+        elements.forEach(el => {
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+
       }, 0);
     } catch (error) {
       console.error('Erreur lors de l’importation du fichier JSON:', error);
