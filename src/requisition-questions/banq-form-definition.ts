@@ -42,7 +42,7 @@ export const banqFormFieldsAfterPhases = [
       1: { typeDeBraille: 'Intégral', quantite: '', prix: '1.95', total: '0' },
       2: { typeDeBraille: 'Intégral (ab + in)', quantite: '', prix: '0.90', total: '0' },
       3: { typeDeBraille: 'Duo-médias (-12 pages)', quantite: '', prix: '50.00', total: '0' },
-      4: { typeDeBraille: 'Duo-médias', quantite: '', prix: '1.95', total: '0' },
+      4: { typeDeBraille: 'Duo-médias (+12 pages)', quantite: '', prix: '100.00', total: '0' },
       5: { typeDeBraille: 'Trio-médias', quantite: '', prix: '1.95', total: '0' },
       6: { typeDeBraille: 'Ré-impression', quantite: '', prix: '0.35', total: '0' },
       7: { typeDeBraille: 'Couvertures', quantite: '', prix: '6.00', total: '0'},

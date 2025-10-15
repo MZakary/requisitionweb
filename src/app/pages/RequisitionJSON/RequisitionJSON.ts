@@ -97,6 +97,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   totalFromFacturation = 0;
 
+  private isImporting = false;
+
 
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
@@ -699,7 +701,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       setTimeout(() => {
         this.cd.detectChanges();
         this.tocService.requestUpdate();
-        
+
         const elements = document.querySelectorAll('textarea');
         elements.forEach(el => {
           el.dispatchEvent(new Event('input', { bubbles: true }));
@@ -785,24 +787,29 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     });
   }
 
-  private processTableField(field: any, tableData: any[]): void {
-    const formArray = this.form.get(field.key) as FormArray;
-    formArray.clear();
+  private processTableField(field: any, tableData: any[] | undefined): void {
+    // Build a new FormArray strictly from the imported data (or an empty array)
+    const rowsFromData = Array.isArray(tableData) ? tableData : [];
 
-    tableData.forEach((row: any) => {
-      const rowGroup = this.fb.group(
-        field.columns.reduce((acc: any, col: any) => {
-          acc[col.key] = new FormControl(row[col.key] ?? '');
+    const newArray = this.fb.array(
+      rowsFromData.map((row: any) => {
+        const groupControls = field.columns.reduce((acc: any, col: any) => {
+          acc[col.key] = new FormControl(row ? (row[col.key] ?? '') : '');
           return acc;
-        }, {})
-      );
-      formArray.push(rowGroup);
-    });
+        }, {});
+        return this.fb.group(groupControls);
+      })
+    );
 
+    // Replace the existing FormArray entirely (this removes any default rows)
+    this.form.setControl(field.key, newArray);
+
+    // Recalculate if it's a time table
     if (field.type === 'tableHeure') {
       this.calculateTotalHeures();
     }
   }
+
 
   private buildJson(): any {
     const raw = this.form.getRawValue();
@@ -1075,8 +1082,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     if (calculateColumns.length === 2 &&
       calculateColumns[0].key === 'quantite' &&
       calculateColumns[1].key === 'prix') {
-      const quantity = parseFloat(rowGroup.get('quantite')?.value) || 0;
+
+      let quantity = parseFloat(rowGroup.get('quantite')?.value) || 0;
       const price = parseFloat(rowGroup.get('prix')?.value) || 0;
+
+      // Get the description to check for special pricing
+      const description = rowGroup.get('description')?.value || '';
+
+      // Adjust quantity if it's "per 1000 characters"
+      if (description.includes('1000 caractères')) {
+        quantity = quantity / 1000;
+      }
+
       const total = quantity * price;
 
       if (!rowGroup.get(calculatedColumn.key)?.dirty) {

@@ -32,6 +32,10 @@ const requisitionConfigs: Record<string, {
       { label: 'Courriel du contact', key: 'courrielContactExterne' },
       { label: 'Numéro de téléphone', key: 'noTelephoneExterne' },
       { label: 'Adresse de facturation postale et courriel', key: 'adresseFacturationExterne' },
+      // { label: 'Nom du projet', key: 'nomProjetExterne' },
+      { key: 'descriptionProjetFacturation', label: 'Description du projet' },
+
+
     ],
     table: {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -75,6 +79,7 @@ const requisitionConfigs: Record<string, {
       { key: 'courrielContactHydro', label: 'Courriel du contact' },
       { key: 'noTelephoneHydro', label: 'Numéro de téléphone' },
       { key: 'adresseFacturationHydro', label: 'Adresse de facturation postale et courriel' },
+      { key: 'descriptionProjetFacturation', label: 'Description du projet' },
     ],
     table: {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -95,6 +100,7 @@ const requisitionConfigs: Record<string, {
       { key: 'nomDirectionInterne', label: 'Nom de la direction' },
       { key: 'nomProgramServiceInterne', label: 'Nom du programme ou du service' },
       { key: 'nomDemandeurInterne', label: 'Nom du demandeur' },
+      { key: 'nomProjetInterne', label: 'Nom du projet' },
     ],
     table: {
       headers: ['Phases', 'Type de production', 'Date de livraison (fichier)', 'Date de livraison (postale)', 'Archivé'],
@@ -115,15 +121,10 @@ const requisitionConfigs: Record<string, {
       { key: 'noRequisitionScolaire', label: 'Numéro de réquisition' },
       { key: 'noDemandeScolaire', label: 'Numéro de commande' },
       { key: 'nomClientScolaire', label: 'Nom du client' },
-      { key: 'noClientScolaire', label: 'Numéro du client (si connu)' },
-      { key: 'etablissementEnseignementScolaire', label: "Établissement d'enseignement" },
-      { key: 'sigleCoursScolaire', label: "Sigle du cours" },
-      { key: 'titreCoursScolaire', label: "Titre du cours" },
-      { key: 'nomEtudiantScolaire', label: "Nom de l'étudiant" },
-      { key: 'courrielEtudiantScolaire', label: "Courriel de l'étudiant" },
-      { key: 'nomRepondantScolaire', label: "Nom du répondant" },
-      { key: 'courrielRepondantScolaire', label: "Courriel du répondant" },
-      { key: 'livrerEtudiantScolaire', label: "Livrer à l'étudiant" },
+      { key: 'noClientScolaire', label: 'Numéro du client' },
+      // { key: 'nomProjetScolaire', label: "Nom du projet" },
+      { key: 'descriptionProjetFacturation', label: 'Description du projet' },
+
     ],
     table: {
       headers: ['Type de production demandé', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -135,7 +136,8 @@ const requisitionConfigs: Record<string, {
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
       { key: 'autorisationFacturation', label: 'Autorisation' },
-    ]
+    ],
+    adresse: 'CEGEP DU VIEUX MONTREAL\n255, RUE ONTARIO EST\nMONTRÉAL QC H2X 1X6',
   },
   materiel: {
     fields: [
@@ -147,6 +149,8 @@ const requisitionConfigs: Record<string, {
       { key: 'courrielContactMateriel', label: 'Courriel du contact' },
       { key: 'noTelephoneMateriel', label: 'Numéro de téléphone' },
       { key: 'adresseFacturationMateriel', label: 'Adresse de facturation postale et courriel' },
+      // { key: 'nomProjetMateriel', label: 'Nom du projet' },
+      { key: 'descriptionProjetFacturation', label: 'Description du projet' },
     ],
     table: {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -170,6 +174,9 @@ const requisitionConfigs: Record<string, {
       { key: 'courrielContactService', label: 'Courriel du contact' },
       { key: 'noTelephoneService', label: 'Numéro de téléphone' },
       { key: 'adresseFacturationService', label: 'Adresse de facturation postale et courriel' },
+      // { key: 'nomProjetService', label: 'Nom du projet' },
+      { key: 'descriptionProjetFacturation', label: 'Description du projet' },
+
     ],
     table: {
       headers: ['Description', 'Quantité', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -354,11 +361,18 @@ export function generatePDF(type: string, formValue: any, totalFromFacturation: 
     // Compute label width
     const labelWidth = doc.getTextWidth(label);
 
-    // Draw value just after label
     doc.setFont('helvetica', 'normal');
-    doc.text(String(value), 20 + labelWidth + 2, y);
 
-    y += 8;
+    // Wrap text if needed
+    const maxWidth = pageWidth - (20 + labelWidth + 2);
+    const splitValue = doc.splitTextToSize(String(value), maxWidth);
+
+    // Draw text
+    doc.text(splitValue, 20 + labelWidth + 2, y);
+
+    // Move y based on number of lines
+    const lineHeight = doc.getLineHeight() / doc.internal.scaleFactor;
+    y += splitValue.length * lineHeight + 2; // small spacing
   });
 
   doc.save(`requisition-${type}.pdf`);
