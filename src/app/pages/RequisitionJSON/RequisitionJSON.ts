@@ -306,6 +306,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
               acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
               return acc;
             }, {});
+
+            // Add override flag for facturation tables only
+            if (field.type === 'facturationTable') {
+              groupControls['_manualOverride'] = new FormControl(false);
+            }
+
             return this.fb.group(groupControls);
           })
         );
@@ -323,7 +329,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
                 : '';
 
         group[field.key] = new FormControl(defaultValue);
-
       }
     });
 
@@ -788,23 +793,26 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
   private processTableField(field: any, tableData: any[] | undefined): void {
-    // Build a new FormArray strictly from the imported data (or an empty array)
     const rowsFromData = Array.isArray(tableData) ? tableData : [];
 
     const newArray = this.fb.array(
-      rowsFromData.map((row: any) => {
+      rowsFromData.map((row: any, rowIndex: number) => {
         const groupControls = field.columns.reduce((acc: any, col: any) => {
           acc[col.key] = new FormControl(row ? (row[col.key] ?? '') : '');
           return acc;
         }, {});
+
+        // Preserve manual override flag during import
+        if (field.type === 'facturationTable') {
+          groupControls['_manualOverride'] = new FormControl(row?._manualOverride || false);
+        }
+
         return this.fb.group(groupControls);
       })
     );
 
-    // Replace the existing FormArray entirely (this removes any default rows)
     this.form.setControl(field.key, newArray);
 
-    // Recalculate if it's a time table
     if (field.type === 'tableHeure') {
       this.calculateTotalHeures();
     }
@@ -816,6 +824,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
     const result: any = { ...raw };
 
+    // Process phases
     result.phases = raw.phases.map((phase: any) => {
       const selected: string[] = phase.selectedTypes || [];
       const optimized: any = { selectedTypes: selected };
@@ -823,7 +832,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       for (const type of selected) {
         const value = phase[type];
 
-        // 🛡️ only keep if it’s a plain object with something inside
         if (value && typeof value === 'object' && Object.keys(value).length > 0) {
           optimized[type] = value;
         }
@@ -1072,16 +1080,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
   private calculateRow(rowGroup: FormGroup, columns: any[]) {
-    // Find which columns are involved in calculations
     const calculateColumns = columns.filter(col => col.calculate);
     const calculatedColumn = columns.find(col => col.calculated);
 
     if (!calculatedColumn) return;
 
-    // Perform calculation (simple multiplication of quantity * price)
+    // Check if this row has been manually overridden
+    const isManuallyOverridden = rowGroup.get('_manualOverride')?.value;
+
     if (calculateColumns.length === 2 &&
       calculateColumns[0].key === 'quantite' &&
-      calculateColumns[1].key === 'prix') {
+      calculateColumns[1].key === 'prix' &&
+      !isManuallyOverridden) { // Only calculate if not overridden
 
       let quantity = parseFloat(rowGroup.get('quantite')?.value) || 0;
       const price = parseFloat(rowGroup.get('prix')?.value) || 0;
@@ -1096,10 +1106,27 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
       const total = quantity * price;
 
-      if (!rowGroup.get(calculatedColumn.key)?.dirty) {
-        rowGroup.get(calculatedColumn.key)?.setValue(total.toFixed(2), { emitEvent: false });
+      rowGroup.get(calculatedColumn.key)?.setValue(total.toFixed(2), { emitEvent: false });
+    }
+  }
+
+  toggleManualOverride(tableKey: string, rowIndex: number) {
+    const tableArray = this.getTopLevelDynamicTableArray(tableKey);
+    if (!tableArray || rowIndex >= tableArray.length) return;
+
+    const rowGroup = tableArray.at(rowIndex) as FormGroup;
+    const currentOverride = rowGroup.get('_manualOverride')?.value;
+    rowGroup.get('_manualOverride')?.setValue(!currentOverride);
+
+    // If turning OFF manual override, recalculate the row
+    if (currentOverride) {
+      const field = this.formFields.find(f => f.key === tableKey && f.type === 'facturationTable');
+      if (field) {
+        this.calculateRow(rowGroup, field.columns);
       }
     }
+
+    this.form.markAsDirty();
   }
 
   private updateTotalDisplay(tableKey: string, total: number) {

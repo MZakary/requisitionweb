@@ -33,8 +33,10 @@
 
   <div class="button-group-absolute" aria-hidden="true">
     <p>Menu Boutons</p>
-    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
-    <p-button label="Télécharger PDF" (onClick)="testFunction()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()"
+      [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <p-button label="Télécharger PDF" (onClick)="testFunction()"
+      [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
   </div>
 
 
@@ -43,7 +45,9 @@
   <div class="p-field">
     <label for="json-upload">Charger un fichier JSON:</label>
     <!-- <input type="file" id="json-upload" (change)="onFileSelected($event)" accept=".json" /> -->
-    <p-button [label]="lockedFilePath ? 'Déverrouiller et importer un nouveau fichier' : 'Importer un fichier JSON'" (onClick)="lockedFilePath ? unlockAndOpenNew() : openAndLockFile()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <p-button [label]="lockedFilePath ? 'Déverrouiller et importer un nouveau fichier' : 'Importer un fichier JSON'"
+      (onClick)="lockedFilePath ? unlockAndOpenNew() : openAndLockFile()"
+      [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
   </div>
 
   <hr />
@@ -81,8 +85,8 @@
             </li>
 
             <li>
-              <p-button label="Effacer" (click)="removeTableHeureRow(field.key, rowIndex)"
-                icon="pi pi-trash" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+              <p-button label="Effacer" (click)="removeTableHeureRow(field.key, rowIndex)" icon="pi pi-trash"
+                [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
             </li>
 
             <!-- Subtotal for this row -->
@@ -96,7 +100,8 @@
             aria-live="polite" aria-label="Total des heures" />
         </p-floatLabel>
 
-        <p-button label="Ajouter une ligne" (click)="addTableHeureRow(field)" icon="pi pi-plus" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"> </p-button>
+        <p-button label="Ajouter une ligne" (click)="addTableHeureRow(field)" icon="pi pi-plus"
+          [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"> </p-button>
       </div>
 
 
@@ -164,12 +169,14 @@
               </p-floatLabel>
             </div>
 
-            <p-button label="Effacer" (click)="removeTopLevelTableRow(field.key, rowIndex)" icon="pi pi-trash" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
+            <p-button label="Effacer" (click)="removeTopLevelTableRow(field.key, rowIndex)" icon="pi pi-trash"
+              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
             </p-button>
           </div>
         </div>
 
-        <p-button label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" icon="pi pi-plus" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
+        <p-button label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" icon="pi pi-plus"
+          [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
         </p-button>
       </div>
 
@@ -204,12 +211,20 @@
 
                   <!-- Default input -->
                   <input *ngSwitchDefault pInputText [id]="field.key + '-' + i + '-' + col.key"
-                    [formControlName]="col.key" [type]="col.type || 'text'" />
+                    [formControlName]="col.key" [type]="col.type || 'text'"
+                    [class.manual-override]="row.get('_manualOverride')?.value && col.calculated" />
                 </ng-container>
               </p-floatLabel>
             </div>
 
-            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+            <!-- Manual Override Toggle Button -->
+            <p-button [icon]="row.get('_manualOverride')?.value ? 'pi pi-history' : 'pi pi-pencil'"
+              (click)="toggleManualOverride(field.key, i)"
+              [label]="row.get('_manualOverride')?.value ? 'Retour automatique' : 'Modifier manuellement'" >
+            </p-button>
+
+            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer">
+            </p-button>
           </div>
         </div>
 
@@ -223,7 +238,8 @@
 
         <br>
 
-        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" [style]="{'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
+        <p-button icon="pi pi-plus" label="Ajouter une ligne" (click)="addTopLevelTableRow(field)"
+          [style]="{'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
         </p-button>
       </div>
 
@@ -327,13 +343,15 @@
                               </p-floatLabel>
                             </div>
 
-                            <p-button *ngIf="!field.removeAddButton" label="Effacer" (click)="removeTableRow(phase, type, field.key, rowIndex)"
-                              icon="pi pi-trash" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+                            <p-button *ngIf="!field.removeAddButton" label="Effacer"
+                              (click)="removeTableRow(phase, type, field.key, rowIndex)" icon="pi pi-trash"
+                              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
                           </div>
                         </div>
 
-                        <p-button *ngIf="!field.removeAddButton" label="Ajouter une ligne" (click)="addTableRow(phase, type, field)"
-                          icon="pi pi-add" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+                        <p-button *ngIf="!field.removeAddButton" label="Ajouter une ligne"
+                          (click)="addTableRow(phase, type, field)" icon="pi pi-add"
+                          [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
 
                         <!-- Total Row -->
                         <div *ngIf="field.addTotal && field.totalKey" style="margin-top: 1rem;">
@@ -427,13 +445,18 @@
 
             <div style="margin-top: 1rem;">
               <ng-container *ngIf="confirmDeleteIndex !== i; else confirmButtons">
-                <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="confirmDeleteIndex = i" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+                <p-button icon="pi pi-trash" label="Supprimer la phase" (click)="confirmDeleteIndex = i"
+                  [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
               </ng-container>
 
               <ng-template #confirmButtons>
                 <div style="display: flex; gap: 0.5rem;">
-                  <p-button label="Confirmer" icon="pi pi-check" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }" (click)="confirmDeletePhase(i)"></p-button>
-                  <p-button label="Annuler" icon="pi pi-times" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }" (click)="confirmDeleteIndex = null"></p-button>
+                  <p-button label="Confirmer" icon="pi pi-check"
+                    [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"
+                    (click)="confirmDeletePhase(i)"></p-button>
+                  <p-button label="Annuler" icon="pi pi-times"
+                    [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"
+                    (click)="confirmDeleteIndex = null"></p-button>
                 </div>
               </ng-template>
             </div>
@@ -444,7 +467,9 @@
           </div>
         </div>
 
-        <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }" (onClick)="addPhase()"></p-button>
+        <p-button *ngIf="needsPhase" label="Ajouter une phase" icon="pi pi-plus"
+          [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"
+          (onClick)="addPhase()"></p-button>
 
 
         <hr>
@@ -458,9 +483,11 @@
   <h2>Gestion des enregistrements</h2>
 
   <div class="button-group">
-    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <p-button [label]="lockedFilePath ? 'Sauvegarder JSON' : 'Créer JSON'" (onClick)="downloadJson()"
+      [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
     <!-- <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button> -->
-    <p-button label="Télécharger PDF" (onClick)="testFunction()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+    <p-button label="Télécharger PDF" (onClick)="testFunction()"
+      [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
   </div>
 
 </div>
