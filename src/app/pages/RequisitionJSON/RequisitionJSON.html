@@ -220,10 +220,12 @@
             <!-- Manual Override Toggle Button -->
             <p-button [icon]="row.get('_manualOverride')?.value ? 'pi pi-replay' : 'pi pi-pencil'"
               (click)="toggleManualOverride(field.key, i)"
-              [label]="row.get('_manualOverride')?.value ? 'Retour automatique' : 'Modifier manuellement'" >
+              [label]="row.get('_manualOverride')?.value ? 'Retour automatique' : 'Modifier manuellement'" 
+              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
             </p-button>
 
-            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer">
+            <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer"
+            [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
             </p-button>
           </div>
         </div>
