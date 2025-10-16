@@ -218,7 +218,7 @@
             </div>
 
             <!-- Manual Override Toggle Button -->
-            <p-button [icon]="row.get('_manualOverride')?.value ? 'pi pi-history' : 'pi pi-pencil'"
+            <p-button [icon]="row.get('_manualOverride')?.value ? 'pi pi-replay' : 'pi pi-pencil'"
               (click)="toggleManualOverride(field.key, i)"
               [label]="row.get('_manualOverride')?.value ? 'Retour automatique' : 'Modifier manuellement'" >
             </p-button>

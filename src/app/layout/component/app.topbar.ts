@@ -129,7 +129,7 @@ import { LayoutService } from '../service/layout.service';
             </button>
             
             <div>
-                <p>V1.6.8</p>
+                <p>V1.6.9</p>
             </div>
             <!-- <div class="layout-topbar-menu hidden lg:block">
                 <div class="layout-topbar-menu-content">

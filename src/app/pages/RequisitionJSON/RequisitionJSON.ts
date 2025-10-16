@@ -757,7 +757,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   private addPhaseFromData(phaseData: any): void {
     const phaseGroup = this.fb.group({
       selectedTypes: [phaseData.selectedTypes || []],
-    }) as FormGroup; // 👈 allows dynamic controls
+    }) as FormGroup;
 
     const selectedTypes: string[] = phaseData.selectedTypes || [];
 
@@ -766,18 +766,37 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       const group = this.buildProductionGroup(fieldDefs);
 
       if (phaseData[type]) {
+        // First patch regular values
         group.patchValue(phaseData[type], { emitEvent: false });
+
+        // Then handle dynamic tables separately
+        this.processProductionDynamicTables(group, fieldDefs, phaseData[type]);
       }
 
-      phaseGroup.addControl(type, group); // ✅ no TS error now
+      phaseGroup.addControl(type, group);
     });
 
     this.phases.push(phaseGroup);
+  }
 
-    setTimeout(() => {
-      this.cd.detectChanges();
-      this.tocService.requestUpdate();
-    }, 0);
+  private processProductionDynamicTables(group: FormGroup, fieldDefs: any[], existingData: any): void {
+    fieldDefs.forEach(field => {
+      if (field.type === 'dynamicTable' && existingData[field.key]) {
+        const tableData = existingData[field.key];
+        if (Array.isArray(tableData)) {
+          const newArray = this.fb.array(
+            tableData.map((row: any) => {
+              const groupControls = field.columns.reduce((acc: any, col: any) => {
+                acc[col.key] = new FormControl(row ? (row[col.key] ?? '') : '');
+                return acc;
+              }, {});
+              return this.fb.group(groupControls);
+            })
+          );
+          group.setControl(field.key, newArray);
+        }
+      }
+    });
   }
 
 
