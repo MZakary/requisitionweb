@@ -192,6 +192,8 @@ const requisitionConfigs: Record<string, {
   }
 };
 
+
+
 export function generatePDF(type: string, formValue: any, totalFromFacturation: number): void {
   const config = requisitionConfigs[type];
   if (!config) {
@@ -383,3 +385,154 @@ function drawLine(doc: jsPDF, y: number) {
   doc.setLineWidth(0.5);
   doc.line(20, y, 190, y);
 }
+
+export function generateBraillePDFs(type: string, formValue: any) {
+  if (type !== 'banq' || formValue.phases.length === 0) return;
+
+  //check if BIBA or just BI or BA
+  if(!formValue.phases[0].brailleBANQ){
+    console.error('No brailleBANQ data found in formValue');
+  };
+
+  if(!formValue.phases[0].brailleBANQ2){
+    console.error('No brailleBANQ2 data found in formValue');
+  }
+
+  const braille = formValue.phases[0].brailleBANQ.AbregeIntegralBrailleBANQ;
+  console.log(formValue.phases[0].brailleBANQ);
+  
+  // Generate PDFs for Abrege table
+  if (braille.BAbrege) {
+    const tableAbrege = formValue.phases[0].brailleBANQ.tableProductionBrailleBA || [];
+    tableAbrege.forEach((row: any, index: number) => {
+      generatePageTitle(type, formValue, row, `Braille Abrégé`);
+    });
+  }
+  
+  // Generate PDFs for Integral table
+  if (braille.BIntegral) {
+    const tableIntegral = formValue.phases[0].brailleBANQ.tableProductionBrailleBI || [];
+    tableIntegral.forEach((row: any, index: number) => {
+      generatePageTitle(type, formValue, row, `Braille Intégral`);
+    });
+  }
+}
+
+
+export function generatePageTitle(type: string, formValue: any, rowData?: any, brailleType?: string) {
+  if (type !== 'banq' && formValue.phases.length > 0) return;
+  console.log(formValue.phases[0].brailleBANQ);
+
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  // Titre principal
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(22);
+  centerText(doc, formValue.titreProjetBANQ, pageWidth, 40);
+
+  // Sous-titre
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  centerText(doc, formValue.soustitreProjetBANQ, pageWidth, 50);
+
+  // Genre
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  centerText(doc, formValue.genreProjectBANQ, pageWidth, 60);
+
+  // Auteur
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  centerText(doc, formValue.auteurBANQ, pageWidth, 100);
+
+  // --- Éditeur et lieu d’édition (side by side) ---
+  const editeur = formValue.editeurBANQ || "";
+  const lieu = formValue.lieuEditionBANQ || "";
+  const combined = [editeur, lieu].filter(Boolean).join(", "); // only adds comma if both exist
+
+  if (combined) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    centerText(doc, combined, pageWidth, 130);
+  }
+
+  // Date d’édition
+  const dateEdition = formValue.dateEditionBANQ || "";
+  const combined2 = dateEdition ? `Tous droits réservés, ${dateEdition}` : "Tous droits réservés, DATE MANQUANTE";
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  centerText(doc, combined2, pageWidth, 140);
+
+  // ISBN
+  const isbn = formValue.isbnBANQ || "";
+  const isbnText = isbn ? `ISBN: ${isbn}` : "ISBN: NUMÉRO MANQUANT";
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  centerText(doc, isbnText, pageWidth, 150);
+
+
+  // Creator
+  const textToWrite = `Transcription braille 2025\nInstitut Nazareth et Louis-Braille\nLongueuil (Québec)`;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  centerText(doc, textToWrite, pageWidth, 180);
+
+  // pages number
+  if (rowData) {
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+
+    let y = 200; // starting Y position for table content
+
+    // Add braille type at the top
+    if (brailleType) {
+      doc.text(`${brailleType}`, 40, y);
+      y += 10; // extra space after the type
+    }
+
+    // Print the row entries
+    Object.entries(rowData).forEach(([key, value]) => {
+      if (key === "_brailleType") return; // skip our helper property
+      doc.text(`${key}: ${value}`, 40, y);
+      y += 8;
+    });
+  }
+
+
+  // Footer
+  // const footerY = pageHeight - 40;
+  // drawCenteredLine(doc, footerY, pageWidth);
+  // doc.setFontSize(10);
+  // doc.setFont('helvetica', 'bold');
+  // doc.text("Service de l’accessibilité – SAI", pageWidth / 2, footerY + 10, { align: "center" });
+
+  doc.save(`PageTitre-${type}.pdf`);
+}
+
+function centerText(doc: jsPDF, text: string, pageWidth: number, y: number) {
+  if (!text) return;
+  const maxWidth = pageWidth - 80;
+  const splitText = doc.splitTextToSize(String(text), maxWidth);
+  splitText.forEach((line: string, i: number) => {
+    const textWidth = doc.getTextWidth(line);
+    const x = (pageWidth - textWidth) / 2;
+    doc.text(line, x, y + i * 8);
+  });
+}
+
+function drawCenteredLine(doc: jsPDF, y: number, pageWidth: number) {
+  const margin = 40;
+  doc.setDrawColor(0);
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageWidth - margin, y);
+}
+
+function addBrailleIntegralAbrege(type: string, formValue: any) {
+
+}
+
+
+
+

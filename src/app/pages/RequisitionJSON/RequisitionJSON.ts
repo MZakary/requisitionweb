@@ -12,7 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
 import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the confirm dialog component
-import { generatePDF } from '../../layout/service/pdf-generator'; // Import the PDF generation service
+import { generatePDF, generateBraillePDFs } from '../../layout/service/pdf-generator'; // Import the PDF generation service
 import { DialogModule } from 'primeng/dialog';
 import { TocService } from '../../layout/service/toc.service';
 import { take } from 'rxjs/operators';
@@ -132,7 +132,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService,
     private ngZone: NgZone
-  ) { }
+  ) {
+
+    setInterval(() => {
+      console.log(this.form.value);
+    }, 1000); // logs every second
+  }
 
   ngOnInit(): void {
     this.detectRequisitionType();
@@ -202,7 +207,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       this.requisitionType = RequisitionType.Unknown;
     }
   }
-
 
   //#region Form Builders
 
@@ -980,6 +984,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   testFunction(): void {
     generatePDF(this.requisitionTypeString, this.form.value, this.totalFromFacturation);
     //console.log(this.form.value);
+  }
+
+  genererPageTitre(): void {
+    generateBraillePDFs(this.requisitionTypeString, this.form.value);
   }
 
 

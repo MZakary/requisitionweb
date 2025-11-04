@@ -93,7 +93,7 @@ export class LayoutService {
 
         effect(() => {
             const config = this.layoutConfig();
-            console.log('🔍 Config effect triggered:', config);
+            //console.log('🔍 Config effect triggered:', config);
             
             if (config) {
                 this.onConfigUpdate();
@@ -123,11 +123,11 @@ export class LayoutService {
     private async saveConfigDebounced(config: layoutConfig): Promise<void> {
         try {
             this.isSaving = true;
-            console.log('💾 Debounced save triggered');
+            //console.log('💾 Debounced save triggered');
             await window.electronAPI.saveLayoutConfig(config);
-            console.log('✅ Config saved (debounced)');
+            //console.log('✅ Config saved (debounced)');
         } catch (error) {
-            console.error('❌ Failed to save config:', error);
+            //console.error('❌ Failed to save config:', error);
         } finally {
             this.isSaving = false;
         }
@@ -135,12 +135,12 @@ export class LayoutService {
 
     async loadConfig(): Promise<void> {
         try {
-            console.log('🔄 Attempting to load config...');
+            // console.log('🔄 Attempting to load config...');
             const result = await window.electronAPI.loadLayoutConfig();
-            console.log('Load result:', result);
+            // console.log('Load result:', result);
             
             if (result.success && result.config) {
-                console.log('✅ Config loaded from file:', result.config);
+                // console.log('✅ Config loaded from file:', result.config);
                 
                 // IMPORTANT: Apply the loaded config to both the signal AND the DOM
                 this.layoutConfig.set(result.config);
@@ -149,19 +149,19 @@ export class LayoutService {
                 this.applyConfigToDOM(result.config);
                 
             } else if (result.success && result.config === null) {
-                console.log('ℹ️ No saved config found, using defaults');
+                // console.log('ℹ️ No saved config found, using defaults');
                 // Apply default config to DOM
                 this.applyConfigToDOM(this.layoutConfig());
             }
         } catch (error) {
-            console.error('❌ Failed to load config:', error);
+            // console.error('❌ Failed to load config:', error);
             // Apply default config to DOM as fallback
             this.applyConfigToDOM(this.layoutConfig());
         }
     }
 
     private applyConfigToDOM(config: layoutConfig): void {
-        console.log('🎨 Applying FULL config to DOM:', config);
+        // console.log('🎨 Applying FULL config to DOM:', config);
         
         // Apply dark theme
         this.toggleDarkMode(config);
@@ -169,7 +169,7 @@ export class LayoutService {
         // Apply color variables
         this.applyColorVariables(config);
         
-        console.log('✅ Config fully applied to DOM');
+        // console.log('✅ Config fully applied to DOM');
     }
 
     private applyColorVariables(config: layoutConfig): void {
@@ -179,7 +179,7 @@ export class LayoutService {
         if (config.primary) {
             const primaryColor = this.getColorValue(config.primary);
             root.style.setProperty('--primary-color', primaryColor);
-            console.log('🎨 Applied primary color:', config.primary, '->', primaryColor);
+            // console.log('🎨 Applied primary color:', config.primary, '->', primaryColor);
             
             // Also update any other related CSS variables
             root.style.setProperty('--primary-500', primaryColor);
@@ -190,7 +190,7 @@ export class LayoutService {
         if (config.surface) {
             const surfaceColor = this.getColorValue(config.surface);
             root.style.setProperty('--surface-color', surfaceColor);
-            console.log('🎨 Applied surface color:', config.surface, '->', surfaceColor);
+            // console.log('🎨 Applied surface color:', config.surface, '->', surfaceColor);
         }
     }
 
@@ -261,10 +261,10 @@ export class LayoutService {
         
         if (_config.darkTheme) {
             document.documentElement.classList.add('app-dark');
-            console.log('🌙 Applied dark theme');
+            // console.log('🌙 Applied dark theme');
         } else {
             document.documentElement.classList.remove('app-dark');
-            console.log('☀️ Applied light theme');
+            // console.log('☀️ Applied light theme');
         }
         
         // Also apply color variables
@@ -326,9 +326,9 @@ export class LayoutService {
     // Add this method for debugging
     debugColorApplication(): void {
         const config = this.layoutConfig();
-        console.log('🐛 Current config:', config);
-        console.log('🐛 DOM primary color:', getComputedStyle(document.documentElement).getPropertyValue('--primary-color'));
-        console.log('🐛 Has dark class:', document.documentElement.classList.contains('app-dark'));
+        // console.log('🐛 Current config:', config);
+        // console.log('🐛 DOM primary color:', getComputedStyle(document.documentElement).getPropertyValue('--primary-color'));
+        // console.log('🐛 Has dark class:', document.documentElement.classList.contains('app-dark'));
         
         // Force re-apply
         this.applyConfigToDOM(config);

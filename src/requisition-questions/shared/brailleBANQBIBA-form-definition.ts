@@ -62,7 +62,7 @@ export const brailleBANQBIBAFormFields = [
 
   { label: 'BANQ abrégé et intégral - informations pré-encodage', type: 'header4' },
   { key: 'nomTechinfoPreEncodage', label: 'Nom', label2: "BANQ abrégé et intégral - informations pré-encodage", type: 'text' },
-  { key: 'datePossessioninfoPreEncodage', label: 'Date de prise de possession de l\ouvrage', type: 'text' },
+  { key: 'datePossessioninfoPreEncodage', label: 'Date de prise de possession de l\'ouvrage', type: 'text' },
   { key: 'dateTermineinfoPreEncodage', label: 'Terminé le', type: 'text' },
   { key: 'noHeureinfoPreEncodage', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'encodageNiveauDeuxPreEncodage', label: 'Nécessite un encodage de niveau 2', type: 'checkbox' },
@@ -71,7 +71,7 @@ export const brailleBANQBIBAFormFields = [
 
   { label: 'BANQ abrégé et intégral - informations encodage', type: 'header4' },
   { key: 'nomTechInfoEncodage', label: 'Nom', label2: "BANQ abrégé et intégral - informations pré-encodage", type: 'text' },
-  { key: 'datePossessionInfoEncodage', label: 'Date de prise de possession de l\ouvrage', type: 'text' },
+  { key: 'datePossessionInfoEncodage', label: 'Date de prise de possession de l\'ouvrage', type: 'text' },
   { key: 'dateTermineInfoEncodage', label: 'Terminé le', type: 'text' },
   { key: 'noHeureInfoEncodage', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireInfoEncodage', label: 'Commentaire', type: 'textarea' },
@@ -80,7 +80,7 @@ export const brailleBANQBIBAFormFields = [
 
   { label: 'BANQ abrégé et intégral - informations tech. tactile', type: 'header4' },
   { key: 'nomTechTactileBrailleBANQ', label: 'Nom', label2: "BANQ abrégé et intégral - Informations tech. tactile", type: 'text' },
-  { key: 'datePossessionTactileBrailleBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'text' },
+  { key: 'datePossessionTactileBrailleBANQ', label: 'Date de prise de possession de l\'ouvrage', type: 'text' },
   { key: 'dateTermineTactileBrailleBANQ', label: 'Terminé le', type: 'text' },
   { key: 'noHeureTactileBrailleBANQ', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireTechTactileBrailleBANQ', label: 'Commentaire', type: 'textarea' },
@@ -105,11 +105,11 @@ export const brailleBANQBIBAFormFields = [
       { key: 'noteProdBraille', label: 'Notes Prod.', type: 'textarea' }
     ],
     defaultValues: {
-      0: { noFichProdBraille: 'xxxxba01', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      1: { noFichProdBraille: 'xxxxba02', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      2: { noFichProdBraille: 'xxxxba03', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      3: { noFichProdBraille: 'xxxxba04', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      4: { noFichProdBraille: 'xxxxba05', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      0: { noFichProdBraille: 'xxxxba01', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      1: { noFichProdBraille: 'xxxxba02', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      2: { noFichProdBraille: 'xxxxba03', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      3: { noFichProdBraille: 'xxxxba04', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      4: { noFichProdBraille: 'xxxxba05', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
     },
     defaultRowCount: 5
   },
@@ -125,11 +125,11 @@ export const brailleBANQBIBAFormFields = [
       { key: 'noteProdBraille', label: 'Notes Prod.', type: 'textarea' }
     ],
     defaultValues: {
-      0: { noFichProdBraille: 'xxxxbi01', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      1: { noFichProdBraille: 'xxxxbi02', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      2: { noFichProdBraille: 'xxxxbi03', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      3: { noFichProdBraille: 'xxxxbi04', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
-      4: { noFichProdBraille: 'xxxxbi05', detProdBraille: 'Page de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      0: { noFichProdBraille: 'xxxxbi01', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      1: { noFichProdBraille: 'xxxxbi02', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      2: { noFichProdBraille: 'xxxxbi03', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      3: { noFichProdBraille: 'xxxxbi04', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
+      4: { noFichProdBraille: 'xxxxbi05', detProdBraille: 'Pages de l\'imprimé: \nPages braille: P1-P3; 1-; T1' },
     },
     defaultRowCount: 5,
   },

@@ -76,5 +76,4 @@ export const agrandisFormFields = [
       { key: 'noteProdAgrandissement', label: 'Notes Prod.', type: 'text' }
     ]
   },
-
 ];

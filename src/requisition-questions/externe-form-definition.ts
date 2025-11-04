@@ -13,6 +13,8 @@ export const externeFormFields = [
 
   { label: 'Informations spécifiques du document', type: 'header2' },
   { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
+
+
   {
     key: 'confidentielExterne', type: 'checkbox-list', label: 'Confidentiel',
     options: [
@@ -20,6 +22,9 @@ export const externeFormFields = [
       { label: 'Non', value: 'non' }
     ]
   },
+
+
+  
   {
     key: 'docSourceExterne', label: 'Document source', type: 'select',
     options: [
