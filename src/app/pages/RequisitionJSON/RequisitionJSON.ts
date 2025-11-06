@@ -134,9 +134,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     private ngZone: NgZone
   ) {
 
-    setInterval(() => {
-      console.log(this.form.value);
-    }, 1000); // logs every second
+    // setInterval(() => {
+    //   console.log(this.form.value);
+    // }, 1000); // logs every second
   }
 
   ngOnInit(): void {

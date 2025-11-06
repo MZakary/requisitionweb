@@ -389,37 +389,54 @@ function drawLine(doc: jsPDF, y: number) {
 export function generateBraillePDFs(type: string, formValue: any) {
   if (type !== 'banq' || formValue.phases.length === 0) return;
 
-  //check if BIBA or just BI or BA
-  if(!formValue.phases[0].brailleBANQ){
-    console.error('No brailleBANQ data found in formValue');
-  };
-
-  if(!formValue.phases[0].brailleBANQ2){
-    console.error('No brailleBANQ2 data found in formValue');
-  }
-
-  const braille = formValue.phases[0].brailleBANQ.AbregeIntegralBrailleBANQ;
   console.log(formValue.phases[0].brailleBANQ);
-  
-  // Generate PDFs for Abrege table
-  if (braille.BAbrege) {
-    const tableAbrege = formValue.phases[0].brailleBANQ.tableProductionBrailleBA || [];
-    tableAbrege.forEach((row: any, index: number) => {
-      generatePageTitle(type, formValue, row, `Braille Abrégé`);
-    });
+
+  const formType = formValue.phases[0].selectedTypes
+  const brailleBIOrBA = formValue.phases[0].brailleBANQ2.AbregeIntegralBrailleBANQBAOUBI;
+  const brailleBIBA = formValue.phases[0].brailleBANQ.AbregeIntegralBrailleBANQ;
+
+  if (formType.includes('brailleBANQ')) {
+    console.log('Generating BIBA');
+    // Generate PDFs for Abrege table
+    if (brailleBIBA.BAbrege) {
+      const tableAbrege = formValue.phases[0].brailleBANQ.tableProductionBrailleBA || [];
+      tableAbrege.forEach((row: any, index: number) => {
+        generatePageTitle(type, formValue, row, `Braille Abrégé`, index+1, tableAbrege.length);
+      });
+    }
+
+    // Generate PDFs for Integral table
+    if (brailleBIBA.BIntegral) {
+      const tableIntegral = formValue.phases[0].brailleBANQ.tableProductionBrailleBI || [];
+      tableIntegral.forEach((row: any, index: number) => {
+        generatePageTitle(type, formValue, row, `Braille Intégral`, index+1, tableIntegral.length);
+      });
+    }
+  } else if (formType.includes('brailleBANQ2')) {
+    console.log('Generating BI OR BA');
+    console.log(brailleBIOrBA.BAbrege);
+
+    if (brailleBIOrBA.BAbrege) {
+      const tableAbrege = formValue.phases[0].brailleBANQ2.tableProductionBrailleBAOUBI || [];
+      console.log("tableAbrege", tableAbrege);
+      tableAbrege.forEach((row: any, index: number) => {
+        generatePageTitle(type, formValue, row, `Braille Abrégé`, index+1, tableAbrege.length);
+      });
+    }
+
+    // Generate PDFs for Integral table
+    if (brailleBIOrBA.BIntegral) {
+      const tableIntegral = formValue.phases[0].brailleBANQ2.tableProductionBrailleBAOUBI || [];
+      tableIntegral.forEach((row: any, index: number) => {
+        generatePageTitle(type, formValue, row, `Braille Intégral`, index+1, tableIntegral.length);
+      });
+    }
   }
-  
-  // Generate PDFs for Integral table
-  if (braille.BIntegral) {
-    const tableIntegral = formValue.phases[0].brailleBANQ.tableProductionBrailleBI || [];
-    tableIntegral.forEach((row: any, index: number) => {
-      generatePageTitle(type, formValue, row, `Braille Intégral`);
-    });
-  }
+
 }
 
 
-export function generatePageTitle(type: string, formValue: any, rowData?: any, brailleType?: string) {
+export function generatePageTitle(type: string, formValue: any, rowData?: any, brailleType?: string, volumeIndex?: number, totalVolumes?: number): void {
   if (type !== 'banq' && formValue.phases.length > 0) return;
   console.log(formValue.phases[0].brailleBANQ);
 
@@ -481,32 +498,24 @@ export function generatePageTitle(type: string, formValue: any, rowData?: any, b
 
   // pages number
   if (rowData) {
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-
-    let y = 200; // starting Y position for table content
-
-    // Add braille type at the top
+    let y = 230; 
     if (brailleType) {
-      doc.text(`${brailleType}`, 40, y);
-      y += 10; // extra space after the type
+      centerText(doc, `${brailleType}`, pageWidth, y);
+      y += 8;
     }
 
-    // Print the row entries
     Object.entries(rowData).forEach(([key, value]) => {
-      if (key === "_brailleType") return; // skip our helper property
-      doc.text(`${key}: ${value}`, 40, y);
-      y += 8;
+      if (key === "detProdBraille") {
+        centerText(doc, `${value}`, pageWidth, y);
+        y += 15;
+
+        if (volumeIndex && totalVolumes) {
+          centerText(doc, `Volume ${volumeIndex} sur ${totalVolumes}`, pageWidth, y);
+          y += 15;
+        }
+      }
     });
   }
-
-
-  // Footer
-  // const footerY = pageHeight - 40;
-  // drawCenteredLine(doc, footerY, pageWidth);
-  // doc.setFontSize(10);
-  // doc.setFont('helvetica', 'bold');
-  // doc.text("Service de l’accessibilité – SAI", pageWidth / 2, footerY + 10, { align: "center" });
 
   doc.save(`PageTitre-${type}.pdf`);
 }
@@ -520,17 +529,6 @@ function centerText(doc: jsPDF, text: string, pageWidth: number, y: number) {
     const x = (pageWidth - textWidth) / 2;
     doc.text(line, x, y + i * 8);
   });
-}
-
-function drawCenteredLine(doc: jsPDF, y: number, pageWidth: number) {
-  const margin = 40;
-  doc.setDrawColor(0);
-  doc.setLineWidth(0.5);
-  doc.line(margin, y, pageWidth - margin, y);
-}
-
-function addBrailleIntegralAbrege(type: string, formValue: any) {
-
 }
 
 
