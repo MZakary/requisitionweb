@@ -387,118 +387,133 @@ function drawLine(doc: jsPDF, y: number) {
 }
 
 export function generateBraillePDFs(type: string, formValue: any) {
-  if (type !== 'banq' || formValue.phases.length === 0) return;
+  if (type !== "banq" || formValue.phases.length === 0) return;
 
-  console.log(formValue.phases[0].brailleBANQ);
+  const phase = formValue.phases[0];
+  console.log(phase);
+  const formType = phase.selectedTypes;
+  const brailleBIOrBA = phase.brailleBANQ2?.AbregeIntegralBrailleBANQBAOUBI || {};
+  const brailleBIBA = phase.brailleBANQ?.AbregeIntegralBrailleBANQ || {};
+  const fileName = phase.brailleBANQ?.noFichierBrailleBANQ || "Nom de fichier manquant";
+  const fileName2 = phase.brailleBANQ2?.noFichierBrailleBANQBAOUBI || "Nom de fichier manquant";
 
-  const formType = formValue.phases[0].selectedTypes
-  const brailleBIOrBA = formValue.phases[0].brailleBANQ2.AbregeIntegralBrailleBANQBAOUBI;
-  const brailleBIBA = formValue.phases[0].brailleBANQ.AbregeIntegralBrailleBANQ;
+  // --- Case 1: brailleBANQ ---
+  if (formType.includes("brailleBANQ")) {
+    console.log("Generating BIBA");
 
-  if (formType.includes('brailleBANQ')) {
-    console.log('Generating BIBA');
-    // Generate PDFs for Abrege table
+    // Abrégé group
     if (brailleBIBA.BAbrege) {
-      const tableAbrege = formValue.phases[0].brailleBANQ.tableProductionBrailleBA || [];
+      const tableAbrege = phase.brailleBANQ.tableProductionBrailleBA || [];
+      const docAbrege = new jsPDF();
+
       tableAbrege.forEach((row: any, index: number) => {
-        generatePageTitle(type, formValue, row, `Braille Abrégé`, index+1, tableAbrege.length);
+        if (index > 0) docAbrege.addPage();
+        generatePageTitle(docAbrege, type, formValue, row, "Braille Abrégé", index + 1, tableAbrege.length);
       });
+
+      docAbrege.save(`${fileName}_PGT.pdf`);
     }
 
-    // Generate PDFs for Integral table
+    // Intégral group
     if (brailleBIBA.BIntegral) {
-      const tableIntegral = formValue.phases[0].brailleBANQ.tableProductionBrailleBI || [];
-      tableIntegral.forEach((row: any, index: number) => {
-        generatePageTitle(type, formValue, row, `Braille Intégral`, index+1, tableIntegral.length);
-      });
-    }
-  } else if (formType.includes('brailleBANQ2')) {
-    console.log('Generating BI OR BA');
-    console.log(brailleBIOrBA.BAbrege);
+      const tableIntegral = phase.brailleBANQ.tableProductionBrailleBI || [];
+      const docIntegral = new jsPDF();
 
-    if (brailleBIOrBA.BAbrege) {
-      const tableAbrege = formValue.phases[0].brailleBANQ2.tableProductionBrailleBAOUBI || [];
-      console.log("tableAbrege", tableAbrege);
-      tableAbrege.forEach((row: any, index: number) => {
-        generatePageTitle(type, formValue, row, `Braille Abrégé`, index+1, tableAbrege.length);
-      });
-    }
-
-    // Generate PDFs for Integral table
-    if (brailleBIOrBA.BIntegral) {
-      const tableIntegral = formValue.phases[0].brailleBANQ2.tableProductionBrailleBAOUBI || [];
       tableIntegral.forEach((row: any, index: number) => {
-        generatePageTitle(type, formValue, row, `Braille Intégral`, index+1, tableIntegral.length);
+        if (index > 0) docIntegral.addPage();
+        generatePageTitle(docIntegral, type, formValue, row, "Braille Intégral", index + 1, tableIntegral.length);
       });
+
+      docIntegral.save(`${fileName}_PGT.pdf`);
     }
   }
 
+  // --- Case 2: brailleBANQ2 ---
+  else if (formType.includes("brailleBANQ2")) {
+    console.log("Generating BI OR BA");
+
+    if (brailleBIOrBA.BAbrege) {
+      const tableAbrege = phase.brailleBANQ2.tableProductionBrailleBAOUBI || [];
+      const docAbrege = new jsPDF();
+
+      tableAbrege.forEach((row: any, index: number) => {
+        if (index > 0) docAbrege.addPage();
+        generatePageTitle(docAbrege, type, formValue, row, "Braille Abrégé", index + 1, tableAbrege.length);
+      });
+
+      docAbrege.save(`${fileName2}_PGT.pdf`);
+    }
+
+    if (brailleBIOrBA.BIntegral) {
+      const tableIntegral = phase.brailleBANQ2.tableProductionBrailleBAOUBI || [];
+      const docIntegral = new jsPDF();
+
+      tableIntegral.forEach((row: any, index: number) => {
+        if (index > 0) docIntegral.addPage();
+        generatePageTitle(docIntegral, type, formValue, row, "Braille Intégral", index + 1, tableIntegral.length);
+      });
+
+      docIntegral.save(`${fileName2}_PGT.pdf`);
+    }
+  }
 }
 
-
-export function generatePageTitle(type: string, formValue: any, rowData?: any, brailleType?: string, volumeIndex?: number, totalVolumes?: number): void {
-  if (type !== 'banq' && formValue.phases.length > 0) return;
-  console.log(formValue.phases[0].brailleBANQ);
-
-  const doc = new jsPDF();
+export function generatePageTitle(
+  doc: jsPDF,
+  type: string,
+  formValue: any,
+  rowData?: any,
+  brailleType?: string,
+  volumeIndex?: number,
+  totalVolumes?: number
+): void {
   const pageWidth = doc.internal.pageSize.getWidth();
-  const pageHeight = doc.internal.pageSize.getHeight();
 
-  // Titre principal
-  doc.setFont('helvetica', 'bold');
+  // Title
+  doc.setFont("helvetica", "bold");
   doc.setFontSize(22);
   centerText(doc, formValue.titreProjetBANQ, pageWidth, 40);
 
-  // Sous-titre
-  doc.setFont('helvetica', 'bold');
+  // Subtitle
   doc.setFontSize(20);
   centerText(doc, formValue.soustitreProjetBANQ, pageWidth, 50);
 
   // Genre
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(20);
   centerText(doc, formValue.genreProjectBANQ, pageWidth, 60);
 
-  // Auteur
-  doc.setFont('helvetica', 'bold');
+  // Author
   doc.setFontSize(18);
   centerText(doc, formValue.auteurBANQ, pageWidth, 100);
 
-  // --- Éditeur et lieu d’édition (side by side) ---
+  // Editeur + Lieu
   const editeur = formValue.editeurBANQ || "";
   const lieu = formValue.lieuEditionBANQ || "";
-  const combined = [editeur, lieu].filter(Boolean).join(", "); // only adds comma if both exist
-
+  const combined = [editeur, lieu].filter(Boolean).join(", ");
   if (combined) {
-    doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
     centerText(doc, combined, pageWidth, 130);
   }
 
-  // Date d’édition
+  // Date
   const dateEdition = formValue.dateEditionBANQ || "";
-  const combined2 = dateEdition ? `Tous droits réservés, ${dateEdition}` : "Tous droits réservés, DATE MANQUANTE";
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
+  const combined2 = dateEdition
+    ? `Tous droits réservés, ${dateEdition}`
+    : "Tous droits réservés, DATE MANQUANTE";
   centerText(doc, combined2, pageWidth, 140);
 
   // ISBN
   const isbn = formValue.isbnBANQ || "";
   const isbnText = isbn ? `ISBN: ${isbn}` : "ISBN: NUMÉRO MANQUANT";
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
   centerText(doc, isbnText, pageWidth, 150);
 
-
   // Creator
-  const textToWrite = `Transcription braille 2025\nInstitut Nazareth et Louis-Braille\nLongueuil (Québec)`;
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
+  const textToWrite =
+    "Transcription braille 2025\nInstitut Nazareth et Louis-Braille\nLongueuil (Québec)";
   centerText(doc, textToWrite, pageWidth, 180);
 
-  // pages number
+  // Page data
   if (rowData) {
-    let y = 230; 
+    let y = 230;
     if (brailleType) {
       centerText(doc, `${brailleType}`, pageWidth, y);
       y += 8;
@@ -507,8 +522,7 @@ export function generatePageTitle(type: string, formValue: any, rowData?: any, b
     Object.entries(rowData).forEach(([key, value]) => {
       if (key === "detProdBraille") {
         centerText(doc, `${value}`, pageWidth, y);
-        y += 15;
-
+        y += 40;
         if (volumeIndex && totalVolumes) {
           centerText(doc, `Volume ${volumeIndex} sur ${totalVolumes}`, pageWidth, y);
           y += 15;
@@ -516,9 +530,8 @@ export function generatePageTitle(type: string, formValue: any, rowData?: any, b
       }
     });
   }
-
-  doc.save(`PageTitre-${type}.pdf`);
 }
+
 
 function centerText(doc: jsPDF, text: string, pageWidth: number, y: number) {
   if (!text) return;

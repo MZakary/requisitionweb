@@ -28,7 +28,7 @@
     padding: 1rem;
     border-radius: 0.75rem;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-    border:2px solid var(--primary-color);
+    border: 2px solid var(--primary-color);
 
     display: flex;
     flex-direction: column;
@@ -421,4 +421,19 @@
       }
     }
   }
+}
+
+
+
+/*Make the inputs follow the Primary color*/
+
+.p-inputtext:enabled:focus,
+.p-textarea:enabled:focus {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.p-floatlabel:has(input:focus) label,
+.p-floatlabel:has(textarea:focus) label {
+  color: var(--primary-color);
 }
