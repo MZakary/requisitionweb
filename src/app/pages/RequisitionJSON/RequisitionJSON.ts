@@ -144,7 +144,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.buildFormFields();
     this.buildFormGroup();
     this.setupCalculations();
+    this.setupETextAutoCopy(); // Add this line
     //this.FunctionsForRequisitionTypes();
+
     this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
 
     window.electronAPI.onTriggerDownload(() => {
@@ -928,7 +930,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   //#region Electron events
 
-  @HostListener('window:beforeunload', ['$event'])
+  @HostListener('window:beforeunload')
   ngOnDestroy() {
     if (this.lockedFilePath) {
       window.electronAPI.unlockFile(this.lockedFilePath);
@@ -1194,6 +1196,49 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         // Optionally clear when unchecked
         nomClientControl.setValue('', { emitEvent: false });
         noClientScolaire?.setValue('', { emitEvent: false });
+      }
+    });
+  }
+
+  // Add this method to your component class
+  private setupETextAutoCopy(): void {
+    // Listen for phase changes
+    this.phases.valueChanges.subscribe(() => {
+      this.copyNoFichierToProductionTable();
+    });
+
+    // Also listen for the main noFichierEText changes in case it's updated
+    this.form.valueChanges.subscribe(() => {
+      this.copyNoFichierToProductionTable();
+    });
+  }
+
+  private copyNoFichierToProductionTable(): void {
+    const phasesArray = this.phases;
+
+    phasesArray.controls.forEach((phaseControl, phaseIndex) => {
+      const phase = phaseControl as FormGroup;
+      const selectedTypes = phase.get('selectedTypes')?.value as string[];
+
+      // Check if etext is selected in this phase
+      if (selectedTypes && selectedTypes.includes('etext')) {
+        const etextGroup = phase.get('etext') as FormGroup;
+
+        if (etextGroup) {
+          const noFichierEText = etextGroup.get('noFichierEText')?.value;
+          const tableauProduction = etextGroup.get('tableauProductionEText') as FormArray;
+
+          // Only copy if we have a value and the production table exists
+          if (noFichierEText && tableauProduction && tableauProduction.length > 0) {
+            const firstRow = tableauProduction.at(0) as FormGroup;
+            const noFichProdControl = firstRow.get('noFichProdEText');
+
+            // Only update if the field is empty or different
+            if (noFichProdControl && noFichProdControl.value !== noFichierEText) {
+              noFichProdControl.setValue(noFichierEText, { emitEvent: false });
+            }
+          }
+        }
       }
     });
   }

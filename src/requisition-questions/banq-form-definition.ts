@@ -54,6 +54,6 @@ export const banqFormFieldsAfterPhases = [
   { key: 'codeBudgetaireFacturation', label: 'Code budgétaire', type: 'text', defaultValue: '720320-85873' },
   { key: 'autorisationFacturation', label: 'Autorisation', type: 'text' },
 
-  { label: 'SVP envoyer la facture par courriel à acquisitions.gb@banq.qc.ca', type: 'header2' },
+  // { label: 'SVP envoyer la facture par courriel à acquisitions.gb@banq.qc.ca', type: 'header2' },
 
 ];

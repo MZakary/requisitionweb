@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 interface FieldDefinition {
   label: string;
   key: string;
+  needsMoreSpace?: boolean;
 }
 
 // Define a table structure
@@ -46,14 +47,15 @@ const requisitionConfigs: Record<string, {
       { key: 'facturationCommentaire', label: 'Commentaire' },
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ]
   },
   banq: {
     fields: [
       { key: 'noBonCommandeBANQ', label: 'Numéro bon de commande' },
       { key: 'noContratBANQ', label: 'Contrat no' },
-      { key: 'titreProjetBANQ', label: "Titre" },
+      { key: 'titreProjetBANQ', label: "Titre" }, //merge titre and soustitre
+      { key: 'soustitreProjetBANQ', label: 'Sous-titre' },
     ],
     table: {
       headers: ['Type de braille', 'Nbr page/vol.', 'Prix unitaire ($)', 'Sous total ($)'],
@@ -63,7 +65,7 @@ const requisitionConfigs: Record<string, {
     fieldsAfterTable: [
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ],
     noClient: '3000032',
     adresse: 'acquisitions.gb@banq.qc.ca\nBANQ - BIBLIOTHÈQUE ET ARCHIVES NATIONALES DU QUÉBEC\n475 BOUL. DE MAISONNEUVE EST\nMONTRÉAL (QUÉBEC) H2L 5C4',
@@ -90,7 +92,7 @@ const requisitionConfigs: Record<string, {
       { key: 'facturationCommentaire', label: 'Commentaire' },
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ]
 
   },
@@ -112,7 +114,7 @@ const requisitionConfigs: Record<string, {
       { key: 'facturationCommentaire', label: 'Commentaire' },
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ]
 
   },
@@ -135,7 +137,7 @@ const requisitionConfigs: Record<string, {
       { key: 'facturationCommentaire', label: 'Commentaire' },
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ],
     adresse: 'CEGEP DU VIEUX MONTREAL\n255, RUE ONTARIO EST\nMONTRÉAL QC H2X 1X6',
   },
@@ -161,7 +163,7 @@ const requisitionConfigs: Record<string, {
       { key: 'facturationCommentaire', label: 'Commentaire' },
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ]
   },
   services: {
@@ -187,7 +189,7 @@ const requisitionConfigs: Record<string, {
       { key: 'facturationCommentaire', label: 'Commentaire' },
       { key: 'dateLivraisonFacturation', label: 'Date de livraison' },
       { key: 'codeBudgetaireFacturation', label: 'Code budgétaire' },
-      { key: 'autorisationFacturation', label: 'Autorisation' },
+      { key: 'autorisationFacturation', label: 'Autorisation', needsMoreSpace: true },
     ]
   }
 };
@@ -306,11 +308,16 @@ export function generatePDF(type: string, formValue: any, totalFromFacturation: 
     // Step 1: Determine dynamic column widths
     const columnWidths: number[] = headers.map((header, i) => {
       let maxWidth = doc.getTextWidth(header);
+
       tableRows.forEach(row => {
         const text = String(row[rowFields[i]] || '');
-        const textWidth = doc.getTextWidth(text);
-        if (textWidth > maxWidth) maxWidth = textWidth;
+        const lines = text.split('\n'); // handle multi-line values
+        lines.forEach(line => {
+          const width = doc.getTextWidth(line.trim());
+          if (width > maxWidth) maxWidth = width;
+        });
       });
+
       return Math.max(maxWidth + 6, 30); // Add padding and enforce a minimum width
     });
 
@@ -351,32 +358,28 @@ export function generatePDF(type: string, formValue: any, totalFromFacturation: 
   y += 20;
 
   config.fieldsAfterTable.forEach(field => {
+    // Add space before authorization field
+    if (field.needsMoreSpace) {
+      y += 20; // Add space before the authorization line
+    }
+
     const label = `${field.label}:`;
     const value = formValue[field.key] || '_________________';
 
     doc.setFontSize(12);
-
-    // Draw label in bold
     doc.setFont('helvetica', 'bold');
     doc.text(label, 20, y);
 
-    // Compute label width
     const labelWidth = doc.getTextWidth(label);
-
     doc.setFont('helvetica', 'normal');
 
-    // Wrap text if needed
     const maxWidth = pageWidth - (20 + labelWidth + 2);
     const splitValue = doc.splitTextToSize(String(value), maxWidth);
-
-    // Draw text
     doc.text(splitValue, 20 + labelWidth + 2, y);
 
-    // Move y based on number of lines
     const lineHeight = doc.getLineHeight() / doc.internal.scaleFactor;
-    y += splitValue.length * lineHeight + 2; // small spacing
+    y += splitValue.length * lineHeight + 2;
   });
-
   doc.save(`requisition-${type}.pdf`);
 }
 
@@ -408,10 +411,10 @@ export function generateBraillePDFs(type: string, formValue: any) {
 
       tableAbrege.forEach((row: any, index: number) => {
         if (index > 0) docAbrege.addPage();
-        generatePageTitle(docAbrege, type, formValue, row, "Braille Abrégé", index + 1, tableAbrege.length);
+        generatePageTitle(docAbrege, type, formValue, row, "Braille abrégé", index + 1, tableAbrege.length);
       });
 
-      docAbrege.save(`${fileName}_PGT.pdf`);
+      docAbrege.save(`${fileName}_BA_PGT.pdf`);
     }
 
     // Intégral group
@@ -421,10 +424,10 @@ export function generateBraillePDFs(type: string, formValue: any) {
 
       tableIntegral.forEach((row: any, index: number) => {
         if (index > 0) docIntegral.addPage();
-        generatePageTitle(docIntegral, type, formValue, row, "Braille Intégral", index + 1, tableIntegral.length);
+        generatePageTitle(docIntegral, type, formValue, row, "Braille intégral", index + 1, tableIntegral.length);
       });
 
-      docIntegral.save(`${fileName}_PGT.pdf`);
+      docIntegral.save(`${fileName}_BI_PGT.pdf`);
     }
   }
 
@@ -438,7 +441,7 @@ export function generateBraillePDFs(type: string, formValue: any) {
 
       tableAbrege.forEach((row: any, index: number) => {
         if (index > 0) docAbrege.addPage();
-        generatePageTitle(docAbrege, type, formValue, row, "Braille Abrégé", index + 1, tableAbrege.length);
+        generatePageTitle(docAbrege, type, formValue, row, "Braille abrégé", index + 1, tableAbrege.length);
       });
 
       docAbrege.save(`${fileName2}_PGT.pdf`);
@@ -450,7 +453,7 @@ export function generateBraillePDFs(type: string, formValue: any) {
 
       tableIntegral.forEach((row: any, index: number) => {
         if (index > 0) docIntegral.addPage();
-        generatePageTitle(docIntegral, type, formValue, row, "Braille Intégral", index + 1, tableIntegral.length);
+        generatePageTitle(docIntegral, type, formValue, row, "Braille intégral", index + 1, tableIntegral.length);
       });
 
       docIntegral.save(`${fileName2}_PGT.pdf`);
@@ -485,13 +488,21 @@ export function generatePageTitle(
   doc.setFontSize(18);
   centerText(doc, formValue.auteurBANQ, pageWidth, 100);
 
+  //Traduction
+  doc.setFontSize(14);
+  centerText(doc, formValue.traductionBANQ, pageWidth, 110);
+
+  //Collection
+  doc.setFontSize(14);
+  centerText(doc, formValue.collectionBANQ, pageWidth, 140);
+
   // Editeur + Lieu
   const editeur = formValue.editeurBANQ || "";
   const lieu = formValue.lieuEditionBANQ || "";
   const combined = [editeur, lieu].filter(Boolean).join(", ");
   if (combined) {
     doc.setFontSize(14);
-    centerText(doc, combined, pageWidth, 130);
+    centerText(doc, combined, pageWidth, 150);
   }
 
   // Date
@@ -499,17 +510,17 @@ export function generatePageTitle(
   const combined2 = dateEdition
     ? `Tous droits réservés, ${dateEdition}`
     : "Tous droits réservés, DATE MANQUANTE";
-  centerText(doc, combined2, pageWidth, 140);
+  centerText(doc, combined2, pageWidth, 160);
 
   // ISBN
   const isbn = formValue.isbnBANQ || "";
   const isbnText = isbn ? `ISBN: ${isbn}` : "ISBN: NUMÉRO MANQUANT";
-  centerText(doc, isbnText, pageWidth, 150);
+  centerText(doc, isbnText, pageWidth, 170);
 
   // Creator
   const textToWrite =
     "Transcription braille 2025\nInstitut Nazareth et Louis-Braille\nLongueuil (Québec)";
-  centerText(doc, textToWrite, pageWidth, 180);
+  centerText(doc, textToWrite, pageWidth, 190);
 
   // Page data
   if (rowData) {
@@ -522,9 +533,12 @@ export function generatePageTitle(
     Object.entries(rowData).forEach(([key, value]) => {
       if (key === "detProdBraille") {
         centerText(doc, `${value}`, pageWidth, y);
-        y += 40;
-        if (volumeIndex && totalVolumes) {
+        y += 15;
+        if (volumeIndex && totalVolumes && totalVolumes > 1) {
           centerText(doc, `Volume ${volumeIndex} sur ${totalVolumes}`, pageWidth, y);
+          y += 15;
+        } else if (volumeIndex && totalVolumes && totalVolumes == 1) {
+          centerText(doc, `Volume unique`, pageWidth, y);
           y += 15;
         }
       }

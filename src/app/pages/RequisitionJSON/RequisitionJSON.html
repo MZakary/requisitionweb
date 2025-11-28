@@ -37,7 +37,7 @@
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
     <p-button label="Télécharger PDF" (onClick)="testFunction()"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
-    <p-button label="Télécharger Page Titre" (onClick)="genererPageTitre()"
+    <p-button label="Télécharger Page Titre" (onClick)="genererPageTitre()" *ngIf="requisitionTypeString == 'banq'"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
   </div>
 
@@ -493,7 +493,7 @@
     <p-button label="Télécharger PDF" (onClick)="testFunction()"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
       
-    <p-button label="Télécharger Page Titre" (onClick)="genererPageTitre()"
+    <p-button label="Télécharger Page Titre" (onClick)="genererPageTitre()" *ngIf="requisitionTypeString == 'banq'"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
 
   </div>
