@@ -144,6 +144,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.buildFormFields();
     this.buildFormGroup();
     this.setupCalculations();
+    this.setupPhaseCalculations();
     this.setupETextAutoCopy(); // Add this line
     //this.FunctionsForRequisitionTypes();
 
@@ -1066,6 +1067,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     // Listen for form changes to trigger calculations
     this.form.valueChanges.subscribe(() => {
       this.calculateAllTables();
+      this.calculateBANQProductionTotals();
     });
   }
 
@@ -1076,6 +1078,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         this.calculateTable(field);
       }
     });
+    this.calculateBANQProductionTotals();
   }
 
   private calculateTable(field: any) {
@@ -1245,6 +1248,127 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   //#endregion
+
+
+  // Add this method to your component class
+  private calculateBANQProductionTotals(): void {
+    const phasesArray = this.phases;
+
+    phasesArray.controls.forEach((phaseControl, phaseIndex) => {
+      const phase = phaseControl as FormGroup;
+      const selectedTypes = phase.get('selectedTypes')?.value as string[];
+
+      // Handle BANQ BI ET BA (both braille types)
+      if (selectedTypes && selectedTypes.includes('brailleBANQ')) {
+        this.processBANQBIBA(phase);
+      }
+
+      // Handle BANQ BI OU BA (either braille type)
+      if (selectedTypes && selectedTypes.includes('brailleBANQ2')) {
+        this.processBANQBIOUBA(phase);
+      }
+    });
+  }
+
+  private processBANQBIBA(phase: FormGroup): void {
+    const brailleBANQGroup = phase.get('brailleBANQ') as FormGroup;
+    if (!brailleBANQGroup) return;
+
+    // Get BA table total
+    const baTable = brailleBANQGroup.get('tableProductionBrailleBA') as FormArray;
+    const baTotal = this.calculateTableTotal(baTable, 'nbsPageProdBraille');
+
+    // Get BI table total  
+    const biTable = brailleBANQGroup.get('tableProductionBrailleBI') as FormArray;
+    const biTotal = this.calculateTableTotal(biTable, 'nbsPageProdBraille');
+
+    // Update facturation table
+    this.updateFacturationTable('Abrégé', baTotal);
+    this.updateFacturationTable('Intégral', biTotal);
+  }
+
+  private processBANQBIOUBA(phase: FormGroup): void {
+    const brailleBANQ2Group = phase.get('brailleBANQ2') as FormGroup;
+    if (!brailleBANQ2Group) return;
+
+    // Get the single production table total
+    const productionTable = brailleBANQ2Group.get('tableProductionBrailleBAOUBI') as FormArray;
+    const total = this.calculateTableTotal(productionTable, 'nbsPageProdBraille');
+
+    // Get the checkbox group for braille type selection
+    const typeSelectionGroup = brailleBANQ2Group.get('AbregeIntegralBrailleBANQBAOUBI') as FormGroup;
+
+    if (typeSelectionGroup) {
+      // For checkbox-list type, the values are stored as a FormGroup with boolean properties
+      const isAbrege = typeSelectionGroup.get('BAbrege')?.value;
+      const isIntegral = typeSelectionGroup.get('BIntegral')?.value;
+
+      console.log('BI OU BA - Checkbox values:', { isAbrege, isIntegral, total });
+
+      // Determine which type to update based on selection
+      if (isAbrege && !isIntegral) {
+        // Only Abrégé is selected
+        this.updateFacturationTable('Abrégé', total);
+      } else if (isIntegral && !isAbrege) {
+        // Only Intégral is selected
+        this.updateFacturationTable('Intégral', total);
+      } else if (isAbrege && isIntegral) {
+        // Both selected - this is unusual for "OU" but handle it
+        // You might want to split or choose one - for now, use Abrégé
+        this.updateFacturationTable('Abrégé', total);
+        console.warn('BI OU BA - Both braille types selected, defaulting to Abrégé');
+      } else {
+        // Neither selected - this is the likely issue!
+        console.warn('BI OU BA - No braille type selected in checkbox-list');
+      }
+    } else {
+      console.warn('BI OU BA - Type selection group not found');
+    }
+  }
+
+  private calculateTableTotal(tableArray: FormArray, totalKey: string): number {
+    if (!tableArray) return 0;
+
+    return tableArray.controls.reduce((sum, rowGroup) => {
+      const value = Number(rowGroup.get(totalKey)?.value);
+      return sum + (isNaN(value) ? 0 : value);
+    }, 0);
+  }
+
+  private updateFacturationTable(brailleType: string, quantity: number): void {
+    const facturationTable = this.form.get('facturation') as FormArray;
+    if (!facturationTable) return;
+
+    // Find the row with matching braille type
+    for (let i = 0; i < facturationTable.length; i++) {
+      const row = facturationTable.at(i) as FormGroup;
+      const typeDeBraille = row.get('typeDeBraille')?.value;
+
+      if (typeDeBraille === brailleType) {
+        // Update the quantity, preserving manual override state
+        const currentOverride = row.get('_manualOverride')?.value;
+
+        // Only update if not manually overridden
+        if (!currentOverride) {
+          row.get('quantite')?.setValue(quantity.toString(), { emitEvent: false });
+        }
+        break;
+      }
+    }
+  }
+
+  // Add this method to handle phase-specific changes
+  private setupPhaseCalculations() {
+    // Listen for phase changes specifically
+    this.phases.valueChanges.subscribe(() => {
+      this.calculateBANQProductionTotals();
+    });
+
+    // Also listen for changes within phase production tables
+    this.form.valueChanges.subscribe(() => {
+      // This will be handled by the main valueChanges subscription
+    });
+  }
   //#endregion
 }
 
