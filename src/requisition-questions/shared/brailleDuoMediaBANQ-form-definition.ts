@@ -41,11 +41,12 @@ export const brailleDuoMediaBANQFormFields = [
   
   { key: 'mesureInterieurLivreBrailleDuoMediaBANQ', label: 'Mesures intérieures du livre', type: 'text' },
 
-
+  { label: 'BANQ Duo-Média - nom du fichier source ou description de la production', type: 'header4' },
+  { key: 'specificationsClientBrailleDuoMediaBANQ', label: 'Spécifications du client', type: 'textarea', label2:"BANQ Duo-Média - nom du fichier source ou description de la production" },
 
   { label: 'BANQ Duo-Média - commentaire', type: 'header4' },
   { key: 'commentaireBrailleDuoMediaBANQ', label: 'Commentaire', type: 'textarea', label2:"BANQ Duo-Média - commentaire" },
-  
+
   { label: 'BANQ Duo-Média - informations pré-encodage', type: 'header4' },
   { key: 'nomTechinfoPreEncodageDuoMediaBANQ', label: 'Nom', label2:"BANQ Duo-Média - informations pré-encodage", type: 'text' },
   { key: 'datePossessioninfoPreEncodageDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'text' },

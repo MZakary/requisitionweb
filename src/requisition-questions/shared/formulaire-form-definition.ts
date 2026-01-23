@@ -24,6 +24,9 @@ export const formulaireFormFields = [
   { label: 'Formulaire - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceFormulaire', label: 'Nom/Description', label2:"Formulaire - Nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'Formulaire - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientFormulaire', label: 'Spécifications du client', type: 'textarea', label2:"Formulaire - Spécifications du client" },
+
   { label: 'Formulaire - commentaire', type: 'header4' },
   { key: 'commentaireFormulaire', label: 'Commentaire', type: 'textarea', label2:"Formulaire - Commentaire" },
   

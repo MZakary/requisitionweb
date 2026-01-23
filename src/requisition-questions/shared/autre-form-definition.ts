@@ -12,6 +12,9 @@ export const autreFormFields = [
   },
   { key: 'autretypeProductionAutre', label: 'Si autre, spécifier', type: 'text' },
   
+  { label: 'Autre - nom du fichier source ou description de la production', type: 'header4' },
+  { key: 'specificationsClientAutre', label: 'Spécifications du client', type: 'textarea', label2: 'Autre - Nom du fichier source ou description de la production' },
+
   { label: 'Autre - commentaire', type: 'header4' },
   { key: 'commentaireAutre', label: 'Commentaire', type: 'textarea', label2: 'Autre - Informations générales' },
   

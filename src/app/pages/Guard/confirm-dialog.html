@@ -7,6 +7,6 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <button [hidden]="!showRejectButton" pButton type="button" label="{{ rejectLabel }}" (click)="onReject()" class="p-button-text"></button>
-    <button pButton type="button" label="{{ acceptLabel }}" (click)="onAccept()"></button>
+    <button pButton type="button" label="{{ acceptLabel }}" (click)="onAccept()" class="p-button-text-confirm"></button>
   </ng-template>
 </p-dialog>

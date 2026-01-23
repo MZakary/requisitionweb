@@ -50,6 +50,9 @@ export const agrandisFormFields = [
   { label: 'Agrandissement - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceAgrandissement', label: 'Nom/Description', label2:"Agrandissement - nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'Agrandissement - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientAgrandissement', label: 'Spécifications du client', type: 'textarea', label2:"Agrandissement - spécifications du client" },
+
   { label: 'Agrandissement - commentaire', type: 'header4' },
   { key: 'commentaireAgrandissement', label: 'Commentaire', type: 'textarea', label2:"Agrandissement - commentaire" },
   
@@ -65,7 +68,9 @@ export const agrandisFormFields = [
   { key: 'dateTermineContQualAgrandissement', label: 'Terminé le', type: 'text' },
   { key: 'noHeureContQualAgrandissement', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
   { key: 'commentaireContQualAgrandissement', label: 'Commentaire', type: 'textarea' },
-
+  
+  
+  
   { label: 'Agrandissement - tableau de production', type: 'header4' },
   {
     key: 'tableProductionAgrandissement',

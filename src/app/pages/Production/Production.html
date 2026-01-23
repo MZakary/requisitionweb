@@ -1,0 +1,53 @@
+<div class="card ProductionSection">
+
+  <div *ngIf="selectedType == ''">
+    <h1 tabindex="-1" #pageTitle>Productions</h1>
+  
+    <ul class="productionGrid">
+      <li *ngFor="let type of productionTypes">
+          <button class="productionButton" (click)="setSelected('selectedType', type)">
+            <h2>{{ type.label }}</h2>
+          </button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="selectedType && selectedStage == ''" class="stageProd">
+    <h1>Étapes de la production {{selectedType}}</h1>
+
+    
+    <ul class="productionGrid">
+      <li *ngFor="let stage of productionStages">
+        <button class="productionButton" (click)="setSelected('selectedStage', stage)">
+          <h3>{{ stage.label }}</h3>
+        </button>
+      </li>
+    </ul>
+    <p-button label="Retour en arrière" (click)="setSelected('selectedType', '')"/>
+  </div>
+
+
+  <div *ngIf="selectedType && selectedStage" class="stageProd">
+    <h1>Production: {{selectedType}} - Étape: {{selectedStage}}</h1>
+
+    <ul class="listOfItems">
+      <li class="item">
+        <button class="itemButton">
+          <div class="itemNumberReq">Numéro de réquisition</div>  
+          <div class="itemNumberReq">Numéro de réquisition</div>  
+          <div class="itemNumberReq">Numéro de réquisition</div>  
+          <div class="itemNumberReq">Numéro de réquisition</div>  
+        </button>
+      </li>
+    </ul>
+    
+    <ul class="buttonList">
+      <li><p-button label="Retour en arrière" (click)="setSelected('selectedStage', '')"/></li>
+      <li><p-button label="Retour au début" (click)="resetSelection()"/></li>
+    </ul>
+    
+
+
+  </div>
+
+</div>

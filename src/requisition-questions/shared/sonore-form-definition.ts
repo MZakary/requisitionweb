@@ -42,6 +42,9 @@ export const sonoreFormFields = [
   { label: 'Sonore - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2:"Sonore - nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'Sonore - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientSonore', label: 'Spécifications du client', type: 'textarea', label2:"Sonore - spécifications du client" },
+
   { label: 'Sonore - commentaire', type: 'header4' },
   { key: 'commentaireSonore', label: 'Commentaire', type: 'textarea', label2:"Sonore - commentaire" },
   

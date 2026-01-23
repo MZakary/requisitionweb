@@ -20,6 +20,9 @@ export const pdfFormFields = [
   { label: 'PDF - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourcePDF', label: 'Nom/Description', label2:"PDF - nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'PDF - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientPDF', label: 'Spécifications du client', type: 'textarea', label2:"PDF - spécifications du client" },
+
   { label: 'PDF - commentaire', type: 'header4' },
   { key: 'commentairePDF', label: 'Commentaire', type: 'textarea', label2:"PDF - commentaire" },
   

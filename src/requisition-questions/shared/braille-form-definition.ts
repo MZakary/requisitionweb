@@ -101,8 +101,12 @@ export const brailleFormFields = [
   { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Braille - Nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'Braille - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientBraille', label: 'Spécifications du client', type: 'textarea', label2:"Braille - Spécifications du client" },
+
   { label: 'Braille - commentaire', type: 'header4' },
   { key: 'commentaireBraille', label: 'Commentaire', type: 'textarea', label2: 'Braille - commentaire' },
+
   
   { label: 'Braille - informations tech. multimédia', type: 'header4' },
   { key: 'nomTechMultiBraille', label: 'Nom', label2:"Braille - Informations tech. multimédia", type: 'text' },

@@ -116,6 +116,9 @@ export const dessinFormFields = [
   { label: 'Dessin - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceDessin', label: 'Nom/Description', label2:" Dessin - Nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'Dessin - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientDessin', label: 'Spécifications du client', type: 'textarea', label2:"Dessin - Spécifications du client" },
+
   { label: 'Dessin - commentaire', type: 'header4' },
   { key: 'commentaireDessin', label: 'Commentaire', type: 'textarea', label2: 'Dessin - Commentaire' },
   

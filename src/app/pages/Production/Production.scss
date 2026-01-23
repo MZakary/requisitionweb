@@ -1,0 +1,145 @@
+.card.ProductionSection {
+    position: relative;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    height: calc(100vh - 8rem);
+
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--primary-color);
+    }
+
+    h1 {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: 600;
+        text-align: center;
+    }
+}
+
+.productionGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    /* Centers buttons horizontally */
+}
+
+.productionButton {
+    flex: 0 0 calc(33.333% - 1rem);
+    /* 3 items per row accounting for gap */
+    max-width: 250px;
+    min-width: 200px;
+    /* Ensures buttons don't get too small */
+    /* Rest of button styles same as above */
+}
+
+.productionButton {
+    width: 100%;
+    /* Takes full width of grid cell */
+    max-width: 250px;
+    /* Optional: Limit button width */
+    padding: 1.5rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    /* Center content inside button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:hover,
+    &:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background-color: var(--primary-color);
+        border: none;
+
+        h2,
+        h3 {
+            color: white;
+        }
+    }
+
+    h2,
+    h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+}
+
+.stageProd {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    p-button {
+        align-self: center;
+    }
+
+    .listOfItems {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-height: 400px;
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 1rem;
+        border: 2px solid;
+
+        .item {
+            .itemButton {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            padding: 1rem 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+
+            .itemNumberReq {
+                flex: 1;
+                font-weight: 500;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: var(--primary-color);
+            }
+        }
+    }
+
+}
+
+.buttonList {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    p-button {
+        flex: 1;
+        max-width: 200px;
+    }
+}

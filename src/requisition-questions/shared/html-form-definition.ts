@@ -18,6 +18,9 @@ export const htmlFormFields = [
   { label: 'HTML - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceHTML', label: 'Nom/Description', label2:"HTML - nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'HTML - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientHTML', label: 'Spécifications du client', type: 'textarea', label2:"HTML - spécifications du client" },
+
   { label: 'HTML - commentaire', type: 'header4' },
   { key: 'commentaireHTML', label: 'Commentaire', type: 'textarea', label2:"HTML - commentaire" },
   

@@ -25,6 +25,9 @@ export const eTextFormFields = [
   { label: 'E-Text - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceEText', label: 'Nom/Description', label2:"E-Text - nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'E-Text - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientEText', label: 'Spécifications du client', type: 'textarea', label2:"E-Text - spécifications du client" },
+
   { label: 'E-Text - commentaire', type: 'header4' },
   { key: 'commentaireEText', label: 'Commentaire', label2:"E-Text - commentaire", type: 'textarea' },
   

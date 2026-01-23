@@ -57,8 +57,13 @@ export const brailleBANQBIBAFormFields = [
   },
   { key: 'autrecouvertureCheckboxListBrailleBANQ', label: 'Si autre, spécifier', type: 'text' },
 
+  { label: 'BANQ abrégé et intégral - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientBrailleBANQ', label: 'Spécifications du client', type: 'textarea', label2:"BANQ abrégé et intégral - spécifications du client" },
+
   { label: 'BANQ abrégé et intégral - commentaire', type: 'header4' },
   { key: 'commentaireBrailleBANQ', label: 'Commentaire', type: 'textarea', label2: "BANQ abrégé et intégral - commentaire" },
+
+
 
   { label: 'BANQ abrégé et intégral - informations pré-encodage', type: 'header4' },
   { key: 'nomTechinfoPreEncodage', label: 'Nom', label2: "BANQ abrégé et intégral - informations pré-encodage", type: 'text' },
@@ -205,6 +210,9 @@ export const brailleBANQBIOUBAFormFields = [
 
   { label: 'BANQ abrégé ou intégral - commentaire', type: 'header4' },
   { key: 'commentaireBrailleBANQBAOUBI', label: 'Commentaire', type: 'textarea', label2: "BANQ abrégé ou intégral - commentaire" },
+  { key: 'specificationsClientBANQBAOUBI', label: 'Spécifications du client', type: 'textarea' },
+
+
 
   { label: 'BANQ abrégé ou intégral - informations pré-encodage', type: 'header4' },
   { key: 'nomTechinfoPreEncodageBAOUBI', label: 'Nom', label2: "BANQ abrégé ou intégral - informations pré-encodage", type: 'text' },

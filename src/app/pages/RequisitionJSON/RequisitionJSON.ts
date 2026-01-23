@@ -12,7 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { CanComponentDeactivate } from '../Guard/confirm-exit.guard';
 import { ConfirmDialogComponent } from '../Guard/confirm-dialog'; // Import the confirm dialog component
-import { generatePDF, generateBraillePDFs } from '../../layout/service/pdf-generator'; // Import the PDF generation service
+import { generatePDF, generateBraillePDFs, generateProductionBraillePDF } from '../../layout/service/pdf-generator'; // Import the PDF generation service
 import { DialogModule } from 'primeng/dialog';
 import { TocService } from '../../layout/service/toc.service';
 import { take } from 'rxjs/operators';
@@ -702,10 +702,31 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         return;
       }
 
+
       // 📥 Step 3: Read the file contents
       const response = await fetch(`file://${filePath}`);
       const jsonText = await response.text();
       const data = JSON.parse(jsonText);
+
+      // 🛡️ Secure boot: Soft check (for legacy files)
+      if (!data.ReqType) {
+        console.warn("Legacy JSON file detected (no ReqType). Skipping type validation.");
+        this.showPopUpDialog("Ce fichier JSON est d'un format plus ancien et ne contient pas le type de réquisition. Un type sera rajouté automatiquement à l'enregistrement.", "Type de réquisition inconnu");
+        // You could also show a gentle UI notice if you want.
+      } else {
+        const expected = this.requisitionTypeString.toLowerCase();
+        const actual = data.ReqType.toLowerCase();
+
+        if (expected !== actual) {
+          this.showPopUpDialog(
+            `Ce fichier est de type "${data.ReqType}", mais vous êtes dans "${this.requisitionTypeString}".`,
+            "Type de réquisition incompatible"
+          );
+          await window.electronAPI.unlockFile(filePath);
+          return;
+        }
+      }
+
 
       this.patchFormFromData(data);
       this.lockedFilePath = filePath;
@@ -872,7 +893,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   async downloadJson() {
-    const data = this.buildJson();
+    const data = {
+      ReqType: this.requisitionTypeString,
+      ...this.buildJson()
+    };
     const jsonData = JSON.stringify(data, null, 2);
     //console.log('Téléchargement des données JSON:', jsonData);
     if (this.lockedFilePath) {
@@ -900,7 +924,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   }
 
   async downloadJsonNew() {
-    const data = this.buildJson();
+    const data = {
+      ReqType: this.requisitionTypeString,
+      ...this.buildJson()
+    };
     const jsonData = JSON.stringify(data, null, 2);
     //console.log('Téléchargement des données JSON:', jsonData);
 
@@ -993,6 +1020,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     generateBraillePDFs(this.requisitionTypeString, this.form.value);
   }
 
+  generateFeuilleProd(): void {
+    generateProductionBraillePDF(this.form.value);
+  }
+
 
   //#endregion
 
@@ -1030,32 +1061,32 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#region Clone Info
   readonly persistentFieldsPerType: { [key: string]: string[] } = {
     //Etext
-    etext: ['noFichierEText', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText'],
+    etext: ['noFichierEText', 'niveauDifficulteEtext', 'langueNotesProdEtext', 'courrielEText', 'autreCourrielEText', 'specificationsClientEText'],
     //Braille
     braille: ['noFichierBraille', 'quantiteBraille', 'niveauDifficulteBraille',
       'typeBrailleCheckboxBraille', 'codeBrailleCheckboxBraille', 'autreCodeBraille', 'formatBraille', 'autreFormatBraille',
       'typeFeuilleBraille', 'embossageBraille', 'autreEmbossageBraille', 'materielBraille',
-      'autreMaterielBraille', 'typeTeneurBraille', 'typeCouvertureBraille', 'autreTypeCouvBraille'],
+      'autreMaterielBraille', 'typeTeneurBraille', 'typeCouvertureBraille', 'autreTypeCouvBraille', 'specificationsClientBraille'],
     //Dessin
     dessin: ['noFichierDessin', 'quantiteDessin', 'niveauDifficulteDessin', 'typeCheckboxDessin', 'typeBrailleCheckboxDessin',
       'codeBrailleBaseDessin', 'autreCodeBrailleDessin', 'typePoliceCaracteresDessin', 'taillePoliceCaracteresDessin',
       'formatDessin', 'autreFormatDessin', 'typeCouleurAChoisirDessin', 'typeImpressionDessin', 'autretypeImpressionDessin',
-      'rectoVersoCheckboxDessin', 'materielDessin', 'autreMaterielDessin'],
+      'rectoVersoCheckboxDessin', 'materielDessin', 'autreMaterielDessin', 'specificationsClientDessin'],
     //Grossi
     grossi: ['noFichierGrossi', 'quantiteGrossi', 'niveauDifficulteGrossi', 'typePoliceGrossi',
       'taillePoliceGrossi', 'FormatGrossi', 'autreFormatGrossi', 'monochromeGrossi', 'couleurGrossi',
       'envoiCourrielSeulGrossi', 'impressionGrossi', 'typeTeneurGrossi', 'typeCouvertureGrossi',
-      'libelleEtiquetteGrossi', 'autreFinitionGrossi'],
+      'libelleEtiquetteGrossi', 'autreFinitionGrossi', 'specificationsClientGrossi'],
     //HTML
-    html: ['noFichierHTML', 'niveauDifficulteHTML', 'courrielCheckboxHTML', 'autreExpliquationHTML',],
+    html: ['noFichierHTML', 'niveauDifficulteHTML', 'courrielCheckboxHTML', 'autreExpliquationHTML', 'specificationsClientHTML'],
     //PDF
-    pdf: ['noFichierPDF', 'pdfAccessiblePDF', 'pdfNavigablePDF', 'niveauDifficultePDF', 'courrielCheckboxPDF', 'autreExpliquationPDF'],
+    pdf: ['noFichierPDF', 'pdfAccessiblePDF', 'pdfNavigablePDF', 'niveauDifficultePDF', 'courrielCheckboxPDF', 'autreExpliquationPDF', 'specificationsClientPDF'],
     //Formulaire
-    formulaire: ['noFichierFormulaire', 'typeFormFormulaire', 'niveauDifficulteFormulaire', 'courrielCheckboxFormulaire', 'autreExpliquationFormulaire'],
+    formulaire: ['noFichierFormulaire', 'typeFormFormulaire', 'niveauDifficulteFormulaire', 'courrielCheckboxFormulaire', 'autreExpliquationFormulaire', 'specificationsClientFormulaire'],
     //Agrandis
     agrandis: ['numFichierAgrandissement', 'quantiteAgrandissement', 'PourcentageAgrandissement', 'taillePoliceAgrandissement', 'FormatGrossi', 'autreFormatAgrandissement',
       'monochromeAgrandissement', 'couleurAgrandissement', 'impressionAgrandissement', 'typeTeneurAgrandissement', 'typeCouvertureAgrandissement',
-      'autreCouvAgrandissement'],
+      'autreCouvAgrandissement', 'specificationsClientAgrandissement'],
   };
 
   //#endregion

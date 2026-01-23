@@ -125,7 +125,7 @@ const requisitionConfigs: Record<string, {
       { key: 'nomClientScolaire', label: 'Nom du client' },
       { key: 'noClientScolaire', label: 'Numéro du client' },
       // { key: 'nomProjetScolaire', label: "Nom du projet" },
-      { key: 'descriptionProjetFacturation', label: 'Description du projet' },
+      { key: 'descriptionProjetFacturation', label: 'Nom du projet' },
 
     ],
     table: {
@@ -558,6 +558,221 @@ function centerText(doc: jsPDF, text: string, pageWidth: number, y: number) {
   });
 }
 
+
+
+//#region PDF Marc-André
+
+
+export function generateProductionBraillePDF(formValue: any): void {
+  if (!formValue?.phases?.length) return;
+
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  let y = 20;
+
+  const phase = formValue.phases[0];
+
+  /* ---------------- TITRE ---------------- */
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  centerText(doc, "Feuille de production braille", pageWidth, y);
+
+  y += 15;
+  drawLine(doc, y);
+  y += 10;
+
+  /* ---------------- MÉTADONNÉES BANQ ---------------- */
+  doc.setFontSize(10);
+
+  writeLabelValue(doc, "GBQ", formValue.noBonCommandeBANQ, 20, y); y += 6;
+  if(formValue.prioritaireBANQ == true){
+    writeLabelValue(doc, "Prioritaire:", "Priorité", 20, y); y += 6;
+  } else if(formValue.regulierBANQ == true) {
+    writeLabelValue(doc, "Prioritaire:", "Régulier", 20, y); y += 6;
+  }
+  writeLabelValue(doc, "Titre:", formValue.titreProjetBANQ, 20, y); y += 6;
+  writeLabelValue(doc, "Sous-titre:", formValue.soustitreProjetBANQ, 20, y); y += 6;
+  writeLabelValue(doc, "Auteur:", formValue.auteurBANQ, 20, y); y += 6;
+  writeLabelValue(doc, "Éditeur:", formValue.editeurBANQ, 20, y); y += 6;
+  writeLabelValue(doc, "Lieu d’édition:", formValue.lieuEditionBANQ, 20, y); y += 6;
+  writeLabelValue(doc, "Date d’édition:", formValue.dateEditionBANQ, 20, y); y += 6;
+  writeLabelValue(doc, "Collection:", formValue.collectionBANQ, 20, y); y += 10;
+
+  drawLine(doc, y);
+  y += 10;
+
+  /* ---------------- TABLEAU PRODUCTION ---------------- */
+  const headers = [
+    "Numéro fichier .dxb",
+    "Détail de la pagination",
+    "Nombre de pages total (pair)",
+    "Notes prod."
+  ];
+
+  /* ---------------- ROW SOURCE ---------------- */
+  let rows: any[] = [];
+  const formType = phase.selectedTypes;
+
+  if (formType.includes("brailleBANQ")) {
+    rows = [
+      ...(phase.brailleBANQ.tableProductionBrailleBA || []),
+      ...(phase.brailleBANQ.tableProductionBrailleBI || [])
+    ];
+  }
+
+  if (formType.includes("brailleBANQ2")) {
+    rows = phase.brailleBANQ2.tableProductionBrailleBAOUBI || [];
+  }
+
+  if (!rows.length) {
+    doc.text("Aucune donnée de production.", 20, y);
+    doc.save("Feuille_production_braille.pdf");
+    return;
+  }
+
+  /* ---------------- WIDTH CALCULATION ---------------- */
+  const valuesMatrix = rows.map(r => [
+    r.noFichProdBraille,
+    r.detProdBraille,
+    r.nbsPageProdBraille,
+    r.noteProdBraille
+  ]);
+
+  const tableWidth = pageWidth - 40;
+
+  const minWidths = [30, 60, 30, 30]; // minimum width in points
+  const widths = computeColumnWidths(doc, headers, valuesMatrix, minWidths, tableWidth);
+
+  /* ---------------- HEADERS ---------------- */
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(10);
+
+  let x = 20;
+
+  // 1️⃣ Split headers
+  const headerLines = headers.map((h, i) =>
+    doc.splitTextToSize(h, widths[i] - 2)
+  );
+
+  // 2️⃣ Compute max header height
+  const headerHeight =
+    Math.max(...headerLines.map(lines => lines.length)) * 5;
+
+  // 3️⃣ Draw wrapped headers
+  headerLines.forEach((lines, i) => {
+    doc.text(lines, x, y);
+    x += widths[i];
+  });
+
+  // 4️⃣ Move y correctly
+  y += headerHeight;
+  drawLine(doc, y);
+  y += 4;
+
+  doc.setFont("helvetica", "normal");
+
+
+  /* ---------------- ROWS ---------------- */
+  rows.forEach(row => {
+    const values = [
+      row.noFichProdBraille,
+      row.detProdBraille,
+      row.nbsPageProdBraille,
+      row.noteProdBraille
+    ];
+
+    const rowHeight =
+  Math.max(
+    ...values.map((val, i) =>
+      doc.splitTextToSize(String(val || ""), widths[i] - 2).length
+    )
+  ) * 5;
+
+
+    if (y + rowHeight > 280) {
+      doc.addPage();
+      y = 20;
+
+      // repeat headers on new page
+      doc.setFont("helvetica", "bold");
+      x = 20;
+      headers.forEach((h, i) => {
+        doc.text(h, x, y);
+        x += widths[i];
+      });
+      y += 6;
+      drawLine(doc, y);
+      y += 4;
+      doc.setFont("helvetica", "normal");
+    }
+
+    x = 20;
+    values.forEach((val, i) => {
+      const split = doc.splitTextToSize(String(val || ""), widths[i] - 2);
+
+      doc.text(split, x, y);
+
+      x += widths[i];
+    });
+
+
+    y += rowHeight;
+  });
+
+  /* ---------------- SAVE ---------------- */
+  const fileName = formValue.titreProjetBANQ + "_Feuille_production_braille";
+
+  doc.save(`${fileName}.pdf`);
+}
+
+
+function computeColumnWidths(
+  doc: jsPDF,
+  headers: string[],
+  rows: any[][],
+  minWidths: number[],
+  maxTableWidth: number
+) {
+  const widths = [...minWidths];
+
+  headers.forEach((h, i) => {
+    widths[i] = Math.max(widths[i], doc.getTextWidth(h) + 4);
+  });
+
+  rows.forEach(row => {
+    row.forEach((cell, i) => {
+      const textWidth = doc.getTextWidth(String(cell || "")) + 4;
+      widths[i] = Math.max(widths[i], textWidth);
+    });
+  });
+
+  // Scale down if table too wide
+  const totalWidth = widths.reduce((a, b) => a + b, 0);
+  if (totalWidth > maxTableWidth) {
+    const scale = maxTableWidth / totalWidth;
+    return widths.map(w => w * scale);
+  }
+
+  return widths;
+}
+
+
+
+function writeLabelValue(
+  doc: jsPDF,
+  label: string,
+  value?: string,
+  x = 20,
+  y = 20
+) {
+  doc.setFont("helvetica", "bold");
+  doc.text(`${label}`, x, y);
+  doc.setFont("helvetica", "normal");
+  doc.text(value || "—", x + 50, y);
+}
+
+
+//#endregion
 
 
 

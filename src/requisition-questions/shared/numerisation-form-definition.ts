@@ -22,6 +22,9 @@ export const numerisationFormFields = [
   { label: 'Numérisation - nom du fichier source ou description de la production', type: 'header4' },
   { key: 'nomFichierSourceNum', label: 'Nom/Description', label2:"Numérisation - nom du fichier source ou description de la production", type: 'textarea' },
   
+  { label: 'Numérisation - spécifications du client', type: 'header4' },
+  { key: 'specificationsClientNum', label: 'Spécifications du client', type: 'textarea', label2:"Numérisation - spécifications du client" },
+
   { label: 'Numérisation - commentaire', type: 'header4' },
   { key: 'commentaireNum', label: 'Commentaire', type: 'textarea', label2:"Numérisation - commentaire" },
   
