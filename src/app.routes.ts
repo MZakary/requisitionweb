@@ -4,7 +4,7 @@ import { Dashboard } from './app/pages/dashboard/dashboard';
 import { Notfound } from './app/pages/notfound/notfound';
 import { RequisitionJSON } from './app/pages/RequisitionJSON/RequisitionJSON';
 import { ConfirmExitGuard } from './app/pages/Guard/confirm-exit.guard';
-import { Production } from './app/pages/Production/Production';
+import { ProductionComponent } from './app/pages/Production/production.component';
 
 export const appRoutes: Routes = [
     {
@@ -19,10 +19,10 @@ export const appRoutes: Routes = [
             { path: 'requisition-json-banq', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
             { path: 'requisition-json-hydroqc', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
             { path: 'requisition-json-materiel', component: RequisitionJSON, canDeactivate: [ConfirmExitGuard] },
-            { path: 'production', component: Production, canDeactivate: [ConfirmExitGuard] },
+            { path: 'projets', component: ProductionComponent, canDeactivate: [ConfirmExitGuard] },
             { path: 'notfound', component: Notfound, canDeactivate: [ConfirmExitGuard] },
 
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
+            // { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
         ]
     },
     // { path: 'notfound', component: Notfound, canDeactivate: [ConfirmExitGuard] },

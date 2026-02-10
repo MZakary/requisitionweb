@@ -39,7 +39,7 @@ export class AppMenu implements OnInit, OnDestroy {
       },
       { separator: true },
       {label: 'Base de données', items: [
-          { label: 'Production', icon: 'pi pi-fw pi-warehouse', routerLink: ['/production'] },
+          { label: 'Projets', icon: 'pi pi-fw pi-warehouse', routerLink: ['/projets'] },
           { label: 'Revenu', icon: 'pi pi-fw pi-money-bill', routerLink: ['/revenu'] },
           { label: 'Prix', icon: 'pi pi-fw pi-dollar', routerLink: ['/prix'] },
       ]},

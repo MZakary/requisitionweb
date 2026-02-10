@@ -1,0 +1,113 @@
+<div class="card ProductionSection">
+
+  <h1 tabindex="-1" #pageTitle>Projets</h1>
+
+  <!-- LOADING SPINNER -->
+  <div class="Spinner" *ngIf="isLoading">
+    <p-progress-spinner
+      strokeWidth="8"
+      fill="transparent"
+      animationDuration=".5s"
+      [style]="{ width: '50px', height: '50px', stroke: 'var(--primary-color)' }"
+      aria-label="Chargement">
+    </p-progress-spinner>
+    <p>Chargement des réquisitions dans le R : ceci peut prendre un peu de temps</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+
+    <!-- REFRESH BUTTON -->
+    <button pButton label="Actualiser la base" (click)="refreshDB()"
+      class="button-refresh"
+      [style]="{padding: '10px 15px', background: 'var(--primary-color)', border: '1px solid var(--primary-color)', margin:'0 0 25px 0'}">
+    </button>
+
+    <!-- =========================
+         HOME MODE
+    ========================== -->
+    <ng-container *ngIf="viewMode === 'home'">
+
+      <!-- SEARCH BAR -->
+      <p-inputgroup class="SearchBar">
+        <input pInputText placeholder="Rechercher une réquisition" [(ngModel)]="searchTerm" (keydown.enter)="search()"
+          [style]="{padding: '10px 15px'}" />
+        <p-button label="Search" (click)="search()"
+          [style]="{padding: '10px 15px', background: 'var(--primary-color)', border: '1px solid var(--primary-color)', borderRadius: '0 10px 10px 0'}">
+        </p-button>
+      </p-inputgroup>
+
+      <!-- TYPE BUTTONS -->
+      <ul class="productionGrid">
+        <li *ngFor="let type of productionTypes">
+          <button class="productionButton" (click)="selectType(type.value)">
+            <h2>{{ type.label }}</h2>
+          </button>
+        </li>
+      </ul>
+
+    </ng-container>
+
+    <!-- =========================
+         FILTER MODE – STAGES
+    ========================== -->
+    <ng-container *ngIf="viewMode === 'filter' && selectedType && !selectedStage">
+
+      <h2>Étapes de la production</h2>
+
+      <ul class="productionGrid">
+        <li *ngFor="let stage of productionStages">
+          <button class="productionButton" (click)="selectStage(stage.value)">
+            <h3>{{ stage.label }}</h3>
+          </button>
+        </li>
+      </ul>
+
+    </ng-container>
+
+    <!-- =========================
+         RESULTS (SEARCH OR FILTER)
+    ========================== -->
+    <ng-container *ngIf="viewMode === 'search' || selectedStage || selectedType">
+
+      <!-- SEARCH HEADER -->
+      <h2 *ngIf="viewMode === 'search'">
+        Résultats pour « {{ searchTerm }} »
+      </h2>
+
+      <!-- FILTER/STAGE HEADER -->
+      <h2 *ngIf="selectedStage">
+        {{ selectedType }} – {{ selectedStage }}
+      </h2>
+
+      <!-- RESULTS LIST -->
+      <ul class="listOfItems">
+        <li *ngFor="let r of filteredRequisitions" class="item">
+          <button class="itemButton">
+            <div><strong>{{ r.Id }}</strong></div>
+            <div>{{ r.NomProjet || '—' }}</div>
+            <div>{{ r.DateDemande || '—' }}</div>
+            <div>{{ r.TypeProdDemande || '—' }}</div>
+            <div>{{ r.DateLivraison || r.DateRequise || '—' }}</div>
+            <div>{{ r.Statut || '—' }}</div>
+          </button>
+        </li>
+      </ul>
+
+      <!-- ACTION BUTTONS -->
+      <ul class="buttonList">
+        <li *ngIf="selectedStage">
+          <p-button label="Retour aux étapes" (click)="backToStages()"
+            [style]="{background: 'var(--primary-color)', border: '1px solid var(--primary-color)'}">
+          </p-button>
+        </li>
+        <li>
+          <p-button label="Retour au début" (click)="resetAll()"
+            [style]="{background: 'var(--primary-color)', border: '1px solid var(--primary-color)'}">
+          </p-button>
+        </li>
+      </ul>
+
+    </ng-container>
+  </div>
+
+</div>
