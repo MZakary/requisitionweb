@@ -19,4 +19,12 @@ export class RequisitionDbService {
     return (window as any).electronAPI.uploadProject(projet); // Placeholder for actual IPC call
   }
 
+  async updateInDB(projet: ProjetRow): Promise<boolean> {
+    return (window as any).electronAPI.updateProject(projet);
+  }
+
+  async findProject(requisitionNum: string, phaseNum: number): Promise<ProjetRow | null> {
+    return (window as any).electronAPI.findProject(requisitionNum, phaseNum);
+  }
+
 }

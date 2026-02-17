@@ -150,6 +150,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.setupCalculations();
     this.setupPhaseCalculations();
     this.setupETextAutoCopy(); // Add this line
+    this.setupPhaseChangeTracking();
     //this.FunctionsForRequisitionTypes();
 
     this.handleAltF4(); // Handle Alt+F4 to prevent default close behavior
@@ -501,6 +502,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const newPhase = this.fb.group({
       selectedTypes: this.fb.control<string[]>([]),
       uploaded: this.fb.control<boolean>(false),
+      needsUpdate: this.fb.control<boolean>(false),
       etext: this.buildProductionGroup(this.eTextFormFields),
       braille: this.buildProductionGroup(this.brailleFormFields),
       grossi: this.buildProductionGroup(this.grossiFormFields),
@@ -796,6 +798,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const phaseGroup = this.fb.group({
       selectedTypes: [phaseData.selectedTypes || []],
       uploaded: [phaseData.uploaded || false], // Preserve the uploaded flag
+      needsUpdate: [phaseData.needsUpdate || false],
     }) as FormGroup;
 
     const selectedTypes: string[] = phaseData.selectedTypes || [];
@@ -887,7 +890,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       const selected: string[] = phase.selectedTypes || [];
       const optimized: any = {
         selectedTypes: selected,
-        uploaded: phase.uploaded || false // Include the uploaded flag
+        uploaded: phase.uploaded || false, // Include the uploaded flag
+        needsUpdate: phase.needsUpdate || false // Include the needsUpdate flag
       };
 
       for (const type of selected) {
@@ -1430,20 +1434,25 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     if (result.success) {
       console.log('Projects uploaded successfully');
 
-      // Update the phases in the form with the uploaded flags
+      // Update the phases in the form with the new flags
       if (result.updatedPhases) {
         const phasesArray = this.phases;
         result.updatedPhases.forEach((updatedPhase, index) => {
           const phaseGroup = phasesArray.at(index) as FormGroup;
           phaseGroup.get('uploaded')?.setValue(updatedPhase.uploaded, { emitEvent: false });
+          phaseGroup.get('needsUpdate')?.setValue(updatedPhase.needsUpdate || false, { emitEvent: false });
         });
       }
 
-      // Calculate how many were newly uploaded
-      const newlyUploaded = result.updatedPhases?.filter(p => p.uploaded).length || 0;
-      this.showPopUpDialog(`${newlyUploaded} nouveau(x) projet(s) téléversé(s) avec succès.`, 'Succès');
+      const uploadedCount = result.updatedPhases?.filter(p => p.uploaded).length || 0;
+      const updatedCount = result.updatedPhases?.filter(p => p.needsUpdate === false && p.uploaded === true).length || 0;
 
-      // Mark form as dirty so user knows they need to save to persist the uploaded flags
+      let message = '';
+      if (uploadedCount > 0) message += `${uploadedCount} nouveau(x) projet(s) téléversé(s). `;
+      if (updatedCount > 0) message += `${updatedCount} projet(s) mis à jour.`;
+
+      this.showPopUpDialog(message || 'Aucun changement.', 'Succès');
+
       this.form.markAsDirty();
     } else {
       this.showPopUpDialog(
@@ -1452,6 +1461,31 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       );
     }
   }
+
+  // Add this in your component to mark phases as needing update when modified
+  private setupPhaseChangeTracking() {
+    // Listen for changes in the phases FormArray
+    this.phases.valueChanges.subscribe(() => {
+      this.checkForPhaseModifications();
+    });
+  }
+
+  private checkForPhaseModifications() {
+    const phasesArray = this.phases;
+
+    phasesArray.controls.forEach((phaseGroup, index) => {
+      const uploaded = phaseGroup.get('uploaded')?.value;
+
+      // If this phase was uploaded and we're not already tracking a modification
+      if (uploaded) {
+        // Mark as needing update
+        phaseGroup.get('needsUpdate')?.setValue(true, { emitEvent: false });
+        console.log(`Phase ${index + 1} marked as needing update due to modification`);
+      }
+    });
+  }
+
+
   //#endregion
 }
 

@@ -1,22 +1,22 @@
 export const externeFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionExterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRE', label2: 'Informations générales de la demande' },
-  { key: 'noCommandeExterne', label: 'Numéro de commande', type: 'text' },
-  { key: 'dateDemandeExterne', label: 'Date de la demande', type: 'text' },
-  { key: 'dateRequiseExterne', label: 'Date requise', type: 'text' },
-  { key: 'nomClientExterne', label: 'Nom du client', type: 'text' },
-  { key: 'noClientExterne', label: 'Numéro du client (si connu)', type: 'text' },
-  { key: 'nomContactExterne', label: 'Nom du contact', type: 'text' },
-  { key: 'courrielContactExterne', label: 'Courriel du contact', type: 'text' },
-  { key: 'noTelephoneExterne', label: 'Numéro de téléphone', type: 'text' },
-  { key: 'adresseFacturationExterne', label: 'Adresse de facturation postale et courriel', type: 'textarea' },
+  { key: 'noRequisition', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRE', label2: 'Informations générales de la demande' },
+  { key: 'noCommande', label: 'Numéro de commande', type: 'text' },
+  { key: 'dateDemande', label: 'Date de la demande', type: 'text' },
+  { key: 'dateRequise', label: 'Date requise', type: 'text' },
+  { key: 'nomClient', label: 'Nom du client', type: 'text' },
+  { key: 'noClient', label: 'Numéro du client (si connu)', type: 'text' },
+  { key: 'nomContact', label: 'Nom du contact', type: 'text' },
+  { key: 'courrielContact', label: 'Courriel du contact', type: 'text' },
+  { key: 'noTelephone', label: 'Numéro de téléphone', type: 'text' },
+  { key: 'adresseFacturation', label: 'Adresse de facturation postale et courriel', type: 'textarea' },
 
   { label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetExterne', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
+  { key: 'nomProjet', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
 
 
   {
-    key: 'confidentielExterne', type: 'checkbox-list', label: 'Confidentiel',
+    key: 'confidentiel', type: 'checkbox-list', label: 'Confidentiel',
     options: [
       { label: 'Oui', value: 'oui' },
       { label: 'Non', value: 'non' }
@@ -26,15 +26,15 @@ export const externeFormFields = [
 
   
   {
-    key: 'docSourceExterne', label: 'Document source', type: 'select',
+    key: 'docSource', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
       { label: 'À télécharger', value: 'telecharger' }
     ]
   },
-  { key: 'dosTravailExterne', label: 'Dossier de travail', type: 'text' },
+  { key: 'dosTravail', label: 'Dossier de travail', type: 'text' },
   {
-    key: 'langueExterne', label: 'Langue', type: 'select',
+    key: 'langue', label: 'Langue', type: 'select',
     options: [
       { label: 'Français', value: 'fra' },
       { label: 'Anglais', value: 'ang' },
@@ -42,9 +42,9 @@ export const externeFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'langueAutreExterne', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'langueAutre', label: 'Si autre, spécifier', type: 'text' },
 
-  { key: 'createurExterne', label: 'Réquisition préparée par', type: 'text' },
+  { key: 'createur', label: 'Réquisition préparée par', type: 'text' },
 ];
 
 export const externeFormFieldsAfterPhases = [

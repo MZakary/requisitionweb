@@ -1,34 +1,34 @@
 export const hydroqcFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionHydro', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRH', label2: 'Informations générales de la demande' },
-  { key: 'noDemandeHydro', label: 'Numéro de commande', type: 'text', defaultValue: 'N/D' },
-  { key: 'dateDemandeHydro', label: 'Date de la demande', type: 'text' },
-  { key: 'nomClientHydro', label: 'Nom du client', type: 'text', defaultValue: 'Hydro-Québec' },
-  { key: 'noClientHydro', label: 'Numéro du client (si connu)', type: 'text', defaultValue: '3000028' },
-  { key: 'nomContactHydro', label: 'Nom du contact', type: 'text', defaultValue: 'Stéphanie Broughton (Référence alpha CE8781)' },
-  { key: 'courrielContactHydro', label: 'Courriel du contact', type: 'text', defaultValue: 'broughton.stephanie@hydroquebec.com' },
-  { key: 'noTelephoneHydro', label: 'Numéro de téléphone', type: 'text', defaultValue: '514-858-8500' },
-  { key: 'adresseFacturationHydro', label: 'Adresse de facturation postale et courriel', type: 'textarea', defaultValue: "comptes.fournisseurs@hydro.qc.ca \n\n Hydro-Québec \n 8181, de L'Esplanade, Étage 02 \n Montréal (QC) H2P 2R5 \n\n # de fournisseur : 1035972" },
+  { key: 'noRequisition', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRH', label2: 'Informations générales de la demande' },
+  { key: 'noDemande', label: 'Numéro de commande', type: 'text', defaultValue: 'N/D' },
+  { key: 'dateDemande', label: 'Date de la demande', type: 'text' },
+  { key: 'nomClient', label: 'Nom du client', type: 'text', defaultValue: 'Hydro-Québec' },
+  { key: 'noClient', label: 'Numéro du client (si connu)', type: 'text', defaultValue: '3000028' },
+  { key: 'nomContact', label: 'Nom du contact', type: 'text', defaultValue: 'Stéphanie Broughton (Référence alpha CE8781)' },
+  { key: 'courrielContact', label: 'Courriel du contact', type: 'text', defaultValue: 'broughton.stephanie@hydroquebec.com' },
+  { key: 'noTelephone', label: 'Numéro de téléphone', type: 'text', defaultValue: '514-858-8500' },
+  { key: 'adresseFacturation', label: 'Adresse de facturation postale et courriel', type: 'textarea', defaultValue: "comptes.fournisseurs@hydro.qc.ca \n\n Hydro-Québec \n 8181, de L'Esplanade, Étage 02 \n Montréal (QC) H2P 2R5 \n\n # de fournisseur : 1035972" },
 
-  { key: 'infoGeneralHydro', label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetHydro', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
+  { key: 'infoGeneral', label: 'Informations spécifiques du document', type: 'header2' },
+  { key: 'nomProjet', label: 'Nom du projet', type: 'text', label2: "Informations spécifiques du document" },
   {
-    key: 'confidentielHydro', type: 'checkbox-list', label: 'Confidentiel', defaultValue: ['oui'],
+    key: 'confidentiel', type: 'checkbox-list', label: 'Confidentiel', defaultValue: ['oui'],
     options: [
       { label: 'Oui', value: 'oui' },
       { label: 'Non', value: 'non' }
     ]
   },
   {
-    key: 'docSourceHydro', label: 'Document source', type: 'select', defaultValue: 'retourner',
+    key: 'docSource', label: 'Document source', type: 'select', defaultValue: 'retourner',
     options: [
       { label: 'À retourner', value: 'retourner' },
       { label: 'À télécharger', value: 'telecharger' }
     ]
   },
-  { key: 'dosTravailHydro', label: 'Dossier de travail', type: 'text' },
+  { key: 'dosTravail', label: 'Dossier de travail', type: 'text' },
   {
-    key: 'langueHydro', label: 'Langue', type: 'select',
+    key: 'langue', label: 'Langue', type: 'select',
     options: [
       { label: 'Français', value: 'fra' },
       { label: 'Anglais', value: 'ang' },
@@ -36,7 +36,7 @@ export const hydroqcFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'langueAutreHydro', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'langueAutre', label: 'Si autre, spécifier', type: 'text' },
 
   { key: 'ReqPreparerPar', label: 'Réquisition préparée par', type: 'text' },
 

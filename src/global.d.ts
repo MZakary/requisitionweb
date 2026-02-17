@@ -21,6 +21,8 @@ declare global {
       searchProjects: (term: string) => Promise<ProjetRow[]>;
       getProjectsByType: (type: string) => Promise<ProjetRow[]>;
       uploadProject: (projet: ProjetRow) => Promise<boolean>;
+      updateProject: (projet: ProjetRow) => Promise<boolean>; // ← ADD THIS
+      findProject: (requisitionNum: string, phaseNum: number) => Promise<ProjetRow | null>; // ← ADD THIS
       
     };
   }

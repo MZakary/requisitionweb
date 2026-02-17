@@ -29,5 +29,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   searchProjects: (term) => ipcRenderer.invoke('db-search-projects', term),
   getProjectsByType: (type) => ipcRenderer.invoke('db-get-projects-by-type', type),
   uploadProject: (projet) => ipcRenderer.invoke('db-upload-project', projet),
+  updateProject: (projet) => ipcRenderer.invoke('db-update-project', projet), // ← ADD THIS
+  findProject: (requisitionNum, phaseNum) => ipcRenderer.invoke('db-find-project', requisitionNum, phaseNum),
 });
 

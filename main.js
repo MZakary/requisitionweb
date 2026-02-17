@@ -411,7 +411,7 @@ ipcMain.handle('db-get-all-projects', () => {
 
 ipcMain.handle('db-search-projects', (_, term) => {
   return db.prepare('SELECT * FROM Projets WHERE NomProjet LIKE ? OR NumRequisition LIKE ?')
-           .all(`%${term}%`, `%${term}%`);
+    .all(`%${term}%`, `%${term}%`);
 });
 
 ipcMain.handle('db-get-projects-by-type', (_, type) => {
@@ -526,6 +526,84 @@ ipcMain.handle('db-upload-project', (_, projet) => {
     return false;
   }
 });
+// Add this with your other database handlers in main.js
 
+ipcMain.handle('db-find-project', (_, requisitionNum, phaseNum) => {
+  console.log('🔍 Finding project:', { requisitionNum, phaseNum });
+  try {
+    const result = db.prepare(`
+      SELECT * FROM Projets 
+      WHERE NumRequisition = ? AND NoPhase = ?
+    `).get(requisitionNum, phaseNum);
+
+    console.log('✅ Find result:', result);
+    return result || null;
+  } catch (err) {
+    console.error('❌ Failed to find project:', err);
+    return null;
+  }
+});
+
+ipcMain.handle('db-update-project', (_, projet) => {
+  console.log('📝 Updating project:', projet);
+  try {
+    const stmt = db.prepare(`
+      UPDATE Projets SET
+        Statut = @Statut,
+        NumPOBCDDT = @NumPOBCDDT,
+        SessionEtude = @SessionEtude,
+        DateDemande = @DateDemande,
+        PeriodeFinanciereDemande = @PeriodeFinanciereDemande,
+        TypeClient = @TypeClient,
+        Client = @Client,
+        SousCentreActivite = @SousCentreActivite,
+        NomContact = @NomContact,
+        NomProjet = @NomProjet,
+        TypeProdDemande = @TypeProdDemande,
+        NumFichier = @NumFichier,
+        DateRequise = @DateRequise,
+        NoPhase = @NoPhase,
+        NoPageImprimer = @NoPageImprimer,
+        Complexite = @Complexite,
+        TechMulti = @TechMulti,
+        DateTermineMulti = @DateTermineMulti,
+        HeureTravailleMulti = @HeureTravailleMulti,
+        TechTactile = @TechTactile,
+        DateTermineTactile = @DateTermineTactile,
+        HeureTravailleTactile = @HeureTravailleTactile,
+        TotalHeureTravaille = @TotalHeureTravaille,
+        ProdPagesBrailleAbrege = @ProdPagesBrailleAbrege,
+        ProdPagesBrailleIntegral = @ProdPagesBrailleIntegral,
+        NoVolBraille = @NoVolBraille,
+        NoCarETextOuAgrandi = @NoCarETextOuAgrandi,
+        NoPageCarAgrandis = @NoPageCarAgrandis,
+        NoDessinStandards = @NoDessinStandards,
+        NoDessinComplexes = @NoDessinComplexes,
+        NoPagesDessins = @NoPagesDessins,
+        NoPagesAgrandisNumPDF = @NoPagesAgrandisNumPDF,
+        NoPDFHTMLFORM = @NoPDFHTMLFORM,
+        NoSonore = @NoSonore,
+        No3D = @No3D,
+        NoQuantite = @NoQuantite,
+        DateLivraison = @DateLivraison,
+        PeriodeFinLivraison = @PeriodeFinLivraison,
+        TotalFacture = @TotalFacture,
+        PrixCalcul = @PrixCalcul,
+        DateFacture = @DateFacture,
+        PeriodeFinanciereFacture = @PeriodeFinanciereFacture,
+        NoFacture = @NoFacture,
+        MontantFactCISSSMC = @MontantFactCISSSMC,
+        Commentaire = @Commentaire
+      WHERE NumRequisition = @NumRequisition AND NoPhase = @NoPhase
+    `);
+
+    const result = stmt.run(projet);
+    console.log('✅ Update result:', result);
+    return result.changes > 0;
+  } catch (err) {
+    console.error('❌ Failed to update project:', err);
+    return false;
+  }
+});
 
 //#endregion

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { RequisitionDbService } from './requisition-db.service';
 import { ProjectMapperService } from './project-mapper.service';
 
+// project-upload.service.ts
 @Injectable({ providedIn: 'root' })
 export class ProjectUploadService {
 
@@ -18,17 +19,17 @@ export class ProjectUploadService {
     requisitionType: string
   ): Promise<{ success: boolean; message: string; updatedPhases: any[] }> {
     try {
-      const updatedPhases = [...phases]; // Create a copy to modify
+      const updatedPhases = [...phases];
       
       if (needsPhase && phases.length > 0) {
-        await this.uploadPhases(formValue, phases, updatedPhases, requisitionType);
+        await this.uploadOrUpdatePhases(formValue, phases, updatedPhases, requisitionType);
       } else {
         await this.uploadRequisition(formValue, requisitionType);
       }
       
       return { 
         success: true, 
-        message: 'Projects uploaded successfully',
+        message: 'Projects synchronized successfully',
         updatedPhases: updatedPhases
       };
     } catch (error) {
@@ -36,12 +37,12 @@ export class ProjectUploadService {
       return { 
         success: false, 
         message: error instanceof Error ? error.message : 'Unknown upload error',
-        updatedPhases: phases // Return original phases on error
+        updatedPhases: phases
       };
     }
   }
 
-  private async uploadPhases(
+  private async uploadOrUpdatePhases(
     formValue: any, 
     phases: any[], 
     updatedPhases: any[],
@@ -50,26 +51,40 @@ export class ProjectUploadService {
     for (let i = 0; i < phases.length; i++) {
       const phase = phases[i];
       
-      // Only upload if not already uploaded
-      if (!phase.uploaded) {
-        const project = this.projectMapper.createProjectFromPhase(
-          formValue, 
-          phase, 
-          i + 1, 
-          requisitionType
-        );
-        
-        const success = await this.requisitionDbService.uploadToDB(project);
-        
+      const project = this.projectMapper.createProjectFromPhase(
+        formValue, 
+        phase, 
+        i + 1, 
+        requisitionType
+      );
+      
+      let success = false;
+      
+      if (phase.needsUpdate) {
+        // Phase needs update → UPDATE
+        console.log(`Phase ${i + 1} needs update, updating...`);
+        success = await this.requisitionDbService.updateInDB(project);
         if (success) {
-          // Mark as uploaded in our copy
-          updatedPhases[i] = { ...phase, uploaded: true };
-          console.log(`Phase ${i + 1} uploaded successfully`);
-        } else {
-          throw new Error(`Failed to upload phase ${i + 1}`);
+          // Clear the needsUpdate flag after successful update
+          updatedPhases[i] = { ...phase, uploaded: true, needsUpdate: false };
+        }
+      } else if (!phase.uploaded) {
+        // New phase → INSERT
+        console.log(`Phase ${i + 1} is new, inserting...`);
+        success = await this.requisitionDbService.uploadToDB(project);
+        if (success) {
+          updatedPhases[i] = { ...phase, uploaded: true, needsUpdate: false };
         }
       } else {
-        console.log(`Phase ${i + 1} already uploaded, skipping`);
+        console.log(`Phase ${i + 1} already uploaded and up to date, skipping`);
+        updatedPhases[i] = phase; // Keep as is
+        continue;
+      }
+      
+      if (success) {
+        console.log(`Phase ${i + 1} synchronized successfully`);
+      } else {
+        throw new Error(`Failed to sync phase ${i + 1}`);
       }
     }
   }
@@ -78,8 +93,7 @@ export class ProjectUploadService {
     formValue: any, 
     requisitionType: string
   ): Promise<void> {
-    // For non-phase requisitions, you might want to check if it's already uploaded
-    // You could add an 'uploaded' flag at the root level for these types
+    // Similar logic for non-phase requisitions
     const project = this.projectMapper.createProjectFromRequisition(
       formValue, 
       requisitionType

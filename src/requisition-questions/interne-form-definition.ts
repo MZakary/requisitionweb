@@ -1,29 +1,29 @@
 //import { productionFields } from './shared/productionFields';
 export const interneFormFields = [
   { label: 'Informations générales de la demande', type: 'header2' },
-  { key: 'noRequisitionInterne', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRI', label2: 'Informations générales de la demande' },
-  { key: 'dateDemandeInterne', label: 'Date de la demande', type: 'text' },
-  { key: 'dateRequiseInterne', label: 'Date requise', type: 'text' },
-  { key: 'nomDirectionInterne', label: 'Nom de la direction', type: 'text' },
-  { key: 'nomProgramServiceInterne', label: 'Nom du programme ou du service', type: 'text' },
-  { key: 'nomDemandeurInterne', label: 'Nom du demandeur', type: 'text' },
+  { key: 'noRequisition', label: 'Numéro de réquisition', type: 'text', defaultValue: 'AIRI', label2: 'Informations générales de la demande' },
+  { key: 'dateDemande', label: 'Date de la demande', type: 'text' },
+  { key: 'dateRequise', label: 'Date requise', type: 'text' },
+  { key: 'nomDirection', label: 'Nom de la direction', type: 'text' },
+  { key: 'nomProgramService', label: 'Nom du programme ou du service', type: 'text' },
+  { key: 'nomDemandeur', label: 'Nom du demandeur', type: 'text' },
   
   { label: 'Informations spécifiques du document', type: 'header2', label2: "Informations spécifiques du document" },
-  { key: 'nomProjetInterne', label: 'Nom du projet', type: 'text' },
-  { key: 'confidentielInterne', type: 'checkbox-list', label: 'Confidentiel',
+  { key: 'nomProjet', label: 'Nom du projet', type: 'text' },
+  { key: 'confidentiel', type: 'checkbox-list', label: 'Confidentiel',
     options: [
       { label: 'Oui', value: 'recto' },
       { label: 'Non', value: 'rectoVerso' }
     ]
   },
-  { key: 'docSourceInterne', label: 'Document source', type: 'select',
+  { key: 'docSource', label: 'Document source', type: 'select',
     options: [
       { label: 'À retourner', value: 'retourner' },
       { label: 'À télécharger', value: 'telecharger' }
     ]
   },
-  { key: 'dosTravailInterne', label: 'Dossier de travail', type: 'text' },
-  { key: 'langueInterne', label: 'Langue', type: 'select',
+  { key: 'dosTravail', label: 'Dossier de travail', type: 'text' },
+  { key: 'langue', label: 'Langue', type: 'select',
     options: [
       { label: 'Français', value: 'fra' },
       { label: 'Anglais', value: 'ang' },
@@ -31,8 +31,8 @@ export const interneFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
-  { key: 'langueAutreInterne', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'createurInterne', label: 'Réquisition préparée par', type: 'text' },
+  { key: 'langueAutre', label: 'Si autre, spécifier', type: 'text' },
+  { key: 'createur', label: 'Réquisition préparée par', type: 'text' },
 ];
 
 export const interneFormFieldsAfterPhases = [

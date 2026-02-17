@@ -11,10 +11,11 @@ export class ProjectMapperService {
     phaseNumber: number, 
     requisitionType: string
   ): ProjetRow {
+    console.log(formValue, phase, phaseNumber, requisitionType);
     return {
       Id: 0,
       Statut: 'Nouveau',
-      NumRequisition: formValue.numeroRequisition || '',
+      NumRequisition: formValue.noRequisition || '',
       NumPOBCDDT: formValue.numeroPOBCDDT || 0,
       SessionEtude: formValue.sessionEtude || '',
       DateDemande: formValue.dateDemande || new Date().toISOString().split('T')[0],
@@ -75,7 +76,7 @@ export class ProjectMapperService {
       Client: formValue.nomClient || formValue.nomClientScolaire || '',
       SousCentreActivite: formValue.sousCentreActivite || '',
       NomContact: formValue.nomContact || '',
-      NomProjet: `${formValue.numeroRequisition || 'Réquisition'} - ${formValue.description || ''}`,
+      NomProjet: formValue.nomProjet || '',
       TypeProdDemande: requisitionType,
       NumFichier: formValue.numFichier || '',
       DateRequise: formValue.dateRequise || '',
