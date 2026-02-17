@@ -39,7 +39,8 @@
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
     <p-button label="Télécharger Page Titre" (onClick)="genererPageTitre()" *ngIf="requisitionTypeString == 'banq'"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
-    <p-button label="Télécharger Feuille de Production" (onClick)="generateFeuilleProd()" *ngIf="requisitionTypeString == 'banq'"
+    <p-button label="Télécharger Feuille de Production" (onClick)="generateFeuilleProd()"
+      *ngIf="requisitionTypeString == 'banq'"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
   </div>
 
@@ -224,12 +225,12 @@
             <!-- Manual Override Toggle Button -->
             <p-button [icon]="row.get('_manualOverride')?.value ? 'pi pi-replay' : 'pi pi-pencil'"
               (click)="toggleManualOverride(field.key, i)"
-              [label]="row.get('_manualOverride')?.value ? 'Retour automatique' : 'Modifier manuellement'" 
+              [label]="row.get('_manualOverride')?.value ? 'Retour automatique' : 'Modifier manuellement'"
               [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
             </p-button>
 
             <p-button icon="pi pi-trash" (click)="removeTopLevelTableRow(field.key, i)" label="Effacer"
-            [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
+              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
             </p-button>
           </div>
         </div>
@@ -261,7 +262,12 @@
 
         <div formArrayName="phases" *ngIf="needsPhase">
           <div *ngFor="let phase of phases.controls; let i = index" [formGroupName]="i" class="phase-section">
-            <h3 tabindex="-1" #phaseTitle role="heading" aria-level="3">Phase {{ i + 1 }}</h3>
+            <div class="phase-header">
+              <h3 tabindex="-1" #phaseTitle role="heading" aria-level="3">Phase {{ i + 1 }}</h3>
+              <div *ngIf="phase.get('uploaded')?.value" class="uploaded-badge"><i class="pi pi-check-circle" style="font-size: 1rem"></i> Téléversé à la BD</div>
+              <div *ngIf="phase.get('needsUpdate')?.value" class="uploaded-badge"><i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i> Modification non synchronisée avec la BD</div>
+
+            </div> 
             <!-- <div aria-live="polite" class="sr-only" #phaseAnnounce></div> -->
 
             <!-- List of checkboxes for selectedTypes -->
@@ -494,11 +500,12 @@
     <!-- <p-button *ngIf="lockedFilePath" label="Enregistrer sous un nouveau nom" (onClick)="downloadJsonNew()" [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button> -->
     <p-button label="Télécharger PDF" (onClick)="testFunction()"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
-      
+
     <p-button label="Télécharger Page Titre" (onClick)="genererPageTitre()" *ngIf="requisitionTypeString == 'banq'"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
 
-    <p-button label="Télécharger Feuille de Production" (onClick)="generateFeuilleProd()" *ngIf="requisitionTypeString == 'banq'"
+    <p-button label="Télécharger Feuille de Production" (onClick)="generateFeuilleProd()"
+      *ngIf="requisitionTypeString == 'banq'"
       [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
 
   </div>

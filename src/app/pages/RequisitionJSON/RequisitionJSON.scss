@@ -201,6 +201,12 @@
       border: 1px solid var(--primary-color);
       border-radius: 8px;
 
+      .phase-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
       .production-types {
         display: flex;
         flex-wrap: wrap;

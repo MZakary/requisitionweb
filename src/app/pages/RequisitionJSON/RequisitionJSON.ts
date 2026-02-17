@@ -18,6 +18,7 @@ import { TocService } from '../../layout/service/toc.service';
 import { take } from 'rxjs/operators';
 import { NgZone } from '@angular/core';
 import { Textarea } from 'primeng/textarea';
+import { ProjectUploadService } from '../../services/project-upload.service';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -99,6 +100,9 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   private isImporting = false;
 
+  private uploadedPhaseIds: Set<string> = new Set(); // Track uploaded phases by a unique identifier
+  private currentProjectIds: number[] = [];
+
 
   @ViewChild('pageTitle') pageTitle!: ElementRef;
   @ViewChildren('phaseTitle') phaseTitles!: QueryList<ElementRef>;
@@ -131,7 +135,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   lockedFilePath: string | null = null;
 
   constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService,
-    private ngZone: NgZone
+    private ngZone: NgZone, private projectUploadService: ProjectUploadService
   ) {
 
     // setInterval(() => {
@@ -496,6 +500,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   addPhase(): void {
     const newPhase = this.fb.group({
       selectedTypes: this.fb.control<string[]>([]),
+      uploaded: this.fb.control<boolean>(false),
       etext: this.buildProductionGroup(this.eTextFormFields),
       braille: this.buildProductionGroup(this.brailleFormFields),
       grossi: this.buildProductionGroup(this.grossiFormFields),
@@ -702,7 +707,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         return;
       }
 
-
       // 📥 Step 3: Read the file contents
       const response = await fetch(`file://${filePath}`);
       const jsonText = await response.text();
@@ -712,7 +716,6 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       if (!data.ReqType) {
         console.warn("Legacy JSON file detected (no ReqType). Skipping type validation.");
         this.showPopUpDialog("Ce fichier JSON est d'un format plus ancien et ne contient pas le type de réquisition. Un type sera rajouté automatiquement à l'enregistrement.", "Type de réquisition inconnu");
-        // You could also show a gentle UI notice if you want.
       } else {
         const expected = this.requisitionTypeString.toLowerCase();
         const actual = data.ReqType.toLowerCase();
@@ -727,9 +730,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         }
       }
 
-
+      // 📝 Patch the form with loaded data
       this.patchFormFromData(data);
       this.lockedFilePath = filePath;
+
+      // 🏷️ If the file has a requisition number, we could potentially load
+      // previously uploaded phases from the database here in the future
+      // For now, we just start fresh with tracking
 
       setTimeout(() => {
         this.cd.detectChanges();
@@ -739,8 +746,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         elements.forEach(el => {
           el.dispatchEvent(new Event('input', { bubbles: true }));
         });
-
       }, 0);
+
+      // Optional: Show how many phases were previously uploaded
+      // You could add a small notification here later
+
     } catch (error) {
       console.error('Erreur lors de l’importation du fichier JSON:', error);
       this.showPopUpDialog('Erreur lors de la lecture ou du verrouillage du fichier.', 'Fichier invalide');
@@ -785,6 +795,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   private addPhaseFromData(phaseData: any): void {
     const phaseGroup = this.fb.group({
       selectedTypes: [phaseData.selectedTypes || []],
+      uploaded: [phaseData.uploaded || false], // Preserve the uploaded flag
     }) as FormGroup;
 
     const selectedTypes: string[] = phaseData.selectedTypes || [];
@@ -874,7 +885,10 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     // Process phases
     result.phases = raw.phases.map((phase: any) => {
       const selected: string[] = phase.selectedTypes || [];
-      const optimized: any = { selectedTypes: selected };
+      const optimized: any = {
+        selectedTypes: selected,
+        uploaded: phase.uploaded || false // Include the uploaded flag
+      };
 
       for (const type of selected) {
         const value = phase[type];
@@ -893,25 +907,26 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
 
   async downloadJson() {
+    // 1. Upload any new phases to DB and update the form's uploaded flags
+    await this.uploadProjectsToDB();
+
+    // 2. Build JSON with the updated flags
     const data = {
       ReqType: this.requisitionTypeString,
       ...this.buildJson()
     };
     const jsonData = JSON.stringify(data, null, 2);
-    //console.log('Téléchargement des données JSON:', jsonData);
+
+    // 3. Save the file
     if (this.lockedFilePath) {
-      // Save back to original file
       const result = await window.electronAPI.saveJson(this.lockedFilePath, jsonData);
       if (!result.success) {
         console.error('Erreur lors de la sauvegarde du fichier:', result.error);
         this.showPopUpDialog('Impossible d\'enregistrer le fichier.', 'Erreur de sauvegarde');
+      } else {
+        this.showPopUpDialog('Fichier sauvegardé avec succès.', 'Succès de sauvegarde');
       }
-      // await window.electronAPI.unlockFile(this.lockedFilePath);
-      // this.lockedFilePath = null;
-      //console.log('Fichier sauvegardé et déverrouillé avec succès.');
-      this.showPopUpDialog('Fichier sauvegardé avec succès.', 'Succès de sauvegarde');
     } else {
-      // Fallback: browser download
       const blob = new Blob([jsonData], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -923,24 +938,25 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.form.markAsPristine();
   }
 
-  async downloadJsonNew() {
-    const data = {
-      ReqType: this.requisitionTypeString,
-      ...this.buildJson()
-    };
-    const jsonData = JSON.stringify(data, null, 2);
-    //console.log('Téléchargement des données JSON:', jsonData);
+  // async downloadJsonNew() {
+  //   const data = {
+  //     ReqType: this.requisitionTypeString,
+  //     ...this.buildJson()
+  //   };
+  //   const jsonData = JSON.stringify(data, null, 2);
+  //   //console.log('Téléchargement des données JSON:', jsonData);
 
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'requisition.json';
-    a.click();
-    URL.revokeObjectURL(a.href);
+  //   const blob = new Blob([jsonData], { type: 'application/json' });
+  //   const a = document.createElement('a');
+  //   a.href = URL.createObjectURL(blob);
+  //   a.download = 'requisition.json';
+  //   a.click();
+  //   URL.revokeObjectURL(a.href);
+  //   await this.uploadProjectsToDB();
 
 
-    this.form.markAsPristine();
-  }
+  //   this.form.markAsPristine();
+  // }
 
   async unlockAndOpenNew() {
     if (this.lockedFilePath) {
@@ -1399,6 +1415,42 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     this.form.valueChanges.subscribe(() => {
       // This will be handled by the main valueChanges subscription
     });
+  }
+  //#endregion
+
+  //#region DB SERVICES
+  async uploadProjectsToDB(): Promise<void> {
+    const result = await this.projectUploadService.uploadProjects(
+      this.form.value,
+      this.phases.value,
+      this.needsPhase,
+      this.requisitionTypeString
+    );
+
+    if (result.success) {
+      console.log('Projects uploaded successfully');
+
+      // Update the phases in the form with the uploaded flags
+      if (result.updatedPhases) {
+        const phasesArray = this.phases;
+        result.updatedPhases.forEach((updatedPhase, index) => {
+          const phaseGroup = phasesArray.at(index) as FormGroup;
+          phaseGroup.get('uploaded')?.setValue(updatedPhase.uploaded, { emitEvent: false });
+        });
+      }
+
+      // Calculate how many were newly uploaded
+      const newlyUploaded = result.updatedPhases?.filter(p => p.uploaded).length || 0;
+      this.showPopUpDialog(`${newlyUploaded} nouveau(x) projet(s) téléversé(s) avec succès.`, 'Succès');
+
+      // Mark form as dirty so user knows they need to save to persist the uploaded flags
+      this.form.markAsDirty();
+    } else {
+      this.showPopUpDialog(
+        `Erreur lors du téléversement: ${result.message}`,
+        'Erreur de téléversement'
+      );
+    }
   }
   //#endregion
 }
