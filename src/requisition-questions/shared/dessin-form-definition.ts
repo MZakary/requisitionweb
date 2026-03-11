@@ -1,29 +1,38 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
+
 export const dessinFormFields = [
   { label: 'Dessin - Informations générales', type: 'header4' },
-  { key: 'noFichierDessin', label: 'Numéro du fichier', label2:"Dessin - Informations Générales", type: 'text' },
+  { key: 'noFichierDessin', label: 'Numéro du fichier', label2: "Dessin - Informations Générales", type: 'text' },
+  { key: 'dateDemandeDessin', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseDessin', label: 'Date requise', type: 'text' },
   { key: 'reimpressionDessin', label: 'Réimpression', type: 'checkbox' },
   { key: 'quantiteDessin', label: 'Quantité', type: 'text' },
   { key: 'nbsEstimeDessin', label: 'Nombre de dessin estimé (si nécessaire)', type: 'text' },
-    { key: 'typeCheckboxDessin', type: 'checkbox-list',
+  {
+    key: 'typeCheckboxDessin', type: 'checkbox-list',
     options: [
       { label: 'Dessin tactile', value: 'dessinTactile' },
       { label: 'Dessin en caractères agrandis', value: 'dessinCaractAgrandis' },
     ]
   },
-  { key: 'niveauDifficulteDessin', label: 'Niveau de difficulté', type: 'select',
+  {
+    key: 'niveauDifficulteDessin', label: 'Niveau de difficulté', type: 'select',
     options: [
       { label: 'Standard', value: 'standard' },
       { label: 'Complexe', value: 'complexe' },
     ]
   },
-  { key: 'typeBrailleCheckboxDessin', type: 'checkbox-list',
+  {
+    key: 'typeBrailleCheckboxDessin', type: 'checkbox-list',
     options: [
       { label: 'Braille abrégé', value: 'abregeBraille' },
       { label: 'Braille intégral', value: 'integralBraille' },
     ]
   },
-  { key: 'codeBrailleBaseDessin', label: 'Code braille de base', type: 'select',
+  {
+    key: 'codeBrailleBaseDessin', label: 'Code braille de base', type: 'select',
     options: [
       { label: 'CBFU', value: 'cbfu' },
       { label: 'Anglais UEB', value: 'aueb' },
@@ -39,8 +48,9 @@ export const dessinFormFields = [
   { key: 'autreCodeBrailleDessin', label: 'Si autre, spécifier', type: 'text' },
   { key: 'typePoliceCaracteresDessin', label: 'Type de police de caractères', type: 'text' },
   { key: 'taillePoliceCaracteresDessin', label: 'Taille de police de caractères', type: 'text' },
-  
-  { key: 'formatDessin', label: 'Format', type: 'select',
+
+  {
+    key: 'formatDessin', label: 'Format', type: 'select',
     options: [
       { label: '11 x 11,5', value: '11x11.5' },
       { label: '8 1/2 x 11', value: '81/2x11' },
@@ -52,7 +62,8 @@ export const dessinFormFields = [
     ]
   },
   { key: 'autreFormatDessin', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'typeCouleurAChoisirDessin', type: 'checkbox-list',
+  {
+    key: 'typeCouleurAChoisirDessin', type: 'checkbox-list',
     options: [
       { label: 'Monochrome', value: 'monochromeDessin' },
       { label: 'Couleur', value: 'couleurDessin' },
@@ -60,22 +71,25 @@ export const dessinFormFields = [
   },
 
   { label: 'Dessin - impression et/ou embossage', type: 'header4' },
-  { key: 'typeImpressionDessin', type: 'checkbox-list',
+  {
+    key: 'typeImpressionDessin', type: 'checkbox-list',
     options: [
-      { label: 'ViewPlus', value: 'viewplus', label2:"Dessin - Impression et/ou embossage" },
+      { label: 'ViewPlus', value: 'viewplus', label2: "Dessin - Impression et/ou embossage" },
       { label: 'XEROX', value: 'xerox' },
       { label: 'autre', value: 'autreTypeImpression' },
     ]
   },
   { key: 'autretypeImpressionDessin', label: 'Si autre, spécifier', type: 'text' },
 
-  { key: 'rectoVersoCheckboxDessin', type: 'checkbox-list',
+  {
+    key: 'rectoVersoCheckboxDessin', type: 'checkbox-list',
     options: [
       { label: 'Recto', value: 'recto' },
       { label: 'Recto/Verso', value: 'rectoVerso' },
     ]
   },
-  { key: 'materielDessin', label: 'Matériel', type: 'select',
+  {
+    key: 'materielDessin', label: 'Matériel', type: 'select',
     options: [
       { label: 'Papier', value: 'papier' },
       { label: 'Plastique', value: 'plastique' },
@@ -85,16 +99,18 @@ export const dessinFormFields = [
     ]
   },
   { key: 'autreMaterielDessin', label: 'Si autre, spécifier', type: 'text' },
-  
+
   { label: 'Dessin - finition et montage', type: 'header4' },
-  { key: 'typeTeneurDessin', type: 'checkbox-list',
+  {
+    key: 'typeTeneurDessin', type: 'checkbox-list',
     options: [
-      { label: 'Broché', value: 'broche', label2:"Dessin - Finition et montage" },
+      { label: 'Broché', value: 'broche', label2: "Dessin - Finition et montage" },
       { label: 'Cerlox', value: 'cerlox' },
       { label: 'Wire-O', value: 'wireO' },
     ]
   },
-  { key: 'typeCouvertureDessin', type: 'checkbox-list',
+  {
+    key: 'typeCouvertureDessin', type: 'checkbox-list',
     options: [
       { label: 'Couverture vinyle', value: 'couvVinyle' },
       { label: 'Couverture plastifiée couleur', value: 'couvPlasCouleur' },
@@ -114,26 +130,56 @@ export const dessinFormFields = [
 
 
   { label: 'Dessin - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceDessin', label: 'Nom/Description', label2:" Dessin - Nom du fichier source ou description de la production", type: 'textarea' },
-  
+  { key: 'nomFichierSourceDessin', label: 'Nom/Description', label2: " Dessin - Nom du fichier source ou description de la production", type: 'textarea' },
+
   { label: 'Dessin - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientDessin', label: 'Spécifications du client', type: 'textarea', label2:"Dessin - Spécifications du client" },
+  { key: 'specificationsClientDessin', label: 'Spécifications du client', type: 'textarea', label2: "Dessin - Spécifications du client" },
 
   { label: 'Dessin - commentaire', type: 'header4' },
   { key: 'commentaireDessin', label: 'Commentaire', type: 'textarea', label2: 'Dessin - Commentaire' },
-  
+
   { label: 'Dessin - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiDessin', label: 'Nom', label2:"Dessin - Informations tech. multimédia", type: 'text' },
-  { key: 'dateTermineMultiDessin', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureMultiDessin', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechMultiDessin', label: 'Commentaire', type: 'textarea' },
-  
-  { label: 'Dessin - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineDessin', label: 'Terminé?', label2:"Dessin - Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualDessin', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualDessin', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualDessin', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualDessin', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechMultiDessin',
+    addTotal: true,
+    label2: "Dessin - informations tech. multimédia",
+    totalKey: 'noHeureMultiDessin',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechMultiDessin',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineMultiDessin', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureMultiDessin', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechMultiDessin', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
+  { label: 'Dessin - Contrôle de qualité', type: 'header4' },
+  { key: 'checkboxCQTermineDessin', label: 'Terminé?', label2: "Dessin - Contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableContQualDessin',
+    addTotal: true,
+    // label2: "Braille - Informations tech. tactile",
+    totalKey: 'noHeureContQualDessin',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomContQualDessin',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineContQualDessin', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureContQualDessin', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireContQualDessin', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'Dessin - tableau de production', type: 'header4' },
   {
@@ -155,7 +201,7 @@ export const dessinFormFields = [
     type: 'dynamicTable',
     columns: [
       { key: 'noFichierEtiqDessin', label: 'Numéro du fichier .dxb', type: 'text' },
-      { key: 'libEtiqDessin', label: "Libellé de l’étiquette", type: 'text' },
+      { key: 'libEtiqDessin', label: "Libellé de l’étiquette", type: 'textarea' },
       { key: 'noteEtiqDessin', label: 'Notes Prod.', type: 'text' }
     ]
   },

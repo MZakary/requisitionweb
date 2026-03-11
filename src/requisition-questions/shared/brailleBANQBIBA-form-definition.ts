@@ -1,6 +1,13 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
+
 export const brailleBANQBIBAFormFields = [
   { label: 'BANQ abrégé et intégral - Informations générales', type: 'header4' },
   { key: 'noFichierBrailleBANQ', label: 'Numéro du fichier .txt', label2: "BANQ abrégé et intégral - Informations Générales", type: 'text', defaultValue: 'xxxxba-bi', needsSync: true, targetKey: 'noFichProdBraille' },
+  // { key: 'dateDemandeBrailleBANQ', label: 'Date de la demande', type: 'text' },
+  { key: 'dateReceptionBrailleBANQ', label: "Date de la réception de l'ouvrage", type: 'text' }, // is the true date de debut du travail
+  { key: 'dateRequiseBrailleBANQ', label: 'Date requise', type: 'text' },
   { key: 'nbsPagesImprimeesBrailleBANQ', label: 'Nombre de pages imprimées', type: 'text' },
   {
     key: 'AbregeIntegralBrailleBANQ', type: 'checkbox-list', defaultValue: ['BAbrege', 'BIntegral'],
@@ -58,7 +65,7 @@ export const brailleBANQBIBAFormFields = [
   { key: 'autrecouvertureCheckboxListBrailleBANQ', label: 'Si autre, spécifier', type: 'text' },
 
   { label: 'BANQ abrégé et intégral - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientBrailleBANQ', label: 'Spécifications du client', type: 'textarea', label2:"BANQ abrégé et intégral - spécifications du client" },
+  { key: 'specificationsClientBrailleBANQ', label: 'Spécifications du client', type: 'textarea', label2: "BANQ abrégé et intégral - spécifications du client" },
 
   { label: 'BANQ abrégé et intégral - commentaire', type: 'header4' },
   { key: 'commentaireBrailleBANQ', label: 'Commentaire', type: 'textarea', label2: "BANQ abrégé et intégral - commentaire" },
@@ -66,36 +73,96 @@ export const brailleBANQBIBAFormFields = [
 
 
   { label: 'BANQ abrégé et intégral - informations pré-encodage', type: 'header4' },
-  { key: 'nomTechinfoPreEncodage', label: 'Nom', label2: "BANQ abrégé et intégral - informations pré-encodage", type: 'text' },
-  { key: 'datePossessioninfoPreEncodage', label: 'Date de prise de possession de l\'ouvrage', type: 'text' },
-  { key: 'dateTermineinfoPreEncodage', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureinfoPreEncodage', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'encodageNiveauDeuxPreEncodage', label: 'Nécessite un encodage de niveau 2', type: 'checkbox' },
+  { key: 'encodageNiveauDeuxPreEncodage', label: 'Nécessite un encodage de niveau 2', type: 'checkbox', label2: 'BANQ abrégé et intégral - informations pré-encodage', },
   { key: 'graphiquePreEncodage', label: 'Graphique', type: 'checkbox' },
-  { key: 'commentaireTechinfoPreEncodage', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechinfoPreEncodage',
+    addTotal: true,
+    totalKey: 'noHeureinfoPreEncodage',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechinfoPreEncodage',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'datePossessioninfoPreEncodage', label: 'Date de prise de possession de l\'ouvrage', type: 'date' },
+      { key: 'dateTermineinfoPreEncodage', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureinfoPreEncodage', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechinfoPreEncodage', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'BANQ abrégé et intégral - informations encodage', type: 'header4' },
-  { key: 'nomTechInfoEncodage', label: 'Nom', label2: "BANQ abrégé et intégral - informations pré-encodage", type: 'text' },
-  { key: 'datePossessionInfoEncodage', label: 'Date de prise de possession de l\'ouvrage', type: 'text' },
-  { key: 'dateTermineInfoEncodage', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureInfoEncodage', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireInfoEncodage', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableInfoEncodageBrailleBANQ',
+    addTotal: true,
+    label2: 'BANQ abrégé et intégral - informations encodage',
+    totalKey: 'noHeureInfoEncodageBrailleBANQ',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechInfoEncodageBrailleBANQ',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'datePossessionInfoEncodageBrailleBANQ', label: 'Date de prise de possession de l\'ouvrage', type: 'date' },
+      { key: 'dateTermineInfoEncodageBrailleBANQ', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureInfoEncodageBrailleBANQ', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechInfoEncodageBrailleBANQ', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
 
 
 
   { label: 'BANQ abrégé et intégral - informations tech. tactile', type: 'header4' },
-  { key: 'nomTechTactileBrailleBANQ', label: 'Nom', label2: "BANQ abrégé et intégral - Informations tech. tactile", type: 'text' },
-  { key: 'datePossessionTactileBrailleBANQ', label: 'Date de prise de possession de l\'ouvrage', type: 'text' },
-  { key: 'dateTermineTactileBrailleBANQ', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTactileBrailleBANQ', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechTactileBrailleBANQ', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechTactileBrailleBANQ',
+    addTotal: true,
+    totalKey: 'noHeureTactileBrailleBANQ',
+    label2: 'BANQ abrégé et intégral - informations tech. tactile',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechTactileBrailleBANQ',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'datePossessionTactileBrailleBANQ', label: 'Date de prise de possession de l\'ouvrage', type: 'date' },
+      { key: 'dateTermineTactileBrailleBANQ', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureTactileBrailleBANQ', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechTactileBrailleBANQ', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
+
 
   { label: 'BANQ abrégé et intégral - contrôle de qualité', type: 'header4' },
   { key: 'checkboxCQTermineBrailleBANQ', label: 'Terminé?', label2: "BANQ abrégé et intégral - contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualBrailleBANQ', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualBrailleBANQ', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualBrailleBANQ', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualBrailleBANQ', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableContQualBrailleBANQ',
+    addTotal: true,
+    totalKey: 'noHeureTactileBrailleBANQ',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomContQualBrailleBANQ',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'dateTermineContQualBrailleBANQ', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureContQualBrailleBANQ', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireContQualBrailleBANQ', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
+
+
 
   { label: 'BANQ abrégé et intégral - tableau de production', type: 'header4' },
   {
@@ -103,7 +170,7 @@ export const brailleBANQBIBAFormFields = [
     label: 'BANQ abrégé et intégral - Tableau de production - BA',
     needsTitle: true,
     type: 'dynamicTable',
-    addTotal:true,
+    addTotal: true,
     totalKey: 'nbsPageProdBraille',
     columns: [
       { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
@@ -125,7 +192,7 @@ export const brailleBANQBIBAFormFields = [
     label: 'BANQ abrégé et intégral - Tableau de production - BI',
     needsTitle: true,
     type: 'dynamicTable',
-    addTotal:true,
+    addTotal: true,
     totalKey: 'nbsPageProdBraille',
     columns: [
       { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },
@@ -152,6 +219,10 @@ export const brailleBANQBIBAFormFields = [
 export const brailleBANQBIOUBAFormFields = [
   { label: 'BANQ abrégé ou intégral - Informations générales', type: 'header4' },
   { key: 'noFichierBrailleBANQBAOUBI', label: 'Numéro du fichier .txt', label2: "BANQ abrégé ou intégral - Informations Générales", type: 'text', defaultValue: 'xxxx' },
+  // { key: 'dateDemandeBrailleBANQBAOUBI', label: 'Date de la demande', type: 'text' },
+  { key: 'dateReceptionBrailleBANQBAOUBI', label: "Date de la réception de l'ouvrage", type: 'text' },
+  { key: 'dateRequiseBrailleBANQBAOUBI', label: 'Date requise', type: 'text' },
+
   { key: 'nbsPagesImprimeesBrailleBANQBAOUBI', label: 'Nombre de pages imprimées', type: 'text' },
   {
     key: 'AbregeIntegralBrailleBANQBAOUBI', type: 'checkbox-list',
@@ -215,13 +286,29 @@ export const brailleBANQBIOUBAFormFields = [
 
 
   { label: 'BANQ abrégé ou intégral - informations pré-encodage', type: 'header4' },
-  { key: 'nomTechinfoPreEncodageBAOUBI', label: 'Nom', label2: "BANQ abrégé ou intégral - informations pré-encodage", type: 'text' },
-  { key: 'datePossessioninfoPreEncodageBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'text' },
-  { key: 'dateTermineinfoPreEncodageBAOUBI', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureinfoPreEncodageBAOUBI', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'encodageNiveauDeuxPreEncodageBAOUBI', label: 'Nécessite un encodage de niveau 2', type: 'checkbox' },
+  { key: 'encodageNiveauDeuxPreEncodageBAOUBI', label: 'Nécessite un encodage de niveau 2', type: 'checkbox', label2: 'BANQ abrégé ou intégral - informations pré-encodage' },
   { key: 'graphiquePreEncodageBAOUBI', label: 'Graphique', type: 'checkbox' },
-  { key: 'commentaireTechinfoPreEncodageBAOUBI', label: 'Commentaire', type: 'textarea' },
+  { key: 'checkboxCQTermineBrailleBANQ', label: 'Terminé?', label2: "BANQ abrégé et intégral - contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableTechinfoPreEncodageBAOUBI',
+    label: 'Braille - Tableau des techs',
+    label2: "Braille - Informations tech. tactile",
+    addTotal: true,
+    totalKey: 'noHeureinfoPreEncodageBAOUBI',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechinfoPreEncodageBAOUBI',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'datePossessioninfoPreEncodageBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineinfoPreEncodageBAOUBI', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureinfoPreEncodageBAOUBI', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechinfoPreEncodageBAOUBI', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'BANQ abrégé ou intégral - informations encodage', type: 'header4' },
   { key: 'nomTechInfoEncodageBAOUBI', label: 'Nom', label2: "BANQ abrégé ou intégral - informations pré-encodage", type: 'text' },
@@ -229,6 +316,26 @@ export const brailleBANQBIOUBAFormFields = [
   { key: 'dateTermineInfoEncodageBAOUBI', label: 'Terminé le', type: 'text' },
   { key: 'noHeureInfoEncodageBAOUBI', label: 'Nombre d\'heure(s) de travail', type: 'text' },
   { key: 'commentaireInfoEncodageBAOUBI', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechinfoPreEncodageBAOUBI',
+    label: 'Braille - Tableau des techs',
+    label2: "Braille - Informations tech. tactile",
+    addTotal: true,
+    totalKey: 'noHeureinfoPreEncodageBAOUBI',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechinfoPreEncodageBAOUBI',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'datePossessioninfoPreEncodageBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineinfoPreEncodageBAOUBI', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureinfoPreEncodageBAOUBI', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechinfoPreEncodageBAOUBI', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
 
 
@@ -251,7 +358,7 @@ export const brailleBANQBIOUBAFormFields = [
     key: 'tableProductionBrailleBAOUBI',
     label: 'BANQ abrégé ou intégral - Tableau de production',
     type: 'dynamicTable',
-    addTotal:true,
+    addTotal: true,
     totalKey: 'nbsPageProdBraille',
     columns: [
       { key: 'noFichProdBraille', label: 'Numéro du fichier .dxb', type: 'textarea' },

@@ -1,5 +1,10 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
+
 export const autreFormFields = [
   { label: 'Autre - informations générales', type: 'header4' },
+  { key: 'dateDemandeAutre', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseAutre', label: 'Date requise', type: 'text', label2: 'Autre - Informations générales' },
   { key: 'quantiteAutre', label: 'Quantité', type: 'text' },
   { key: 'typeProductionAutre', type: 'checkbox-list',
@@ -19,9 +24,23 @@ export const autreFormFields = [
   { key: 'commentaireAutre', label: 'Commentaire', type: 'textarea', label2: 'Autre - Informations générales' },
   
   { label: 'Autre - informations tech.', type: 'header4' },
-  { key: 'nomTechSonore', label: 'Nom', label2:"Autre - Informations tech.", type: 'text' },
-  { key: 'dateTermineTechSonore', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTechSonore', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechSonore', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechSonore',
+    type: 'dynamicTable',
+    label2:"Autre - informations tech.",
+    addTotal:true,
+    totalKey:'noHeurePrisTechSonore',
+    columns: [
+      {
+        key: 'nomTechSonore',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'dateTermineTechSonore', label: 'Terminé le', type: 'date' },
+      { key: 'noHeurePrisTechSonore', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechSonore', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
 ];

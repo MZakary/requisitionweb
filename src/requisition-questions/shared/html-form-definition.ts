@@ -1,9 +1,14 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
 export const htmlFormFields = [
   { label: 'HTML - informations générales', type: 'header4' },
-  { key: 'noFichierHTML', label: 'Numéro du fichier', label2:"HTML - Informations générales", type: 'text' },
+  { key: 'noFichierHTML', label: 'Numéro du fichier', label2: "HTML - Informations générales", type: 'text' },
+  { key: 'dateDemandeHTML', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseHTML', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeHTML', label: 'Nombre de pages imprimées', type: 'text' },
-  { key: 'niveauDifficulteHTML', label: 'Niveau de difficulté', type: 'select',
+  {
+    key: 'niveauDifficulteHTML', label: 'Niveau de difficulté', type: 'select',
     options: [
       { label: 'Standard', value: 'standard' },
       { label: 'Complexe', value: 'complexe' }
@@ -12,30 +17,60 @@ export const htmlFormFields = [
   { key: 'graphiqueHTML', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
   { label: 'HTML - finition et montage', type: 'header4' },
-  { key:"courrielCheckboxHTML", label: 'Courriel', label2:"HTML - Finition et montage", type: 'checkbox' },
-  { key:"autreExpliquationHTML", label: 'Courriel', type: 'text' },
+  { key: "courrielCheckboxHTML", label: 'Courriel', label2: "HTML - Finition et montage", type: 'checkbox' },
+  { key: "autreExpliquationHTML", label: 'Courriel', type: 'text' },
 
   { label: 'HTML - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceHTML', label: 'Nom/Description', label2:"HTML - nom du fichier source ou description de la production", type: 'textarea' },
-  
+  { key: 'nomFichierSourceHTML', label: 'Nom/Description', label2: "HTML - nom du fichier source ou description de la production", type: 'textarea' },
+
   { label: 'HTML - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientHTML', label: 'Spécifications du client', type: 'textarea', label2:"HTML - spécifications du client" },
+  { key: 'specificationsClientHTML', label: 'Spécifications du client', type: 'textarea', label2: "HTML - spécifications du client" },
 
   { label: 'HTML - commentaire', type: 'header4' },
-  { key: 'commentaireHTML', label: 'Commentaire', type: 'textarea', label2:"HTML - commentaire" },
-  
+  { key: 'commentaireHTML', label: 'Commentaire', type: 'textarea', label2: "HTML - commentaire" },
+
   { label: 'HTML - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiHTML', label: 'Nom', label2:"HTML - Informations tech. multimédia", type: 'text' },
-  { key: 'dateTermineTechMultiHTML', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTechMultiHTML', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechMultiHTML', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechMultiHTML',
+    addTotal: true,
+    label2: "HTML - Informations tech. multimédia",
+    totalKey: 'noHeureTechMultiHTML',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechMultiHTML',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineTechMultiHTML', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureTechMultiHTML', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechMultiHTML', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'HTML - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineHTML', label: 'Terminé?', label2:"HTML - Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualHTML', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualHTML', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualHTML', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualHTML', label: 'Commentaire', type: 'textarea' },
+  { key: 'checkboxCQTermineHTML', label: 'Terminé?', label2: "HTML - Contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableContQualHTML',
+    addTotal: true,
+    // label2: "Caractères agrandis - Informations tech. multimédia",
+    totalKey: 'noHeureContQualHTML',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomContQualHTML',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineContQualHTML', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureContQualHTML', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireContQualHTML', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'HTML - tableau de production', type: 'header4' },
   {

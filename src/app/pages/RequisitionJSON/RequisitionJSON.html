@@ -72,44 +72,6 @@
 
       <!-- TABLEAU HEURE REQ -->
 
-      <div *ngIf="field.type === 'tableHeure'" class="table-heure-wrapper" [formArrayName]="field.key">
-        <h3>{{ field.label }}</h3>
-
-        <div *ngFor="let row of getTableHeureArray(field.key).controls; let rowIndex = index" [formGroupName]="rowIndex"
-          class="table-heure-row">
-
-          <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: start;">
-            <li *ngFor="let col of field.columns" class="table-heure-col">
-              <p-floatLabel variant="on">
-                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
-                <input *ngIf="col.type !== 'textarea'" pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
-                  [type]="col.type || 'text'" [formControlName]="col.key" (input)="calculateTotalHeures()" />
-                <textarea *ngIf="col.type === 'textarea'" pTextarea [id]="field.key + '-' + rowIndex + '-' + col.key"
-                  [formControlName]="col.key" cols="225" (input)="calculateTotalHeures()"></textarea>
-              </p-floatLabel>
-            </li>
-
-            <li>
-              <p-button label="Effacer" (click)="removeTableHeureRow(field.key, rowIndex)" icon="pi pi-trash"
-                [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
-            </li>
-
-            <!-- Subtotal for this row -->
-          </ul>
-        </div>
-
-        <!-- Grand total -->
-        <p-floatLabel variant="on" *ngIf="field.needsTotal" style="margin-bottom: 20px;">
-          <label for="total-heures">Total des heures</label>
-          <input pInputText id="total-heures" [value]="totalHeuresValue" readonly style="font-weight: bold; width: 80%;"
-            aria-live="polite" aria-label="Total des heures" />
-        </p-floatLabel>
-
-        <p-button label="Ajouter une ligne" (click)="addTableHeureRow(field)" icon="pi pi-plus"
-          [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"> </p-button>
-      </div>
-
-
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
         <label [for]="field.key">{{ field.label }}</label>
         <textarea pTextarea [id]="field.key" [formControlName]="field.key" style="width: 100%" [autoResize]="true"
@@ -156,26 +118,62 @@
             <h5 class="sr-only">Ligne {{ rowIndex + 1 }} de {{ field.label }}</h5>
 
             <div *ngFor="let col of field.columns"
-              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
-              <p-floatLabel variant="on">
-                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem; vertical-align: top;">
 
-                <!-- Conditionally render input or textarea -->
-                <ng-container [ngSwitch]="col.type">
-                  <!-- Textarea -->
-                  <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
-                    [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key">
-            </textarea>
+              <ng-container [ngSwitch]="col.type">
+                <!-- Dropdown/Select input - NO FLOAT LABEL -->
+                <div *ngSwitchCase="'select'" style="display: flex; flex-direction: column;">
+                  <label [for]="field.key + '-' + rowIndex + '-' + col.key" class="sr-only">
+                    {{ col.label }}
+                  </label>
+                  <p-dropdown [inputId]="field.key + '-' + rowIndex + '-' + col.key" [options]="col.options"
+                    optionLabel="label" optionValue="value" [formControlName]="col.key" [filter]="true"
+                    [showClear]="true" [style]="{'width': '250px'}" [placeholder]="col.label">
+                  </p-dropdown>
+                </div>
 
-                  <!-- Default input -->
-                  <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
-                    [formControlName]="col.key" type="text" />
-                </ng-container>
-              </p-floatLabel>
+                <!-- Date input - NO FLOAT LABEL (separate case) -->
+                <div *ngSwitchCase="'date'" style="display: flex; flex-direction: column;">
+                  <label [for]="field.key + '-' + rowIndex + '-' + col.key" class="sr-only">
+                    {{ col.label }} (YYYY-MM-DD)
+                  </label>
+                  <p-calendar [inputId]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
+                    dateFormat="yy-mm-dd" [showIcon]="true" [placeholder]="col.label + ' (YYYY-MM-DD)'"
+                    [style]="{'width': '250px', 'height': '45px'}">
+                  </p-calendar>
+                </div>
+
+                <!-- For all other types (text, textarea, time), use p-floatLabel -->
+                <p-floatLabel *ngSwitchDefault variant="on" style="display: block;">
+                  <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+
+                  <ng-container [ngSwitch]="col.type">
+                    <!-- Textarea with fixed height to match inputs -->
+                    <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
+                      [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
+                      style="min-height: 45px; height: 45px; resize: vertical;"></textarea>
+
+                    <!-- Time input with pattern validation -->
+                    <input *ngSwitchCase="'time'" pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                      [formControlName]="col.key" type="text" pattern="^([0-1]?[0-9]|2[0-3])h[0-5][0-9]$"
+                      title="Format attendu: HHhMM (exemple: 16h25)" style="height: 45px;" />
+
+                    <!-- Default text input -->
+                    <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                      [formControlName]="col.key" type="text" class="p-inputtext" style="height: 45px;" />
+                  </ng-container>
+                </p-floatLabel>
+              </ng-container>
+
+              <!-- Validation message for time fields -->
+              <small aria-live="polite" *ngIf="col.type === 'time' && row.get(col.key)?.invalid && row.get(col.key)?.touched"
+                class="p-error" style="display: block; margin-top: 0.25rem;">
+                Format invalide. Utilisez HHhMM (ex: 16h25)
+              </small>
             </div>
 
             <p-button label="Effacer" (click)="removeTopLevelTableRow(field.key, rowIndex)" icon="pi pi-trash"
-              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
+              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)', 'vertical-align':'top' }">
             </p-button>
           </div>
         </div>
@@ -183,6 +181,12 @@
         <p-button label="Ajouter une ligne" (click)="addTopLevelTableRow(field)" icon="pi pi-plus"
           [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }">
         </p-button>
+
+        <!-- Total Row -->
+        <div *ngIf="field.addTotal && field.totalKey" style="margin-top: 1rem; margin-bottom: 1rem;">
+          <strong>Total {{ getTotalLabel(field) }} :</strong>
+          {{ getTopLevelDynamicTableTotal(field) | number:'1.2-2' }}
+        </div>
       </div>
 
 
@@ -264,10 +268,12 @@
           <div *ngFor="let phase of phases.controls; let i = index" [formGroupName]="i" class="phase-section">
             <div class="phase-header">
               <h3 tabindex="-1" #phaseTitle role="heading" aria-level="3">Phase {{ i + 1 }}</h3>
-              <div *ngIf="phase.get('uploaded')?.value" class="uploaded-badge"><i class="pi pi-check-circle" style="font-size: 1rem"></i> Téléversé à la BD</div>
-              <div *ngIf="phase.get('needsUpdate')?.value" class="uploaded-badge"><i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i> Modification non synchronisée avec la BD</div>
+              <div *ngIf="phase.get('uploaded')?.value" class="uploaded-badge"><i class="pi pi-check-circle"
+                  style="font-size: 1rem"></i> Téléversé à la BD</div>
+              <div *ngIf="phase.get('needsUpdate')?.value" class="uploaded-badge"><i class="pi pi-exclamation-triangle"
+                  style="font-size: 1rem"></i> Modification non synchronisée avec la BD</div>
 
-            </div> 
+            </div>
             <!-- <div aria-live="polite" class="sr-only" #phaseAnnounce></div> -->
 
             <!-- List of checkboxes for selectedTypes -->
@@ -339,25 +345,67 @@
                             <h5 class="sr-only">Ligne {{ rowIndex + 1 }} de {{ field.label }}</h5>
 
                             <div *ngFor="let col of field.columns"
-                              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem;">
-                              <p-floatLabel variant="on">
-                                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+                              style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem; vertical-align: top;">
 
-                                <!-- Conditionally render input or textarea -->
-                                <ng-container [ngSwitch]="col.type">
-                                  <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
-                                    [id]="field.key + '-' + rowIndex + '-' + col.key"
-                                    [formControlName]="col.key"></textarea>
+                              <ng-container [ngSwitch]="col.type">
+                                <!-- Dropdown/Select input - NO FLOAT LABEL -->
+                                <div *ngSwitchCase="'select'" style="display: flex; flex-direction: column;">
+                                  <label [for]="field.key + '-' + rowIndex + '-' + col.key" class="sr-only">
+                                    {{ col.label }}
+                                  </label>
+                                  <p-dropdown [inputId]="field.key + '-' + rowIndex + '-' + col.key"
+                                    [options]="col.options" optionLabel="label" optionValue="value"
+                                    [formControlName]="col.key" [filter]="true" [showClear]="true"
+                                    [style]="{'width': '250px'}" [placeholder]="col.label">
+                                  </p-dropdown>
+                                </div>
 
-                                  <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
-                                    [formControlName]="col.key" type="text" class="p-inputtext" />
-                                </ng-container>
-                              </p-floatLabel>
+                                <!-- Date input - NO FLOAT LABEL (separate case) -->
+                                <div *ngSwitchCase="'date'" style="display: flex; flex-direction: column;">
+                                  <label [for]="field.key + '-' + rowIndex + '-' + col.key" class="sr-only"
+                                    style="margin-bottom: 0.25rem; font-weight: 500;">
+                                    {{ col.label }} (YYYY-MM-DD)
+                                  </label>
+                                  <p-calendar [inputId]="field.key + '-' + rowIndex + '-' + col.key"
+                                    [formControlName]="col.key" dateFormat="yy-mm-dd" [showIcon]="true"
+                                    [placeholder]="col.label + ' (YYYY-MM-DD)'"
+                                    [style]="{'width': '250px', 'height': '45px'}">
+                                  </p-calendar>
+                                </div>
+
+                                <!-- For all other types (text, textarea, time), use p-floatLabel -->
+                                <p-floatLabel *ngSwitchDefault variant="on" style="display: block;">
+                                  <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+
+                                  <ng-container [ngSwitch]="col.type">
+                                    <!-- Textarea with fixed height to match inputs -->
+                                    <textarea *ngSwitchCase="'textarea'" pTextarea autoResize="true"
+                                      [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
+                                      style="min-height: 45px; height: 45px; resize: vertical;"></textarea>
+
+                                    <input *ngSwitchCase="'time'" pInputText
+                                      [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
+                                      type="text" placeholder="" pattern="^([0-1]?[0-9]|2[0-3])h[0-5][0-9]$"
+                                      title="Format attendu: HHhMM (exemple: 16h25)" style="height: 45px;" />
+
+                                    <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                                      [formControlName]="col.key" type="text" class="p-inputtext"
+                                      style="height: 45px;" />
+                                  </ng-container>
+                                </p-floatLabel>
+                              </ng-container>
+
+                              <!-- Validation message for time fields -->
+                              <small
+                                *ngIf="col.type === 'time' && row.get(col.key)?.invalid && row.get(col.key)?.touched"
+                                class="p-error" style="display: block; margin-top: 0.25rem;">
+                                Format invalide. Utilisez HHhMM (ex: 16h25)
+                              </small>
                             </div>
 
                             <p-button *ngIf="!field.removeAddButton" label="Effacer"
                               (click)="removeTableRow(phase, type, field.key, rowIndex)" icon="pi pi-trash"
-                              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+                              [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)', 'vertical-align':'top'  }"></p-button>
                           </div>
                         </div>
 
@@ -371,7 +419,6 @@
                           {{ getDynamicTableTotal(phase, type, field) }}
                         </div>
                       </div>
-
 
 
 

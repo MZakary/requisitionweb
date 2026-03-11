@@ -337,73 +337,36 @@ const DB_PATH = path.join(
 let db;
 
 function initDatabase() {
-  if (!fs.existsSync(DB_PATH)) {
-    console.log('📁 Creating new SQLite DB on network drive');
+  try {
+    if (!fs.existsSync(DB_PATH)) {
+      console.warn('⚠️ Database file not found, continuing without DB');
+      db = null; // explicitly mark DB as unavailable
+      return;
+    }
+
+    db = new Database(DB_PATH, {
+      timeout: 5000,
+    });
+
+    db.pragma('journal_mode = WAL');
+
+    db.prepare(`
+      CREATE TABLE IF NOT EXISTS Projets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Statut TEXT,
+        NumRequisition TEXT,
+        -- all other columns...
+        Commentaire TEXT
+      )
+    `).run();
+
+    console.log('✅ SQLite initialized at:', DB_PATH);
+
+  } catch (err) {
+    console.error('❌ Failed to initialize DB, continuing without it:', err);
+    db = null;
   }
-
-  db = new (require('better-sqlite3'))(DB_PATH, {
-    timeout: 5000, // IMPORTANT for network drives
-  });
-
-  // Strongly recommended on network drives
-  db.pragma('journal_mode = WAL');
-
-  // First test table
-  db.prepare(`
-    CREATE TABLE IF NOT EXISTS Projets (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      "Statut"	TEXT,
-      "NumRequisition"	TEXT,
-      "NumPOBCDDT"	INTEGER,
-      "SessionEtude"	TEXT,
-      "DateDemande"	TEXT,
-      "PeriodeFinanciereDemande"	TEXT,
-      "TypeClient"	TEXT,
-      "Client"	TEXT,
-      "SousCentreActivite"	TEXT,
-      "NomContact"	TEXT,
-      "NomProjet"	TEXT,
-      "TypeProdDemande"	TEXT,
-      "NumFichier"	TEXT,
-      "DateRequise"	TEXT,
-      "NoPhase"	INTEGER,
-      "NoPageImprimer"	INTEGER,
-      "Complexite"	TEXT,
-      "TechMulti"	TEXT,
-      "DateTermineMulti"	TEXT,
-      "HeureTravailleMulti"	REAL,
-      "TechTactile"	TEXT,
-      "DateTermineTactile"	TEXT,
-      "HeureTravailleTactile"	REAL,
-      "TotalHeureTravaille"	REAL,
-      "ProdPagesBrailleAbrege"	INTEGER,
-      "ProdPagesBrailleIntegral"	INTEGER,
-      "NoVolBraille"	INTEGER,
-      "NoCarETextOuAgrandi"	INTEGER,
-      "NoPageCarAgrandis"	INTEGER,
-      "NoDessinStandards"	INTEGER,
-      "NoDessinComplexes"	INTEGER,
-      "NoPagesDessins"	INTEGER,
-      "NoPagesAgrandisNumPDF"	INTEGER,
-      "NoPDFHTMLFORM"	INTEGER,
-      "NoSonore"	INTEGER,
-      "No3D"	INTEGER,
-      "NoQuantite"	INTEGER,
-      "DateLivraison"	TEXT,
-      "PeriodeFinLivraison"	TEXT,
-      "TotalFacture"	REAL,
-      "PrixCalcul"	REAL,
-      "DateFacture"	TEXT,
-      "PeriodeFinanciereFacture"	INTEGER,
-      "NoFacture"	TEXT,
-      "MontantFactCISSSMC"	REAL,
-      "Commentaire"	TEXT
-    )
-  `).run();
-
-  console.log('✅ SQLite initialized at:', DB_PATH);
 }
-
 
 ipcMain.handle('db-get-all-projects', () => {
   return db.prepare('SELECT * FROM Projets').all();

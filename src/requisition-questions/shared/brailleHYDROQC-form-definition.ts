@@ -1,10 +1,16 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
+
 export const brailleHYDROQCFormFields = [
-  { label: 'BANQ - Informations générales', type: 'header4' },
-  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2:"Braille - Informations Générales", type: 'text' },
+  { label: 'Braille - Informations générales', type: 'header4' },
+  { key: 'noFichierBraille', label: 'Numéro du fichier .txt', label2: "Braille - Informations Générales", type: 'text' },
+  { key: 'dateDemandeBraille', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseBraille', label: 'Date requise', type: 'text' },
   { key: 'quantiteBraille', label: 'Quantité', type: 'text', defaultValue: '1' },
   { key: 'noPageImprimeesBraille', label: 'Nombre de pages imprimées', type: 'text' },
-  { key: 'niveauDifficulteBraille', label: 'Niveau de difficulté', type: 'select', defaultValue: 'standard',
+  {
+    key: 'niveauDifficulteBraille', label: 'Niveau de difficulté', type: 'select', defaultValue: 'standard',
     options: [
       { label: 'Standard', value: 'standard' },
       { label: 'Complexe', value: 'complexe' },
@@ -13,13 +19,15 @@ export const brailleHYDROQCFormFields = [
       { label: 'Musical complexe', value: 'musicalComplexe' },
     ]
   },
-  { key: 'typeBrailleCheckboxBraille', type: 'checkbox-list',
+  {
+    key: 'typeBrailleCheckboxBraille', type: 'checkbox-list',
     options: [
       { label: 'Braille abrégé', value: 'abregeBraille' },
       { label: 'Braille intégral', value: 'integralBraille' },
     ]
   },
-  { key: 'codeBrailleBaseBraille', label: 'Code braille de base', type: 'select',
+  {
+    key: 'codeBrailleBaseBraille', label: 'Code braille de base', type: 'select',
     options: [
       { label: 'CBFU', value: 'cbfu' },
       { label: 'Anglais UEB', value: 'aueb' },
@@ -33,7 +41,8 @@ export const brailleHYDROQCFormFields = [
     ]
   },
   { key: 'autreCodeBraille', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'formatBraille', label: 'Format', type: 'select', defaultValue: '25x30',
+  {
+    key: 'formatBraille', label: 'Format', type: 'select', defaultValue: '25x30',
     options: [
       { label: '25x30', value: '25x30' },
       { label: '25x40', value: '25x40' },
@@ -45,13 +54,15 @@ export const brailleHYDROQCFormFields = [
 
 
   { label: 'Braille - finition et montage', type: 'header4' },
-  { key: 'typeFeuilleBraille', type: 'checkbox-list', defaultValue: ['rectoVerso'],
+  {
+    key: 'typeFeuilleBraille', type: 'checkbox-list', defaultValue: ['rectoVerso'],
     options: [
-      { label: 'Recto', value: 'recto', label2:"Braille - Finition et montage" },
+      { label: 'Recto', value: 'recto', label2: "Braille - Finition et montage" },
       { label: 'Recto/Verso', value: 'rectoVerso' }
     ]
   },
-  { key: 'embossageBraille', label: 'Embossage', type: 'select', defaultValue: 'braillo',
+  {
+    key: 'embossageBraille', label: 'Embossage', type: 'select', defaultValue: 'braillo',
     options: [
       { label: 'Braillo', value: 'braillo' },
       { label: 'ViewPlus', value: 'viewplus' },
@@ -59,7 +70,8 @@ export const brailleHYDROQCFormFields = [
     ]
   },
   { key: 'autreEmbossageBraille', label: 'Si autre, spécifier', type: 'text' },
-  { key: 'materielBraille', label: 'Matériel', type: 'select', defaultValue: 'papierSansTrous',
+  {
+    key: 'materielBraille', label: 'Matériel', type: 'select', defaultValue: 'papierSansTrous',
     options: [
       { label: 'Papier avec trous', value: 'papierAvecTrous' },
       { label: 'Papier sans trous', value: 'papierSansTrous' },
@@ -73,36 +85,81 @@ export const brailleHYDROQCFormFields = [
     ]
   },
   { key: 'autreMaterielBraille', label: 'Si autre, spécifier', type: 'text' },
-  {key: 'brocheHydroQCBraille', type: 'checkbox', label:"Broché", defaultValue: true},
+  { key: 'brocheHydroQCBraille', type: 'checkbox', label: "Broché", defaultValue: true },
 
   { label: 'Braille - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2:"Braille - Nom du fichier source ou description de la production", type: 'textarea' },
-  
+  { key: 'nomFichierSourceBraille', label: 'Nom/Description', label2: "Braille - Nom du fichier source ou description de la production", type: 'textarea' },
+
   { label: 'Braille - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientBraille', label: 'Spécifications du client', type: 'textarea', label2:"Braille - Spécifications du client" },
+  { key: 'specificationsClientBraille', label: 'Spécifications du client', type: 'textarea', label2: "Braille - Spécifications du client" },
 
   { label: 'Braille - commentaire', type: 'header4' },
   { key: 'commentaireBraille', label: 'Commentaire', type: 'textarea', label2: 'Braille - commentaire' },
 
-  
-  { label: 'Braille - informations tech. multimédia', type: 'header4' },
-  { key: 'nomTechMultiBraille', label: 'Nom', label2:"Braille - Informations tech. multimédia", type: 'text' },
-  { key: 'dateTermineMultiBraille', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureMultiBraille', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechMultiBraille', label: 'Commentaire', type: 'textarea' },
 
-  { label: 'Braille - informations tech. tactile', type: 'header4' },
-  { key: 'nomTechTactileBraille', label: 'Nom', label2:"Braille - Informations tech. tactile", type: 'text' },
-  { key: 'dateTermineTactileBraille', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTactileBraille', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechTactileBraille', label: 'Commentaire', type: 'textarea' },
-  
+  { label: 'Braille - Informations tech. multimédia', type: 'header4' },
+  {
+    key: 'tableTechMultiBraille',
+    addTotal: true,
+    label2: "Braille - Informations tech. multimédia",
+    totalKey: 'noHeureMultiBraille',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechMultiBraille',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineMultiBraille', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureMultiBraille', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechMultiBraille', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
+  { label: 'Braille - Informations tech. tactile', type: 'header4' },
+  {
+    key: 'tableTechTactileBraille',
+    addTotal: true,
+    label2: "Braille - Informations tech. tactile",
+    totalKey: 'noHeureTactileBraille',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechTactileBraille',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineTactileBraille', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureTactileBraille', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechTactileBraille', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
   { label: 'Braille - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineBraille', label: 'Terminé?', label2:"Braille - Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualBraille', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualBraille', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualBraille', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualBraille', label: 'Commentaire', type: 'textarea' },
+  { key: 'checkboxCQTermineBraille', label: 'Terminé?', label2: "Braille - Contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableCQTermineBraille',
+    addTotal: true,
+    // label2: "Braille - Informations tech. tactile",
+    totalKey: 'noHeureContQualBraille',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomContQualBraille',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineContQualBraille', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureContQualBraille', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireContQualBraille', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'Braille - tableau de production', type: 'header4' },
   {

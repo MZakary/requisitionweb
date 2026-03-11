@@ -18,7 +18,7 @@ import { TocService } from '../../layout/service/toc.service';
 import { take } from 'rxjs/operators';
 import { NgZone } from '@angular/core';
 import { Textarea } from 'primeng/textarea';
-import { ProjectUploadService } from '../../services/project-upload.service';
+// import { ProjectUploadService } from '../../services/project-upload.service';
 
 //Requisition imports
 import { externeFormFields, externeFormFieldsAfterPhases } from '../../../requisition-questions/externe-form-definition';
@@ -135,7 +135,8 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   lockedFilePath: string | null = null;
 
   constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService,
-    private ngZone: NgZone, private projectUploadService: ProjectUploadService
+    private ngZone: NgZone, 
+    // private projectUploadService: ProjectUploadService
   ) {
 
     // setInterval(() => {
@@ -422,14 +423,29 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     const nextRowIndex = array.length;
     const rowDefaultValues = defaultValues[nextRowIndex] || defaultValues[0] || {};
 
-    const newRow = this.fb.group(
-      field.columns.reduce((acc: any, col: any) => {
-        acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
-        return acc;
-      }, {})
-    );
-    array.push(newRow);
+    const groupControls: { [key: string]: FormControl } = {};
 
+    field.columns.forEach((col: any) => {
+      let defaultValue = rowDefaultValues[col.key] ?? '';
+
+      // Convert date strings to Date objects for default values
+      if (col.type === 'date' && defaultValue && typeof defaultValue === 'string') {
+        defaultValue = new Date(defaultValue);
+      }
+
+      // Check if this column is a time field and apply validator
+      if (col.type === 'time') {
+        groupControls[col.key] = new FormControl(
+          defaultValue,
+          [this.timeFormatValidator.bind(this)] // Add the validator here
+        );
+      } else {
+        groupControls[col.key] = new FormControl(defaultValue);
+      }
+    });
+
+    const newRow = this.fb.group(groupControls);
+    array.push(newRow);
   }
 
   removeTopLevelTableRow(key: string, index: number): void {
@@ -478,7 +494,13 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     if (!formArray || !totalKey) return 0;
 
     return formArray.controls.reduce((sum, group) => {
-      const value = Number(group.get(totalKey)?.value);
+      const raw = group.get(totalKey)?.value;
+      if (typeof raw === 'string' && /^(\d+)h(\d{2})$/.test(raw)) {
+        const [, h, m] = raw.match(/^(\d+)h(\d{2})$/)!;
+        const centieme = Math.round((parseInt(m) / 60) * 100);
+        return sum + parseInt(h) + centieme / 100;
+      }
+      const value = Number(raw);
       return sum + (isNaN(value) ? 0 : value);
     }, 0);
   }
@@ -486,6 +508,23 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   getTotalLabel(field: any): string {
     const col = field.columns?.find((c: any) => c.key === field.totalKey);
     return col?.label || '';
+  }
+
+  getTopLevelDynamicTableTotal(field: any): number {
+    const formArray = this.getTopLevelDynamicTableArray(field.key);
+    const totalKey = field.totalKey;
+    if (!formArray || !totalKey) return 0;
+
+    return formArray.controls.reduce((sum, group) => {
+      const raw = group.get(totalKey)?.value;
+      // Handle HHhMM time format (e.g. "16h25") → convert to decimal hours
+      if (typeof raw === 'string' && /^(\d+)h(\d{2})$/.test(raw)) {
+        const [, h, m] = raw.match(/^(\d+)h(\d{2})$/)!;
+        return sum + parseInt(h) + parseInt(m) / 60;
+      }
+      const value = Number(raw);
+      return sum + (isNaN(value) ? 0 : value);
+    }, 0);
   }
 
   //#endregion
@@ -593,10 +632,27 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         const rows = this.fb.array(
           Array.from({ length: defaultRowCount }).map((_, rowIndex) => {
             const rowDefaultValues = defaultValues[rowIndex] || {};
-            const groupControls = field.columns.reduce((acc: any, col: any) => {
-              acc[col.key] = new FormControl(rowDefaultValues[col.key] ?? '');
-              return acc;
-            }, {});
+            const groupControls: { [key: string]: FormControl } = {};
+
+            field.columns.forEach((col: any) => {
+              let defaultValue = rowDefaultValues[col.key] ?? '';
+
+              // Convert date strings to Date objects for default values
+              if (col.type === 'date' && defaultValue && typeof defaultValue === 'string') {
+                defaultValue = new Date(defaultValue);
+              }
+
+              // Check if this column is a time field and apply validator
+              if (col.type === 'time') {
+                groupControls[col.key] = new FormControl(
+                  defaultValue,
+                  [this.timeFormatValidator.bind(this)] // Add the validator here
+                );
+              } else {
+                groupControls[col.key] = new FormControl(defaultValue);
+              }
+            });
+
             return this.fb.group(groupControls);
           })
         );
@@ -657,6 +713,23 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
     this.queueTocUpdate();
     this.tocService.requestUpdate();
+  }
+
+
+  // Add this validator function in your component
+  timeFormatValidator(control: any): { [key: string]: any } | null {
+    if (!control.value) {
+      return null; // Don't validate empty values (let required validator handle that)
+    }
+
+    // Regex for format HHhMM (hours 00-23, minutes 00-59)
+    const timeRegex = /^([0-1]?[0-9]|2[0-3])h[0-5][0-9]$/;
+
+    if (!timeRegex.test(control.value)) {
+      return { invalidTimeFormat: true };
+    }
+
+    return null;
   }
   //#endregion
 
@@ -793,29 +866,107 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
     }
   }
 
+  private readonly techNameMigrationMap: { [oldValue: string]: string } = {
+    'DB': 'Dom_Beaudin',
+    'JB': 'Julie_Bordeleau',
+    'KD': 'Katia_Daraiche',
+    'JL': 'Janie_Lachapelle',
+    'LM': 'Lisette_Mazoue',
+    'KL': 'Karine_Lefort',
+    'SP': 'Sabrina_Pilon',
+    'MAR': 'MarcAndre_Remillard',
+    'VR': 'Valerie_Remillard',
+    'AR': 'Annie_Rousseau',
+    'MSO': 'Marc_StOnge',
+    'ZM': 'Zakary_Mitrovic',
+  };
+
+  private migrateProductionData(type: string, data: any): any {
+    if (!data) return data;
+
+    const fieldDefs = this.getFieldDefByType(type);
+    const migrated = { ...data };
+
+    fieldDefs.forEach(field => {
+      if (field.type !== 'dynamicTable') return;
+
+      // Already migrated, skip
+      if (Array.isArray(migrated[field.key])) return;
+
+      const row: any = {};
+      let hasAnyValue = false;
+
+      field.columns.forEach((col: any) => {
+        // 1. Try exact match
+        // 2. Try lowerFirstChar
+        // 3. Try full case-insensitive match
+        const caseInsensitiveKey = Object.keys(migrated).find(
+          k => k.toLowerCase() === col.key.toLowerCase()
+        );
+
+        const flatValue =
+          migrated[col.key] ??
+          migrated[this.lowerFirstChar(col.key)] ??
+          (caseInsensitiveKey ? migrated[caseInsensitiveKey] : '');
+
+        if (col.type === 'select' && flatValue && this.techNameMigrationMap[flatValue]) {
+          row[col.key] = this.techNameMigrationMap[flatValue];
+        } else {
+          row[col.key] = flatValue ?? '';
+        }
+
+        if (flatValue !== '' && flatValue != null) hasAnyValue = true;
+      });
+
+      if (hasAnyValue) {
+        migrated[field.key] = [row];
+      }
+    });
+
+    return migrated;
+  }
+
+  private lowerFirstChar(str: string): string {
+    return str.charAt(0).toLowerCase() + str.slice(1);
+  }
+
 
   private addPhaseFromData(phaseData: any): void {
+    // Build ALL production groups upfront, just like addPhase() does
     const phaseGroup = this.fb.group({
       selectedTypes: [phaseData.selectedTypes || []],
-      uploaded: [phaseData.uploaded || false], // Preserve the uploaded flag
+      uploaded: [phaseData.uploaded || false],
       needsUpdate: [phaseData.needsUpdate || false],
+      etext: this.buildProductionGroup(this.eTextFormFields),
+      braille: this.buildProductionGroup(this.brailleFormFields),
+      grossi: this.buildProductionGroup(this.grossiFormFields),
+      agrandis: this.buildProductionGroup(this.agrandisFormFields),
+      num: this.buildProductionGroup(this.numerisationFormFields),
+      pdf: this.buildProductionGroup(this.pdfFormFields),
+      html: this.buildProductionGroup(this.htmlFormFields),
+      form: this.buildProductionGroup(this.formulaireFormFields),
+      dessin: this.buildProductionGroup(this.dessinFormFields),
+      sonore: this.buildProductionGroup(this.sonoreFormFields),
+      autre: this.buildProductionGroup(this.autreFormFields),
+      brailleBANQ: this.buildProductionGroup(this.brailleBANQBIBAFormFields),
+      brailleBANQ2: this.buildProductionGroup(this.brailleBANQBIOUBAFormFields),
+      brailleDuoMedia: this.buildProductionGroup(this.brailleDuoMediaBANQFormFields),
+      brailleHYDROQC: this.buildProductionGroup(this.brailleHYDROQCFormFields),
+      grossiHYDROQC: this.buildProductionGroup(this.grossiHYDROQCFormFields),
     }) as FormGroup;
 
+    // Then patch only the types that have saved data
     const selectedTypes: string[] = phaseData.selectedTypes || [];
-
     selectedTypes.forEach((type: string) => {
-      const fieldDefs = this.getFieldDefByType(type);
-      const group = this.buildProductionGroup(fieldDefs);
-
       if (phaseData[type]) {
-        // First patch regular values
-        group.patchValue(phaseData[type], { emitEvent: false });
-
-        // Then handle dynamic tables separately
-        this.processProductionDynamicTables(group, fieldDefs, phaseData[type]);
+        const migratedTypeData = this.migrateProductionData(type, phaseData[type]); // 👈
+        const group = phaseGroup.get(type) as FormGroup;
+        if (group) {
+          group.patchValue(phaseData[type], { emitEvent: false });
+          const fieldDefs = this.getFieldDefByType(type);
+          this.processProductionDynamicTables(group, fieldDefs, migratedTypeData);
+        }
       }
-
-      phaseGroup.addControl(type, group);
     });
 
     this.phases.push(phaseGroup);
@@ -828,10 +979,27 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
         if (Array.isArray(tableData)) {
           const newArray = this.fb.array(
             tableData.map((row: any) => {
-              const groupControls = field.columns.reduce((acc: any, col: any) => {
-                acc[col.key] = new FormControl(row ? (row[col.key] ?? '') : '');
-                return acc;
-              }, {});
+              const groupControls: { [key: string]: FormControl } = {};
+
+              field.columns.forEach((col: any) => {
+                let value = row ? (row[col.key] ?? '') : '';
+
+                // Convert date strings to Date objects
+                if (col.type === 'date' && value && typeof value === 'string') {
+                  value = new Date(value);
+                }
+
+                // Apply time validator when recreating the control
+                if (col.type === 'time') {
+                  groupControls[col.key] = new FormControl(
+                    value,
+                    [this.timeFormatValidator.bind(this)]
+                  );
+                } else {
+                  groupControls[col.key] = new FormControl(value);
+                }
+              });
+
               return this.fb.group(groupControls);
             })
           );
@@ -858,10 +1026,18 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
     const newArray = this.fb.array(
       rowsFromData.map((row: any, rowIndex: number) => {
-        const groupControls = field.columns.reduce((acc: any, col: any) => {
-          acc[col.key] = new FormControl(row ? (row[col.key] ?? '') : '');
-          return acc;
-        }, {});
+        const groupControls: { [key: string]: FormControl } = {};
+
+        field.columns.forEach((col: any) => {
+          let value = row ? (row[col.key] ?? '') : '';
+
+          // Convert date strings to Date objects
+          if (col.type === 'date' && value && typeof value === 'string') {
+            value = new Date(value);
+          }
+
+          groupControls[col.key] = new FormControl(value);
+        });
 
         // Preserve manual override flag during import
         if (field.type === 'facturationTable') {
@@ -912,7 +1088,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   async downloadJson() {
     // 1. Upload any new phases to DB and update the form's uploaded flags
-    await this.uploadProjectsToDB();
+    // await this.uploadProjectsToDB(); 
 
     // 2. Build JSON with the updated flags
     const data = {
@@ -1423,44 +1599,44 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   //#endregion
 
   //#region DB SERVICES
-  async uploadProjectsToDB(): Promise<void> {
-    const result = await this.projectUploadService.uploadProjects(
-      this.form.value,
-      this.phases.value,
-      this.needsPhase,
-      this.requisitionTypeString
-    );
+  // async uploadProjectsToDB(): Promise<void> {
+  //   const result = await this.projectUploadService.uploadProjects(
+  //     this.form.value,
+  //     this.phases.value,
+  //     this.needsPhase,
+  //     this.requisitionTypeString
+  //   );
 
-    if (result.success) {
-      console.log('Projects uploaded successfully');
+  //   if (result.success) {
+  //     console.log('Projects uploaded successfully');
 
-      // Update the phases in the form with the new flags
-      if (result.updatedPhases) {
-        const phasesArray = this.phases;
-        result.updatedPhases.forEach((updatedPhase, index) => {
-          const phaseGroup = phasesArray.at(index) as FormGroup;
-          phaseGroup.get('uploaded')?.setValue(updatedPhase.uploaded, { emitEvent: false });
-          phaseGroup.get('needsUpdate')?.setValue(updatedPhase.needsUpdate || false, { emitEvent: false });
-        });
-      }
+  //     // Update the phases in the form with the new flags
+  //     if (result.updatedPhases) {
+  //       const phasesArray = this.phases;
+  //       result.updatedPhases.forEach((updatedPhase, index) => {
+  //         const phaseGroup = phasesArray.at(index) as FormGroup;
+  //         phaseGroup.get('uploaded')?.setValue(updatedPhase.uploaded, { emitEvent: false });
+  //         phaseGroup.get('needsUpdate')?.setValue(updatedPhase.needsUpdate || false, { emitEvent: false });
+  //       });
+  //     }
 
-      const uploadedCount = result.updatedPhases?.filter(p => p.uploaded).length || 0;
-      const updatedCount = result.updatedPhases?.filter(p => p.needsUpdate === false && p.uploaded === true).length || 0;
+  //     const uploadedCount = result.updatedPhases?.filter(p => p.uploaded).length || 0;
+  //     const updatedCount = result.updatedPhases?.filter(p => p.needsUpdate === false && p.uploaded === true).length || 0;
 
-      let message = '';
-      if (uploadedCount > 0) message += `${uploadedCount} nouveau(x) projet(s) téléversé(s). `;
-      if (updatedCount > 0) message += `${updatedCount} projet(s) mis à jour.`;
+  //     let message = '';
+  //     if (uploadedCount > 0) message += `${uploadedCount} nouveau(x) projet(s) téléversé(s). `;
+  //     if (updatedCount > 0) message += `${updatedCount} projet(s) mis à jour.`;
 
-      this.showPopUpDialog(message || 'Aucun changement.', 'Succès');
+  //     this.showPopUpDialog(message || 'Aucun changement.', 'Succès');
 
-      this.form.markAsDirty();
-    } else {
-      this.showPopUpDialog(
-        `Erreur lors du téléversement: ${result.message}`,
-        'Erreur de téléversement'
-      );
-    }
-  }
+  //     this.form.markAsDirty();
+  //   } else {
+  //     this.showPopUpDialog(
+  //       `Erreur lors du téléversement: ${result.message}`,
+  //       'Erreur de téléversement'
+  //     );
+  //   }
+  // }
 
   // Add this in your component to mark phases as needing update when modified
   private setupPhaseChangeTracking() {

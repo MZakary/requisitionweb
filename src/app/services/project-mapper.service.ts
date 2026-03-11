@@ -4,28 +4,33 @@ import { FormGroup } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectMapperService {
-  
+
   createProjectFromPhase(
-    formValue: any, 
-    phase: any, 
-    phaseNumber: number, 
+    formValue: any,
+    phase: any,
+    phaseNumber: number,
     requisitionType: string
   ): ProjetRow {
     console.log(formValue, phase, phaseNumber, requisitionType);
     return {
       Id: 0,
       Statut: 'Nouveau',
-      NumRequisition: formValue.noRequisition || '',
-      NumPOBCDDT: formValue.numeroPOBCDDT || 0,
-      SessionEtude: formValue.sessionEtude || '',
+      NumRequisition: formValue.numeroRequisitionExterne || formValue.numeroRequisitionInterne ||
+        formValue.numeroRequisitionScolaire || formValue.noRequisitionBANQ || formValue.noRequisition ||'', //for banq its the numero fichier
+      NumPOBCDDT: formValue.noBonCommandeBANQ || formValue.noDemande || formValue.noCommandeExterne || formValue.noDemandeScolaire || 'N/A', //needs to be set in db viewer of app
+      SessionEtude: '', //needs to be set in db viewer of app
       DateDemande: formValue.dateDemande || new Date().toISOString().split('T')[0],
       PeriodeFinanciereDemande: formValue.periodeFinanciereDemande || '',
-      TypeClient: formValue.typeClient || requisitionType,
+      TypeClient: formValue.typeClientExterne || formValue.typeClientInterne || requisitionType, //soit le dropdown ou info par default selon le dropdown 
+      /*Interne = santé quebec ou cissmc 
+      BANQ = externe BANQ
+      HYDRO = externe gouvernemental
+      Scolaire = externe education*/
       Client: formValue.nomClient || formValue.nomClientScolaire || '',
       SousCentreActivite: formValue.sousCentreActivite || '',
       NomContact: formValue.nomContact || '',
       NomProjet: this.generateProjectName(formValue, phase, phaseNumber),
-      TypeProdDemande: phase.selectedTypes?.join(', ') || '',
+      TypeProdDemande: phase.selectedTypes?.join(', ') || '', // EXAMPLE: Phase 1 Braille, Dessin
       NumFichier: this.extractFileName(phase),
       DateRequise: formValue.dateRequise || '',
       NoPhase: phaseNumber,
@@ -66,23 +71,23 @@ export class ProjectMapperService {
   createProjectFromRequisition(formValue: any, requisitionType: string): ProjetRow {
     return {
       Id: 0,
-      Statut: 'Nouveau',
-      NumRequisition: formValue.numeroRequisition || '',
-      NumPOBCDDT: formValue.numeroPOBCDDT || 0,
-      SessionEtude: formValue.sessionEtude || '',
-      DateDemande: formValue.dateDemande || new Date().toISOString().split('T')[0],
-      PeriodeFinanciereDemande: formValue.periodeFinanciereDemande || '',
-      TypeClient: formValue.typeClient || requisitionType,
-      Client: formValue.nomClient || formValue.nomClientScolaire || '',
-      SousCentreActivite: formValue.sousCentreActivite || '',
-      NomContact: formValue.nomContact || '',
-      NomProjet: formValue.nomProjet || '',
+      Statut: 'Production',
+      NumRequisition: formValue.numeroRequisitionMateriel || formValue.numeroRequisitionService || '',
+      NumPOBCDDT: formValue.noCommandeMateriel || formValue.noCommandeService || 'N/A',
+      SessionEtude: 'N/A', //vide
+      DateDemande: formValue.dateDemandeService || formValue.dateDemandeMateriel || '',
+      PeriodeFinanciereDemande: '', // ? CHECK WHICH DATE IS USED TO GET PERIOD 
+      TypeClient: '', // AJOUT CHAMP TYPE CLIENT DROPDOWN
+      Client: formValue.nomClientService || formValue.nomClientMateriel || '',
+      SousCentreActivite: '', // ?  AJOUT CHAMP SOUS CENTRE ACTIVITE DROPDOWN
+      NomContact: formValue.nomContactMateriel || formValue.nomContactService || '',
+      NomProjet: formValue.nomProjetMateriel || formValue.nomProjetService || '',
       TypeProdDemande: requisitionType,
-      NumFichier: formValue.numFichier || '',
-      DateRequise: formValue.dateRequise || '',
+      NumFichier: 'N/A',
+      DateRequise: formValue.dateRequiseMateriel || formValue.dateRequiseService || '',
       NoPhase: 0,
       NoPageImprimer: 0,
-      Complexite: formValue.niveauDifficulte || '',
+      Complexite: formValue.niveauDifficulteMateriel || formValue.niveauDifficulteService || '', //AJOUT CHAMP NIVEAU DE DIFFICULTE DROPDOWN
       TechMulti: '',
       DateTermineMulti: '',
       HeureTravailleMulti: 0,
@@ -133,7 +138,7 @@ export class ProjectMapperService {
 
   private extractFileName(phase: any): string {
     const productionTypes = ['etext', 'braille', 'grossi', 'agrandis', 'pdf', 'html', 'formulaire', 'dessin'];
-    
+
     for (const type of productionTypes) {
       if (phase.selectedTypes?.includes(type) && phase[type]?.noFichier) {
         return phase[type].noFichier;
@@ -143,9 +148,9 @@ export class ProjectMapperService {
   }
 
   private extractComplexity(phase: any): string {
-    const complexityFields = ['niveauDifficulteEtext', 'niveauDifficulteBraille', 'niveauDifficulteGrossi', 
-                              'niveauDifficulteDessin', 'niveauDifficultePDF', 'niveauDifficulteFormulaire'];
-    
+    const complexityFields = ['niveauDifficulteEtext', 'niveauDifficulteBraille', 'niveauDifficulteGrossi',
+      'niveauDifficulteDessin', 'niveauDifficultePDF', 'niveauDifficulteFormulaire'];
+
     for (const type of (phase.selectedTypes || [])) {
       const phaseGroup = phase[type];
       if (phaseGroup) {
@@ -179,7 +184,7 @@ export class ProjectMapperService {
   private calculateTotalHoursFromRequisition(formValue: any): number {
     const tableHeure = formValue.tableHeure;
     let total = 0;
-    
+
     if (Array.isArray(tableHeure)) {
       tableHeure.forEach((row: any) => {
         Object.keys(row).forEach(key => {
@@ -194,18 +199,18 @@ export class ProjectMapperService {
 
   private getBraillePageCount(phase: any, type: 'abrege' | 'integral'): number {
     const brailleTypes = ['braille', 'brailleBANQ', 'brailleBANQ2', 'brailleDuoMedia', 'brailleHYDROQC'];
-    
+
     for (const brailleType of brailleTypes) {
       if (phase.selectedTypes?.includes(brailleType) && phase[brailleType]) {
         const group = phase[brailleType];
         if (type === 'abrege') {
-          return Number(group.prodPagesBrailleAbrege) || 
-                 Number(group.nbsPageProdBrailleBA) || 
-                 0;
+          return Number(group.prodPagesBrailleAbrege) ||
+            Number(group.nbsPageProdBrailleBA) ||
+            0;
         } else {
-          return Number(group.prodPagesBrailleIntegral) || 
-                 Number(group.nbsPageProdBrailleBI) || 
-                 0;
+          return Number(group.prodPagesBrailleIntegral) ||
+            Number(group.nbsPageProdBrailleBI) ||
+            0;
         }
       }
     }

@@ -1,15 +1,21 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
 export const eTextFormFields = [
   { label: 'E-Text - informations générales', type: 'header4' },
-  { key: 'noFichierEText', label: 'Numéro du fichier', label2:"E-Text - Informations générales", type: 'text' },
+  { key: 'noFichierEText', label: 'Numéro du fichier', label2: "E-Text - Informations générales", type: 'text' },
+  { key: 'dateDemandeEText', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseEText', label: 'Date requise', type: 'text' },
   { key: 'nbsPageImprimeeEText', label: 'Nombre de pages imprimées', type: 'text' },
-  { key: 'niveauDifficulteEtext', label: 'Niveau de difficulté', type: 'select',
+  {
+    key: 'niveauDifficulteEtext', label: 'Niveau de difficulté', type: 'select',
     options: [
       { label: 'Standard', value: 'standard' },
       { label: 'Complexe', value: 'complexe' },
     ]
   },
-  { key: 'langueNotesProdEtext', label: 'Langue des notes du producteur', type: 'select',
+  {
+    key: 'langueNotesProdEtext', label: 'Langue des notes du producteur', type: 'select',
     options: [
       { label: 'Français', value: 'fra' },
       { label: 'Anglais', value: 'ang' },
@@ -19,42 +25,72 @@ export const eTextFormFields = [
   { key: 'graphiqueEText', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
   { label: 'E-Text - finition et montage', type: 'header4' },
-  { key: 'courrielEText', label: 'Courriel', label2:"E-Text - Finition et montage", type: 'checkbox', defaultValue:true },
+  { key: 'courrielEText', label: 'Courriel', label2: "E-Text - Finition et montage", type: 'checkbox', defaultValue: true },
   { key: 'autreCourrielEText', label: 'Si autre, expliquer', type: 'text' },
 
   { label: 'E-Text - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceEText', label: 'Nom/Description', label2:"E-Text - nom du fichier source ou description de la production", type: 'textarea' },
-  
+  { key: 'nomFichierSourceEText', label: 'Nom/Description', label2: "E-Text - nom du fichier source ou description de la production", type: 'textarea' },
+
   { label: 'E-Text - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientEText', label: 'Spécifications du client', type: 'textarea', label2:"E-Text - spécifications du client" },
+  { key: 'specificationsClientEText', label: 'Spécifications du client', type: 'textarea', label2: "E-Text - spécifications du client" },
 
   { label: 'E-Text - commentaire', type: 'header4' },
-  { key: 'commentaireEText', label: 'Commentaire', label2:"E-Text - commentaire", type: 'textarea' },
-  
+  { key: 'commentaireEText', label: 'Commentaire', label2: "E-Text - commentaire", type: 'textarea' },
+
   { label: 'E-Text - informations tech.', type: 'header4' },
-  { key: 'nomtechEText', label: 'Nom', label2: "E-Text - informations tech.", type: 'text' },
-  { key: 'terminerTechEText', label: 'Terminé le', type: 'text' },
-  { key: 'nbsHeureTravailTechEText', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechEText', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechEText',
+    addTotal: true,
+    label2: "E-Text - informations tech.",
+    totalKey: 'nbsHeureTravailTechEText',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechEText',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'terminerTechEText', label: 'Terminé le', type: 'date' },
+      { key: 'nbsHeureTravailTechEText', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechEText', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'E-Text - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineEText', label: 'Terminé?', label2:"E-Text - Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomCDQEText', label: 'Nom', type: 'text' },
-  { key: 'terminerCDQEText', label: 'Terminé le', type: 'text' },
-  { key: 'nbsHeureTravailCDQEText', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireCDQEText', label: 'Commentaire', type: 'textarea' },
+  { key: 'checkboxCQTermineEText', label: 'Terminé?', label2: "E-Text - Contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableCDQEText',
+    addTotal: true,
+    // label2: "Braille - Informations tech. tactile",
+    totalKey: 'nbsHeureTravailCDQEText',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomCDQEText',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'terminerCDQEText', label: 'Terminé le', type: 'date' },
+      { key: 'nbsHeureTravailCDQEText', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireCDQEText', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   /* Add tableau */
   { label: 'E-Text - tableau de production', type: 'header4' },
   {
     key: 'tableauProductionEText',
-    label: 'E-Text - Tableau de production',
+    label2: 'E-Text - Tableau de production',
     type: 'dynamicTable',
     removeAddButton: true,
     copyAnswers: true,
     keyToCopy: 'noFichierEText',
     columns: [
-      { key: 'noFichProdEText', label: 'Numéro du fichier', type: 'textarea', paste:true },
+      { key: 'noFichProdEText', label: 'Numéro du fichier', type: 'textarea', paste: true },
       { key: 'nbsCaracteresProdEText', label: 'Nombre de caractères', type: 'textarea' },
     ]
   },

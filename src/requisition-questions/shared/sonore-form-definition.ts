@@ -1,10 +1,17 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
+
 export const sonoreFormFields = [
   { label: 'Sonore - informations générales', type: 'header4' },
-  { key: 'noFichierSonore', label: 'Numéro du fichier', label2:"Sonore - Informations générales", type: 'text' },
+  { key: 'noFichierSonore', label: 'Numéro du fichier', label2: "Sonore - Informations générales", type: 'text' },
+  { key: 'dateDemandeSonore', label: 'Date de la demande', type: 'text' },
+
   { key: 'dateRequiseSonore', label: 'Date requise', type: 'text' },
   { key: 'quantiteSonore', label: 'Quantité', type: 'text' },
   { key: 'nbsDePageImprime', label: 'Nombre de pages imprimées', type: 'text' },
-  { key: 'typeFichierSonore', type: 'checkbox-list',
+  {
+    key: 'typeFichierSonore', type: 'checkbox-list',
     options: [
       { label: 'MP3', value: 'mp3' },
       { label: 'DAISY', value: 'daisy' },
@@ -15,22 +22,25 @@ export const sonoreFormFields = [
   { key: 'graphiqueSonore', label: 'Graphique (si coché, voir section dessin)', type: 'checkbox' },
 
   { label: 'Sonore - finition et montage', type: 'header4' },
-  { key: 'livraisonSonore', type: 'checkbox-list',
+  {
+    key: 'livraisonSonore', type: 'checkbox-list',
     options: [
       { label: 'Courriel', value: 'courriel', label2: "Sonore - Finition et montage" },
       { label: 'CD', value: 'CD' },
     ]
   },
-  { key:"imageSurDisqueSonore", label: 'Image sur le disque', type: 'checkbox' },
+  { key: "imageSurDisqueSonore", label: 'Image sur le disque', type: 'checkbox' },
   { key: 'detailDeLImageSonore', label: "Détail de l'image", type: 'text' },
-  { key: 'typeBoitierSonore', label: 'Type de boîtier', type: 'select',
+  {
+    key: 'typeBoitierSonore', label: 'Type de boîtier', type: 'select',
     options: [
       { label: 'Papier', value: 'papier' },
       { label: 'Plastique', value: 'plastique' },
       { label: 'Autocollant', value: 'autocollant' }
     ]
   },
-  { key: 'typeEtiquetteSonore', type: 'checkbox-list',
+  {
+    key: 'typeEtiquetteSonore', type: 'checkbox-list',
     options: [
       { label: 'Étiquette braille', value: 'etiquetteBraille' },
       { label: 'Étiquette imprimée', value: 'etiquetteImprimee' },
@@ -38,28 +48,58 @@ export const sonoreFormFields = [
   },
   { key: 'libelleEtiquetteSonore', label: "Libellé de l'étiquette", type: 'text' },
   { key: 'autreEtiquetteSonore', label: "Autre", type: 'text' },
-  
+
   { label: 'Sonore - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2:"Sonore - nom du fichier source ou description de la production", type: 'textarea' },
-  
+  { key: 'nomFichierSourceSonore', label: 'Nom/Description', label2: "Sonore - nom du fichier source ou description de la production", type: 'textarea' },
+
   { label: 'Sonore - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientSonore', label: 'Spécifications du client', type: 'textarea', label2:"Sonore - spécifications du client" },
+  { key: 'specificationsClientSonore', label: 'Spécifications du client', type: 'textarea', label2: "Sonore - spécifications du client" },
 
   { label: 'Sonore - commentaire', type: 'header4' },
-  { key: 'commentaireSonore', label: 'Commentaire', type: 'textarea', label2:"Sonore - commentaire" },
-  
+  { key: 'commentaireSonore', label: 'Commentaire', type: 'textarea', label2: "Sonore - commentaire" },
+
   { label: 'Sonore - informations tech.', type: 'header4' },
-  { key: 'nomTechSonore', label: 'Nom', label2:"Sonore - Informations tech.", type: 'text' },
-  { key: 'dateTermineTechSonore', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTechSonore', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechSonore', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechSonore',
+    addTotal: true,
+    label2: "Sonore - informations tech.",
+    totalKey: 'noHeureTechSonore',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechSonore',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineTechSonore', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureTechSonore', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechSonore', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'Sonore - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineSonore', label: 'Terminé?', label2:"Sonore - Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualSonore', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualSonore', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualSonore', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualSonore', label: 'Commentaire', type: 'textarea' },
+  { key: 'checkboxCQTermineSonore', label: 'Terminé?', label2: "Sonore - Contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableContQualSonore',
+    addTotal: true,
+    // label2: "Sonore - informations tech.",
+    totalKey: 'noHeureContQualSonore',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomContQualSonore',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleDuoMediaBANQ', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineContQualSonore', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureContQualSonore', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireContQualSonore', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'Sonore - tableau de production', type: 'header4' },
   {

@@ -1,12 +1,18 @@
+import {
+  TECH_NAME_OPTIONS
+} from '../dropdown-options'
+
 export const agrandisFormFields = [
   { label: 'Agrandissement - informations générales', type: 'header4' },
-  { key: 'numFichierAgrandissement', label: 'Numéro du fichier',label2:"Agrandissement - informations générales", type: 'text' },
+  { key: 'numFichierAgrandissement', label: 'Numéro du fichier', label2: "Agrandissement - informations générales", type: 'text' },
+  { key: 'dateDemandeAgrandissement', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseAgrandissement', label: 'Date requise', type: 'text' },
   { key: 'quantiteAgrandissement', label: 'Quantité', type: 'text' },
   { key: 'nbsPageImprimeeAgrandissement', label: 'Nombre de pages imprimées', type: 'text' },
   { key: 'PourcentageAgrandissement', label: 'Agrandissement %', type: 'text' },
   { key: 'taillePoliceAgrandissement', label: 'Taille de police de caractères', type: 'text' },
-  { key: 'FormatGrossi', label: 'Format', type: 'select',
+  {
+    key: 'FormatGrossi', label: 'Format', type: 'select',
     options: [
       { label: '8 1/2 x 11', value: 'format8demi11Agrandissement' },
       { label: '8 1/2 x 14', value: 'format8demi14Agrandissement' },
@@ -19,23 +25,26 @@ export const agrandisFormFields = [
   { key: 'couleurAgrandissement', label: 'Couleur', type: 'checkbox' },
 
   { label: 'Agrandissement - impression', type: 'header4' },
-  { key: 'impressionAgrandissement', type: 'checkbox-list',
+  {
+    key: 'impressionAgrandissement', type: 'checkbox-list',
     options: [
-      { label: 'XEROX', value: 'xeroxAgrandissement', label2:"Agrandissement - Impression" },
+      { label: 'XEROX', value: 'xeroxAgrandissement', label2: "Agrandissement - Impression" },
       { label: 'Recto', value: 'rectoAgrandissement' },
       { label: 'Recto/Verso', value: 'rectoVersoAgrandissement' }
     ]
   },
 
   { label: 'Agrandissement - finition et montage', type: 'header4' },
-  { key: 'typeTeneurAgrandissement', type: 'checkbox-list',
+  {
+    key: 'typeTeneurAgrandissement', type: 'checkbox-list',
     options: [
       { label: 'Broché', value: 'brocheAgrandissement', label2: "Agrandissement - Finition et montage" },
       { label: 'Cerlox', value: 'cerloxAgrandissement' },
       { label: 'Wire-O', value: 'wireOAgrandissement' },
     ]
   },
-  { key: 'typeCouvertureAgrandissement', type: 'checkbox-list',
+  {
+    key: 'typeCouvertureAgrandissement', type: 'checkbox-list',
     options: [
       { label: 'Couverture vinyle', value: 'couvVinyleAgrandissement' },
       { label: 'Couverture plastifiée couleur', value: 'couvPlasCouleurAgrandissement' },
@@ -48,29 +57,56 @@ export const agrandisFormFields = [
   { key: 'autreCouvAgrandissement', label: 'Si autre, spécifier', type: 'text' },
 
   { label: 'Agrandissement - nom du fichier source ou description de la production', type: 'header4' },
-  { key: 'nomFichierSourceAgrandissement', label: 'Nom/Description', label2:"Agrandissement - nom du fichier source ou description de la production", type: 'textarea' },
-  
+  { key: 'nomFichierSourceAgrandissement', label: 'Nom/Description', label2: "Agrandissement - nom du fichier source ou description de la production", type: 'textarea' },
+
   { label: 'Agrandissement - spécifications du client', type: 'header4' },
-  { key: 'specificationsClientAgrandissement', label: 'Spécifications du client', type: 'textarea', label2:"Agrandissement - spécifications du client" },
+  { key: 'specificationsClientAgrandissement', label: 'Spécifications du client', type: 'textarea', label2: "Agrandissement - spécifications du client" },
 
   { label: 'Agrandissement - commentaire', type: 'header4' },
-  { key: 'commentaireAgrandissement', label: 'Commentaire', type: 'textarea', label2:"Agrandissement - commentaire" },
-  
+  { key: 'commentaireAgrandissement', label: 'Commentaire', type: 'textarea', label2: "Agrandissement - commentaire" },
+
   { label: 'Agrandissement - informations tech.', type: 'header4' },
-  { key: 'nomTechAgrandissement', label: 'Nom', label2:"Agrandissement - Informations tech.", type: 'text' },
-  { key: 'dateTermineTechAgrandissement', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTechAgrandissement', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechAgrandissement', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechAgrandissement',
+    label2: "Agrandissement - Informations tech.",
+    type: 'dynamicTable',
+    addTotal:true,
+    totalKey:'noHeurePrisTechAgrandissement',
+    columns: [
+      {
+        key: 'nomTechAgrandissement',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'dateTermineTechAgrandissement', label: 'Terminé le', type: 'date' },
+      { key: 'noHeurePrisTechAgrandissement', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechAgrandissement', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'Agrandissement - contrôle de qualité', type: 'header4' },
-  { key: 'checkboxCQTermineAgrandissement', label: 'Terminé?', label2:"Agrandissement - Contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualAgrandissement', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualAgrandissement', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualAgrandissement', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualAgrandissement', label: 'Commentaire', type: 'textarea' },
-  
-  
-  
+  { key: 'checkboxCQTermineAgrandissement', label: 'Terminé?', label2: "Agrandissement - Contrôle de qualité", type: 'checkbox' },
+  {
+    key: 'tableCQAgrandissement',
+    type: 'dynamicTable',
+    addTotal:true,
+    totalKey:'noHeurePrisCQAgrandissement',
+    columns: [
+      {
+        key: 'nomCQAgrandissement',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'dateTermineCQAgrandissement', label: 'Terminé le', type: 'date' },
+      { key: 'noHeurePrisCQAgrandissement', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireCQAgrandissement', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
+
+
+
   { label: 'Agrandissement - tableau de production', type: 'header4' },
   {
     key: 'tableProductionAgrandissement',

@@ -443,3 +443,16 @@
 .p-floatlabel:has(textarea:focus) label {
   color: var(--primary-color);
 }
+
+::ng-deep {
+  .p-inputtext.ng-invalid.ng-touched {
+    border-color: #f44336;
+  }
+  
+  .p-error {
+    color: #f44336;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
+}

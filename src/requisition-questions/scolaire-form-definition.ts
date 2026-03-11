@@ -11,18 +11,18 @@ export const scolaireFormFields = [
   // },
   { key: 'nomClientScolaire', label: 'Nom du client', type: 'text' },
   { key: 'noClientScolaire', label: 'Numéro du client (si connu)', type: 'text' },
-  { key: 'dateDemandeScolaire', label: 'Date de la demande', type: 'text' },
+  // { key: 'dateDemandeScolaire', label: 'Date de la demande', type: 'text' },
   { key: 'etablissementEnseignementScolaire', label: "Établissement d'enseignement", type: 'text' },
   { key: 'sigleCoursScolaire', label: "Sigle du cours", type: 'text' },
   { key: 'titreCoursScolaire', label: "Titre du cours", type: 'text' },
-  { key: 'nomEtudiantScolaire', label: "Nom de l'étudiant", type: 'text' },
+  { key: 'nomEtudiantScolaire', label: "Nom de l'étudiant", type: 'text' }, //nom du contact pour DB
   { key: 'courrielEtudiantScolaire', label: "Courriel de l'étudiant", type: 'text' },
   { key: 'nomRepondantScolaire', label: "Nom du répondant", type: 'text' },
   { key: 'courrielRepondantScolaire', label: "Courriel du répondant", type: 'text' },
   { key: 'livrerEtudiantScolaire', label: "Livrer à l'étudiant", type: 'checkbox' },
 
   { label: 'Informations spécifiques du document', type: 'header2' },
-  { key: 'nomProjetScolaire', label: 'Nom du projet', type: 'text', label2: 'Informations spécifiques du document' },
+  { key: 'nomProjetScolaire', label: 'Nom du projet', type: 'text', label2: 'Informations spécifiques du document' }, //Combine avec sigle et titre du cours Pour NOM DU PROJET DANS BD project mapper
   {
     key: 'docSourceScolaire', label: 'Document source', type: 'select',
     options: [
