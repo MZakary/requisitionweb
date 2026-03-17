@@ -11,13 +11,13 @@ export const servicesFormFields = [
   {
     key: 'typeClientService', label: 'Type de client', type: 'select',
     options: [
-      { label: 'Éducation', value: 'education_externe' },
-      { label: 'Entreprise & particulier', value: 'entreprise_particulier_externe' },
-      { label: 'Gouvernemental', value: 'gouvernemental_externe' },
-      { label: 'Milieu associatif', value: 'milieu_associatif_externe' },
-      { label: 'CISSSMC', value: 'cisssmc_interne' },
-      { label: 'Santé Québec', value: 'sante_quebec_interne' },
-      { label: 'BANQ', value: 'banq_externe' },
+      { label: 'Éducation', value: 'education' },
+      { label: 'Entreprise & particulier', value: 'entreprise_particulier' },
+      { label: 'Gouvernemental', value: 'gouvernemental' },
+      { label: 'Milieu associatif', value: 'milieu_associatif' },
+      { label: 'CISSSMC', value: 'cisssmc' },
+      { label: 'Santé Québec', value: 'sante_quebec' },
+      { label: 'BANQ', value: 'banq' },
     ]
   },
   {
@@ -109,7 +109,7 @@ export const servicesFormFields = [
         options: TECH_NAME_OPTIONS
       },
       { key: 'dateDebutService', label: 'Date Début', type: 'date' },
-      { key: 'dateDebutService', label: 'Date Fin', type: 'date' },
+      { key: 'dateFinService', label: 'Date Fin', type: 'date' },
       { key: 'noHeurePrisService', label: "Nombre d'heure(s)", type: 'time' },
     ]
   },

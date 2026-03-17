@@ -63,6 +63,8 @@ export const TECH_NAME_OPTIONS = [
   { label: 'Annie Rousseau', value: 'Annie_Rousseau' },
   { label: 'Marc St-Onge', value: 'Marc_StOnge' },
   { label: 'Zakary Mitrovic', value: 'Zakary_Mitrovic' },
+  // { label: 'Marc-Antoine Boulet', value: 'MarcAntoine_Boulet' },
+  
 ];
 
 // Status options (example for future use)

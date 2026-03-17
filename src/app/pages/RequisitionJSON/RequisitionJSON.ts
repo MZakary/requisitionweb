@@ -135,7 +135,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
   lockedFilePath: string | null = null;
 
   constructor(private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef, private tocService: TocService,
-    private ngZone: NgZone, 
+    private ngZone: NgZone,
     // private projectUploadService: ProjectUploadService
   ) {
 
@@ -495,10 +495,11 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
     return formArray.controls.reduce((sum, group) => {
       const raw = group.get(totalKey)?.value;
-      if (typeof raw === 'string' && /^(\d+)h(\d{2})$/.test(raw)) {
-        const [, h, m] = raw.match(/^(\d+)h(\d{2})$/)!;
-        const centieme = Math.round((parseInt(m) / 60) * 100);
-        return sum + parseInt(h) + centieme / 100;
+      if (typeof raw === 'string' && /^(\d+)h(\d{2})?$/.test(raw)) {
+        const match = raw.match(/^(\d+)h(\d{2})?$/);
+        const h = parseInt(match![1]);
+        const m = match![2] ? parseInt(match![2]) : 0;
+        return sum + h + m / 60;
       }
       const value = Number(raw);
       return sum + (isNaN(value) ? 0 : value);
@@ -517,10 +518,12 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
     return formArray.controls.reduce((sum, group) => {
       const raw = group.get(totalKey)?.value;
-      // Handle HHhMM time format (e.g. "16h25") → convert to decimal hours
-      if (typeof raw === 'string' && /^(\d+)h(\d{2})$/.test(raw)) {
-        const [, h, m] = raw.match(/^(\d+)h(\d{2})$/)!;
-        return sum + parseInt(h) + parseInt(m) / 60;
+      // Remplace le bloc if (typeof raw === 'string'...) dans les deux méthodes par :
+      if (typeof raw === 'string' && /^(\d+)h(\d{2})?$/.test(raw)) {
+        const match = raw.match(/^(\d+)h(\d{2})?$/);
+        const h = parseInt(match![1]);
+        const m = match![2] ? parseInt(match![2]) : 0;
+        return sum + h + m / 60;
       }
       const value = Number(raw);
       return sum + (isNaN(value) ? 0 : value);
@@ -558,6 +561,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       brailleDuoMedia: this.buildProductionGroup(this.brailleDuoMediaBANQFormFields),
       brailleHYDROQC: this.buildProductionGroup(this.brailleHYDROQCFormFields),
       grossiHYDROQC: this.buildProductionGroup(this.grossiHYDROQCFormFields),
+      
     });
 
     const phasesArray = this.phases;
@@ -718,18 +722,24 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
   // Add this validator function in your component
   timeFormatValidator(control: any): { [key: string]: any } | null {
-    if (!control.value) {
-      return null; // Don't validate empty values (let required validator handle that)
-    }
+    if (!control.value) return null;
 
-    // Regex for format HHhMM (hours 00-23, minutes 00-59)
-    const timeRegex = /^([0-1]?[0-9]|2[0-3])h[0-5][0-9]$/;
-
+    // Accept HHhMM or HHh (without minutes)
+    const timeRegex = /^(\d+)h(\d{2})?$/;
     if (!timeRegex.test(control.value)) {
       return { invalidTimeFormat: true };
     }
-
     return null;
+  }
+
+  normalizeTimeInput(control: AbstractControl): void {
+    const value = control.value;
+    if (!value) return;
+
+    // "800h" → "800h00"
+    if (/^\d+h$/.test(value)) {
+      control.setValue(value + '00', { emitEvent: true });
+    }
   }
   //#endregion
 

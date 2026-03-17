@@ -7,8 +7,8 @@ export const interneFormFields = [
   {
     key: 'typeClientInterne', label: 'Type de client', type: 'select',
     options: [
-      { label: 'CISSSMC', value: 'cisssmc_interne' },
-      { label: 'Santé Québec', value: 'sq_interne' },
+      { label: 'CISSSMC', value: 'cisssmc' },
+      { label: 'Santé Québec', value: 'sante_quebec' },
     ]
   },
   {

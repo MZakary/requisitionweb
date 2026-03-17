@@ -9,15 +9,15 @@ export const materielFormFields = [
   { key: 'dateDemandeMateriel', label: 'Date de la demande', type: 'text' },
   { key: 'dateRequiseMateriel', label: 'Date requise', type: 'text' },
   {
-    key: 'typeClientExterne', label: 'Type de client', type: 'select',
+    key: 'typeClientMateriel', label: 'Type de client', type: 'select',
     options: [
-      { label: 'Éducation', value: 'education_externe' },
-      { label: 'Entreprise & particulier', value: 'entreprise_particulier_externe' },
-      { label: 'Gouvernemental', value: 'gouvernemental_externe' },
-      { label: 'Milieu associatif', value: 'milieu_associatif_externe' },
-      { label: 'CISSSMC', value: 'cisssmc_interne' },
-      { label: 'Santé Québec', value: 'sante_quebec_interne' },
-      { label: 'BANQ', value: 'banq_externe' },
+      { label: 'Éducation', value: 'education' },
+      { label: 'Entreprise & particulier', value: 'entreprise_particulier' },
+      { label: 'Gouvernemental', value: 'gouvernemental' },
+      { label: 'Milieu associatif', value: 'milieu_associatif' },
+      { label: 'CISSSMC', value: 'cisssmc' },
+      { label: 'Santé Québec', value: 'sante_quebec' },
+      { label: 'BANQ', value: 'banq' },
     ]
   },
   {
@@ -109,7 +109,7 @@ export const materielFormFields = [
         options: TECH_NAME_OPTIONS
       },
       { key: 'dateDebutMateriel', label: 'Date Début', type: 'date' },
-      { key: 'dateDebutMateriel', label: 'Date Fin', type: 'date' },
+      { key: 'dateFinMateriel', label: 'Date Fin', type: 'date' },
       { key: 'noHeurePrisMateriel', label: "Nombre d'heure(s)", type: 'time' },
     ]
   },

@@ -61,6 +61,17 @@ export const dessinFormFields = [
       { label: 'Autre', value: 'autre' },
     ]
   },
+
+  {
+    key: 'pageCouleurDessin', label: 'Quel couleur veux tu?', type: 'select',
+    options: [
+      { label: 'Blanc', value: 'blanc' },
+      { label: 'Noir', value: 'noir' },
+
+    ]
+  },
+
+
   { key: 'autreFormatDessin', label: 'Si autre, spécifier', type: 'text' },
   {
     key: 'typeCouleurAChoisirDessin', type: 'checkbox-list',

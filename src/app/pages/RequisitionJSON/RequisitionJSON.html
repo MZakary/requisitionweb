@@ -71,6 +71,42 @@
       </p-floatLabel>
 
       <!-- TABLEAU HEURE REQ -->
+       <div *ngIf="field.type === 'tableHeure'" class="table-heure-wrapper" [formArrayName]="field.key">
+        <h3>{{ field.label }}</h3>
+
+        <div *ngFor="let row of getTableHeureArray(field.key).controls; let rowIndex = index" [formGroupName]="rowIndex"
+          class="table-heure-row">
+
+          <ul style="list-style: none; padding-left: 0; display: flex; justify-content: center; align-items: start;">
+            <li *ngFor="let col of field.columns" class="table-heure-col">
+              <p-floatLabel variant="on">
+                <label [for]="field.key + '-' + rowIndex + '-' + col.key">{{ col.label }}</label>
+                <input *ngIf="col.type !== 'textarea'" pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
+                  [type]="col.type || 'text'" [formControlName]="col.key" (input)="calculateTotalHeures()" />
+                <textarea *ngIf="col.type === 'textarea'" pTextarea [id]="field.key + '-' + rowIndex + '-' + col.key"
+                  [formControlName]="col.key" cols="225" (input)="calculateTotalHeures()"></textarea>
+              </p-floatLabel>
+            </li>
+
+            <li>
+              <p-button label="Effacer" (click)="removeTableHeureRow(field.key, rowIndex)" icon="pi pi-trash"
+                [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"></p-button>
+            </li>
+
+            <!-- Subtotal for this row -->
+          </ul>
+        </div>
+
+        <!-- Grand total -->
+        <p-floatLabel variant="on" *ngIf="field.needsTotal" style="margin-bottom: 20px;">
+          <label for="total-heures">Total des heures</label>
+          <input pInputText id="total-heures" [value]="totalHeuresValue" readonly style="font-weight: bold; width: 80%;"
+            aria-live="polite" aria-label="Total des heures" />
+        </p-floatLabel>
+
+        <p-button label="Ajouter une ligne" (click)="addTableHeureRow(field)" icon="pi pi-plus"
+          [style]="{ 'background-color': 'var(--primary-color)','border-color': 'var(--primary-color)'  }"> </p-button>
+      </div>
 
       <p-floatLabel *ngIf="field.type === 'textarea'" variant="on" class="textarea-label">
         <label [for]="field.key">{{ field.label }}</label>
@@ -155,8 +191,10 @@
 
                     <!-- Time input with pattern validation -->
                     <input *ngSwitchCase="'time'" pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
-                      [formControlName]="col.key" type="text" pattern="^([0-1]?[0-9]|2[0-3])h[0-5][0-9]$"
-                      title="Format attendu: HHhMM (exemple: 16h25)" style="height: 45px;" />
+                      [formControlName]="col.key" type="text" pattern="^\d+h(\d{2})?$"
+                      title="Format attendu: HHhMM (exemple: 16h25) ou HHh (exemple: 800h)" style="height: 45px;"
+                      (blur)="normalizeTimeInput(row.get(col.key)!)" />
+
 
                     <!-- Default text input -->
                     <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
@@ -166,8 +204,9 @@
               </ng-container>
 
               <!-- Validation message for time fields -->
-              <small aria-live="polite" *ngIf="col.type === 'time' && row.get(col.key)?.invalid && row.get(col.key)?.touched"
-                class="p-error" style="display: block; margin-top: 0.25rem;">
+              <small aria-live="polite"
+                *ngIf="col.type === 'time' && row.get(col.key)?.invalid && row.get(col.key)?.touched" class="p-error"
+                style="display: block; margin-top: 0.25rem;">
                 Format invalide. Utilisez HHhMM (ex: 16h25)
               </small>
             </div>
@@ -385,8 +424,9 @@
 
                                     <input *ngSwitchCase="'time'" pInputText
                                       [id]="field.key + '-' + rowIndex + '-' + col.key" [formControlName]="col.key"
-                                      type="text" placeholder="" pattern="^([0-1]?[0-9]|2[0-3])h[0-5][0-9]$"
-                                      title="Format attendu: HHhMM (exemple: 16h25)" style="height: 45px;" />
+                                      type="text" pattern="^\d+h(\d{2})?$"
+                                      title="Format attendu: HHhMM (exemple: 16h25) ou HHh (exemple: 800h)"
+                                      style="height: 45px;" (blur)="normalizeTimeInput(row.get(col.key)!)" />
 
                                     <input *ngSwitchDefault pInputText [id]="field.key + '-' + rowIndex + '-' + col.key"
                                       [formControlName]="col.key" type="text" class="p-inputtext"

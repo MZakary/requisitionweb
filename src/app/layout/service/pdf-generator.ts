@@ -27,7 +27,10 @@ const requisitionConfigs: Record<string, {
     fields: [
       { label: 'Numéro de réquisition', key: 'noRequisitionExterne' },
       { label: 'Numéro de commande', key: 'noCommandeExterne' },
+
       { label: 'Nom du client', key: 'nomClientExterne' },
+      { label: 'Type du client', key: 'typeClientExterne' },
+      
       { label: 'Numéro du client (si connu)', key: 'noClientExterne' },
       { label: 'Nom du contact', key: 'nomContactExterne' },
       { label: 'Courriel du contact', key: 'courrielContactExterne' },
@@ -99,7 +102,9 @@ const requisitionConfigs: Record<string, {
   interne: {
     fields: [
       { key: 'noRequisitionInterne', label: 'Numéro de réquisition' },
-      { key: 'nomDirectionInterne', label: 'Nom de la direction' },
+      { key: 'typeClientInterne', label: 'Type du client' },
+      { key: 'nomClientInterne', label: 'Nom de la direction' },
+      { key: 'nomClientAutreInterne', label: 'Autre nom du client' },
       { key: 'nomProgramServiceInterne', label: 'Nom du programme ou du service' },
       { key: 'nomDemandeurInterne', label: 'Nom du demandeur' },
       { key: 'nomProjetInterne', label: 'Nom du projet' },
@@ -145,7 +150,9 @@ const requisitionConfigs: Record<string, {
     fields: [
       { key: 'noRequisitionMateriel', label: 'Numéro de réquisition' },
       { key: 'noCommandeMateriel', label: 'Numéro de commande' },
+      { key: 'typeClientMateriel', label: 'Type du client' },
       { key: 'nomClientMateriel', label: 'Nom du client' },
+      { key: 'nomClientAutreMateriel', label: 'Autre nom du client' },
       { key: 'noClientMateriel', label: 'Numéro du client (si connu)' },
       { key: 'nomContactMateriel', label: 'Nom du contact' },
       { key: 'courrielContactMateriel', label: 'Courriel du contact' },
@@ -170,7 +177,9 @@ const requisitionConfigs: Record<string, {
     fields: [
       { key: 'noRequisitionService', label: 'Numéro de réquisition' },
       { key: 'noCommandeService', label: 'Numéro de commande' },
+      { key: 'typeClientService', label: 'Type du client' },
       { key: 'nomClientService', label: 'Nom du client' },
+      { key: 'nomClientAutreService', label: 'Autre nom du client' },
       { key: 'noClientService', label: 'Numéro du client (si connu)' },
       { key: 'nomContactService', label: 'Nom du contact' },
       { key: 'courrielContactService', label: 'Courriel du contact' },

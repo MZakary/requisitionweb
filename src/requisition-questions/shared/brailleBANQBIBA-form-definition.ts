@@ -288,11 +288,9 @@ export const brailleBANQBIOUBAFormFields = [
   { label: 'BANQ abrégé ou intégral - informations pré-encodage', type: 'header4' },
   { key: 'encodageNiveauDeuxPreEncodageBAOUBI', label: 'Nécessite un encodage de niveau 2', type: 'checkbox', label2: 'BANQ abrégé ou intégral - informations pré-encodage' },
   { key: 'graphiquePreEncodageBAOUBI', label: 'Graphique', type: 'checkbox' },
-  { key: 'checkboxCQTermineBrailleBANQ', label: 'Terminé?', label2: "BANQ abrégé et intégral - contrôle de qualité", type: 'checkbox' },
+  // { key: 'checkboxCQTermineBrailleBANQ', label: 'Terminé?', label2: "BANQ abrégé et intégral - contrôle de qualité", type: 'checkbox' },
   {
     key: 'tableTechinfoPreEncodageBAOUBI',
-    label: 'Braille - Tableau des techs',
-    label2: "Braille - Informations tech. tactile",
     addTotal: true,
     totalKey: 'noHeureinfoPreEncodageBAOUBI',
     type: 'dynamicTable',
@@ -311,47 +309,70 @@ export const brailleBANQBIOUBAFormFields = [
   },
 
   { label: 'BANQ abrégé ou intégral - informations encodage', type: 'header4' },
-  { key: 'nomTechInfoEncodageBAOUBI', label: 'Nom', label2: "BANQ abrégé ou intégral - informations pré-encodage", type: 'text' },
-  { key: 'datePossessionInfoEncodageBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'text' },
-  { key: 'dateTermineInfoEncodageBAOUBI', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureInfoEncodageBAOUBI', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireInfoEncodageBAOUBI', label: 'Commentaire', type: 'textarea' },
   {
     key: 'tableTechinfoPreEncodageBAOUBI',
-    label: 'Braille - Tableau des techs',
-    label2: "Braille - Informations tech. tactile",
+    label2: "BANQ abrégé ou intégral - informations encodage",
     addTotal: true,
-    totalKey: 'noHeureinfoPreEncodageBAOUBI',
+    totalKey: 'noHeureInfoEncodageBAOUBI',
     type: 'dynamicTable',
     columns: [
       {
-        key: 'nomTechinfoPreEncodageBAOUBI',
+        key: 'nomTechInfoEncodageBAOUBI',
         label: 'Nom',
         type: 'select',
         options: TECH_NAME_OPTIONS
       },
-      { key: 'datePossessioninfoPreEncodageBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
-      { key: 'dateTermineinfoPreEncodageBAOUBI', label: 'Terminé le', type: 'date' },
-      { key: 'noHeureinfoPreEncodageBAOUBI', label: "Nombre d'heure(s) de travail", type: 'time' },
-      { key: 'commentaireTechinfoPreEncodageBAOUBI', label: 'Commentaire', type: 'textarea' }
+      { key: 'datePossessionInfoEncodageBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineInfoEncodageBAOUBI', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureInfoEncodageBAOUBI', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireInfoEncodageBAOUBI', label: 'Commentaire', type: 'textarea' }
     ]
   },
 
 
 
   { label: 'BANQ abrégé ou intégral - informations tech. tactile', type: 'header4' },
-  { key: 'nomTechTactileBrailleBANQBAOUBI', label: 'Nom', label2: "BANQ abrégé ou intégral - Informations tech. tactile", type: 'text' },
-  { key: 'datePossessionTactileBrailleBANQBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'text' },
-  { key: 'dateTermineTactileBrailleBANQBAOUBI', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureTactileBrailleBANQBAOUBI', label: 'Nombre d\'heure(s) de travail', type: 'text' },
-  { key: 'commentaireTechTactileBrailleBANQBAOUBI', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechinfoPreEncodageBAOUBI',
+    label2: "BANQ abrégé ou intégral - informations tech. tactile",
+    addTotal: true,
+    totalKey: 'noHeureTactileBrailleBANQBAOUBI',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomTechTactileBrailleBANQBAOUBI',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      { key: 'datePossessionTactileBrailleBANQBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineTactileBrailleBANQBAOUBI', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureTactileBrailleBANQBAOUBI', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireTechTactileBrailleBANQBAOUBI', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'BANQ abrégé ou intégral - contrôle de qualité', type: 'header4' },
   { key: 'checkboxCQTermineBrailleBANQBAOUBI', label: 'Terminé?', label2: "BANQ abrégé ou intégral - contrôle de qualité", type: 'checkbox' },
-  { key: 'nomContQualBrailleBANQBAOUBI', label: 'Nom', type: 'text' },
-  { key: 'dateTermineContQualBrailleBANQBAOUBI', label: 'Terminé le', type: 'text' },
-  { key: 'noHeureContQualBrailleBANQBAOUBI', label: 'Nombre d\'heure(s) CDQ', type: 'text' },
-  { key: 'commentaireContQualBrailleBANQBAOUBI', label: 'Commentaire', type: 'textarea' },
+  {
+    key: 'tableTechinfoPreEncodageBAOUBI',
+    label2: "BANQ abrégé ou intégral - informations tech. tactile",
+    addTotal: true,
+    totalKey: 'noHeureContQualBrailleBANQBAOUBI',
+    type: 'dynamicTable',
+    columns: [
+      {
+        key: 'nomContQualBrailleBANQBAOUBI',
+        label: 'Nom',
+        type: 'select',
+        options: TECH_NAME_OPTIONS
+      },
+      // { key: 'datePossessionTactileBrailleBANQBAOUBI', label: 'Date de prise de possession de l\ouvrage', type: 'date' },
+      { key: 'dateTermineContQualBrailleBANQBAOUBI', label: 'Terminé le', type: 'date' },
+      { key: 'noHeureContQualBrailleBANQBAOUBI', label: "Nombre d'heure(s) de travail", type: 'time' },
+      { key: 'commentaireContQualBrailleBANQBAOUBI', label: 'Commentaire', type: 'textarea' }
+    ]
+  },
 
   { label: 'BANQ abrégé ou intégral - tableau de production', type: 'header4' },
   {

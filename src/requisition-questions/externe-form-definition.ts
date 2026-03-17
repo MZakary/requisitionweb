@@ -8,10 +8,10 @@ export const externeFormFields = [
   {
     key: 'typeClientExterne', label: 'Type de client', type: 'select',
     options: [
-      { label: 'Éducation', value: 'education_externe' },
-      { label: 'Entreprise & particulier', value: 'entreprise_externe' },
-      { label: 'Gouvernemental', value: 'gouv_externe' },
-      { label: 'Milieu Associatif', value: 'associatif_externe' },
+      { label: 'Éducation', value: 'education' },
+      { label: 'Entreprise & particulier', value: 'entreprise' },
+      { label: 'Gouvernemental', value: 'gouv' },
+      { label: 'Milieu Associatif', value: 'associatif' },
     ]
   },
   { key: 'noClientExterne', label: 'Numéro du client (si connu)', type: 'text' },
