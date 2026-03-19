@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import { DIRECTIONS_OPTIONS } from '../../../requisition-questions/dropdown-options';
 
 // Define a field structure
 interface FieldDefinition {
@@ -13,6 +14,25 @@ interface TableConfig {
   rowsKey: string;
   isLivraisonTable?: boolean; // Optional, used for specific table types
   rowFields: string[];
+}
+
+const DIRECTION_MAP: Record<string, string> = Object.fromEntries(
+  DIRECTIONS_OPTIONS.map(opt => [opt.value, opt.label])
+);
+function getDisplayValue(value: any): any {
+  if (!value) return value;
+
+  // Handle single select
+  if (typeof value === 'string' && DIRECTION_MAP[value]) {
+    return DIRECTION_MAP[value];
+  }
+
+  // Handle multi-select (array)
+  if (Array.isArray(value)) {
+    return value.map(v => DIRECTION_MAP[v] || v).join(', ');
+  }
+
+  return value;
 }
 
 // Requisition configuration per type
@@ -30,7 +50,7 @@ const requisitionConfigs: Record<string, {
 
       { label: 'Nom du client', key: 'nomClientExterne' },
       { label: 'Type du client', key: 'typeClientExterne' },
-      
+
       { label: 'Numéro du client (si connu)', key: 'noClientExterne' },
       { label: 'Nom du contact', key: 'nomContactExterne' },
       { label: 'Courriel du contact', key: 'courrielContactExterne' },
@@ -235,7 +255,8 @@ export function generatePDF(type: string, formValue: any, totalFromFacturation: 
   // Render form fields
   config.fields.forEach(field => {
     const label = `${field.label}:`;
-    let value = formValue[field.key] || '_________________';
+    let rawValue = formValue[field.key];
+    let value = getDisplayValue(rawValue) || '_________________';
 
     doc.setFontSize(12);
 
@@ -527,8 +548,14 @@ export function generatePageTitle(
   centerText(doc, isbnText, pageWidth, 170);
 
   // Creator
-  const textToWrite =
-    "Transcription braille 2025\nInstitut Nazareth et Louis-Braille\nLongueuil (Québec)";
+  // Get the current year dynamically
+  const currentYear = new Date().getFullYear();
+
+  const textToWrite = `Transcription braille ${currentYear}
+Institut Nazareth et Louis-Braille
+Longueuil (Québec)`;
+
+  // Center the text as before
   centerText(doc, textToWrite, pageWidth, 190);
 
   // Page data
@@ -594,9 +621,9 @@ export function generateProductionBraillePDF(formValue: any): void {
   doc.setFontSize(10);
 
   writeLabelValue(doc, "GBQ", formValue.noBonCommandeBANQ, 20, y); y += 6;
-  if(formValue.prioritaireBANQ == true){
+  if (formValue.prioritaireBANQ == true) {
     writeLabelValue(doc, "Prioritaire:", "Priorité", 20, y); y += 6;
-  } else if(formValue.regulierBANQ == true) {
+  } else if (formValue.regulierBANQ == true) {
     writeLabelValue(doc, "Prioritaire:", "Régulier", 20, y); y += 6;
   }
   writeLabelValue(doc, "Titre:", formValue.titreProjetBANQ, 20, y); y += 6;
@@ -691,11 +718,11 @@ export function generateProductionBraillePDF(formValue: any): void {
     ];
 
     const rowHeight =
-  Math.max(
-    ...values.map((val, i) =>
-      doc.splitTextToSize(String(val || ""), widths[i] - 2).length
-    )
-  ) * 5;
+      Math.max(
+        ...values.map((val, i) =>
+          doc.splitTextToSize(String(val || ""), widths[i] - 2).length
+        )
+      ) * 5;
 
 
     if (y + rowHeight > 280) {

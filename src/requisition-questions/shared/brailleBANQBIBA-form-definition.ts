@@ -146,7 +146,7 @@ export const brailleBANQBIBAFormFields = [
   {
     key: 'tableContQualBrailleBANQ',
     addTotal: true,
-    totalKey: 'noHeureTactileBrailleBANQ',
+    totalKey: 'noHeureContQualBrailleBANQ',
     type: 'dynamicTable',
     columns: [
       {
@@ -310,7 +310,7 @@ export const brailleBANQBIOUBAFormFields = [
 
   { label: 'BANQ abrégé ou intégral - informations encodage', type: 'header4' },
   {
-    key: 'tableTechinfoPreEncodageBAOUBI',
+    key: 'tableTechinfoEncodageBAOUBI',
     label2: "BANQ abrégé ou intégral - informations encodage",
     addTotal: true,
     totalKey: 'noHeureInfoEncodageBAOUBI',
@@ -333,7 +333,7 @@ export const brailleBANQBIOUBAFormFields = [
 
   { label: 'BANQ abrégé ou intégral - informations tech. tactile', type: 'header4' },
   {
-    key: 'tableTechinfoPreEncodageBAOUBI',
+    key: 'tableTactileBrailleBANQBAOUBI',
     label2: "BANQ abrégé ou intégral - informations tech. tactile",
     addTotal: true,
     totalKey: 'noHeureTactileBrailleBANQBAOUBI',
@@ -355,7 +355,7 @@ export const brailleBANQBIOUBAFormFields = [
   { label: 'BANQ abrégé ou intégral - contrôle de qualité', type: 'header4' },
   { key: 'checkboxCQTermineBrailleBANQBAOUBI', label: 'Terminé?', label2: "BANQ abrégé ou intégral - contrôle de qualité", type: 'checkbox' },
   {
-    key: 'tableTechinfoPreEncodageBAOUBI',
+    key: 'tableCQTermineBrailleBANQBAOUBI',
     label2: "BANQ abrégé ou intégral - informations tech. tactile",
     addTotal: true,
     totalKey: 'noHeureContQualBrailleBANQBAOUBI',

@@ -493,17 +493,21 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
 
     if (!formArray || !totalKey) return 0;
 
-    return formArray.controls.reduce((sum, group) => {
-      const raw = group.get(totalKey)?.value;
-      if (typeof raw === 'string' && /^(\d+)h(\d{2})?$/.test(raw)) {
-        const match = raw.match(/^(\d+)h(\d{2})?$/);
-        const h = parseInt(match![1]);
-        const m = match![2] ? parseInt(match![2]) : 0;
-        return sum + h + m / 60;
-      }
-      const value = Number(raw);
-      return sum + (isNaN(value) ? 0 : value);
-    }, 0);
+    return Math.round(
+      formArray.controls.reduce((sum, group) => {
+        const raw = group.get(totalKey)?.value;
+
+        if (typeof raw === 'string' && /^(\d+)h(\d{2})?$/.test(raw)) {
+          const match = raw.match(/^(\d+)h(\d{2})?$/);
+          const h = parseInt(match![1]);
+          const m = match![2] ? parseInt(match![2]) : 0;
+          return sum + h + m / 60;
+        }
+
+        const value = Number(raw);
+        return sum + (isNaN(value) ? 0 : value);
+      }, 0) * 100
+    ) / 100;
   }
 
   getTotalLabel(field: any): string {
@@ -561,7 +565,7 @@ export class RequisitionJSON implements OnInit, AfterViewInit, CanComponentDeact
       brailleDuoMedia: this.buildProductionGroup(this.brailleDuoMediaBANQFormFields),
       brailleHYDROQC: this.buildProductionGroup(this.brailleHYDROQCFormFields),
       grossiHYDROQC: this.buildProductionGroup(this.grossiHYDROQCFormFields),
-      
+
     });
 
     const phasesArray = this.phases;
